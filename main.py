@@ -1,4 +1,4 @@
-from src.preprocessing_clean import PreProcessing
+from src.preprocessing import PreProcessing
 
 pre = PreProcessing()
 pre.link_songs()

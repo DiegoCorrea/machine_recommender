@@ -1,5 +1,7 @@
 from src.preprocessing_clean import PreProcessing
 
 pre = PreProcessing()
-result = pre.link_songs()
-print(result.head())
+pre.link_songs()
+pre.link_user_and_songs()
+pre.save()
+print((pre.get_song_df()).head())

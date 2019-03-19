@@ -4,18 +4,19 @@ import pandas as pd
 
 
 class DataMining:
+    raw_data_path = os.getcwd() + "/data/original_set/"
+    clean_data_path = os.getcwd() + "/data/clean_set/"
+
     def __init__(self):
-        self.__raw_data_path = os.getcwd() + "/data/original_set/"
-        self.__clean_data_path = os.getcwd() + "/data/clean_set/"
         self.__song_df = None
         self.__users_preferences_df = None
 
     def linked_songs(self):
-        gender_df = pd.read_csv(self.__raw_data_path + 'msd-MAGD-genreAssignment.cls',
+        gender_df = pd.read_csv(DataMining.raw_data_path + 'msd-MAGD-genreAssignment.cls',
                                 sep='\t', names=['track_id', 'gender'])
-        song_msd_df = pd.read_csv(self.__raw_data_path + 'songs.csv',
+        song_msd_df = pd.read_csv(DataMining.raw_data_path + 'songs.csv',
                                   names=['id', 'title', 'album', 'artist', 'year'])
-        song_by_track_df = pd.read_csv(self.__raw_data_path + 'unique_tracks.txt',
+        song_by_track_df = pd.read_csv(DataMining.raw_data_path + 'unique_tracks.txt',
                                        sep='<SEP>', names=['track_id', 'id', 'title', 'artist'])
         to_merge_df = song_by_track_df.drop(['title', 'artist'], axis=1)
         song_msd_df = song_msd_df.drop_duplicates(['id'])
@@ -25,7 +26,7 @@ class DataMining:
 
     def filter_data_users_by_songs(self):
         users_preferences_df = pd.read_csv(
-            self.__raw_data_path + 'train_triplets.txt',
+            DataMining.raw_data_path + 'train_triplets.txt',
             sep='\t', names=['user_id', 'song_id', 'play_count']
         )
         users_preferences_df.info(verbose=True)
@@ -35,9 +36,9 @@ class DataMining:
         self.__users_preferences_df.info(verbose=True)
 
     def save(self):
-        self.__song_df.to_csv(self.__clean_data_path + 'songs.csv', index=False,
+        self.__song_df.to_csv(DataMining.clean_data_path + 'songs.csv', index=False,
                               columns=['id', 'title', 'artist', 'album', 'gender'])
-        self.__users_preferences_df.to_csv(self.__clean_data_path + 'play_count.csv', index=False,
+        self.__users_preferences_df.to_csv(DataMining.clean_data_path + 'play_count.csv', index=False,
                                            columns=['user_id', 'song_id', 'play_count'])
 
     def get_song_df(self):
@@ -45,3 +46,20 @@ class DataMining:
 
     def get_user_preferences_df(self):
         return self.__users_preferences_df
+
+    @staticmethod
+    def create():
+        pre = DataMining()
+        pre.linked_songs()
+        pre.filter_data_users_by_songs()
+        pre.save()
+
+    @staticmethod
+    def load_song_set():
+        return pd.read_csv(DataMining.clean_data_path + 'songs.csv',
+                           names=['id', 'title', 'album', 'artist', 'gender'])
+
+    @staticmethod
+    def load_user_set():
+        return pd.read_csv(DataMining.clean_data_path + 'play_count.csv',
+                           names=['user_id', 'song_id', 'play_count'])

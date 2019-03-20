@@ -27,6 +27,7 @@ class DataMining:
                                   gender_df, how='inner', left_on='track_id', right_on='track_id')
         self.__song_df = self.__song_df.drop_duplicates(['song_id'])
         self.__song_df.set_index("track_id", inplace=True)
+        self.__song_df = self.__song_df[str(self.__song_df.year) != "0" or int(self.__song_df.year) != 0 or self.__song_df.year != '0']
 
     def filter_data_users_by_songs(self):
         users_preferences_df = pd.read_csv(

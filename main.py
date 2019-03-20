@@ -21,7 +21,7 @@ def preprocessing():
     print("*" * 50)
     print("1.3.\tLimpando o texto")
     print("-" * 50)
-    songs_df = TextualClean.main_start(song_set.head(9000))
+    songs_df = TextualClean.main_start(song_set)
     songs_df.info(memory_usage='deep')
     DataMining.update_songs(songs_df)
     print("\n")

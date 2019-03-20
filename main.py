@@ -1,27 +1,32 @@
-from src.data_mining import DataMining
+from src.preprocessing.data_mining import DataMining
+from src.preprocessing.textual_clean import TextualClean
 
 
-if __name__ == '__main__':
+def preprocessing():
     # Create Dataset
-    print("*"*50)
-    print("1.\tCriando os conjuntos de dados")
+    print("*" * 50)
+    print("1.1.\tCriando os conjuntos de dados")
     print("-" * 50)
-    # DataMining.create()
+    song_set, user_set = DataMining.create()
     print("*" * 50)
     # Load Dataset
     print("*" * 50)
-    print("2.\tCarregando os dados limpos")
+    print("1.2.\tCarregando os dados ligados")
     print("-" * 50)
-    SONGSET = DataMining.load_song_set()
-    SONGSET.info(memory_usage='deep')
-    print(str(SONGSET.song_id.nunique()))
-    print("\n")
-    USERSET = DataMining.load_user_set()
-    USERSET.info(memory_usage='deep')
-    print(str(USERSET.user_id.nunique()))
+    # song_set = DataMining.load_song_set()
+    # song_set.info(memory_usage='deep')
+    print("\n\n\n")
+    # user_set = DataMining.load_user_set()
+    # user_set.info(memory_usage='deep')
     print("*" * 50)
-    print("3.\tPre Processamento")
+    print("1.3.\tLimpando o texto")
     print("-" * 50)
-    # DATASET = preprocessing.main_start(SONGSET)
-    # DATASET.info(memory_usage='deep')
-    # print("\n")
+    songs_df = TextualClean.main_start(song_set.head(9000))
+    songs_df.info(memory_usage='deep')
+    DataMining.update_songs(songs_df)
+    print("\n")
+    return songs_df, user_set
+
+
+if __name__ == '__main__':
+    SONGS_DF, USER_PREFERENCES_DF = preprocessing()

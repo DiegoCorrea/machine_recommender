@@ -1,5 +1,7 @@
+import pandas as pd
 from src.preprocessing.caller import preprocessing, load_data
 from src.models.tdidf_model import FrequencyModel
+EXECUTION_TIMES = 3
 
 
 if __name__ == '__main__':
@@ -19,4 +21,6 @@ if __name__ == '__main__':
     freq_model = FrequencyModel.mold(SONGS_DF.head(3000))
     freq_model.info(memory_usage='deep')
     freq_model.head()
-
+    results_df = pd.DataFrame(data=[], columns=['round', 'config', 'model', 'algorithm', 'metric', 'value'])
+    for i in range(EXECUTION_TIMES):
+        pass

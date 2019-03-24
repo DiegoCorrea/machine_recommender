@@ -26,3 +26,7 @@ def preprocessing():
     DataMining.update_songs(songs_df)
     print("\n")
     return songs_df, user_set
+
+
+def load_data():
+    return DataMining.load_song_set(), DataMining.load_user_set()

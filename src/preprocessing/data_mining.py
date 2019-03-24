@@ -41,9 +41,6 @@ class DataMining:
             users_preferences_df['song_id'].isin(self.__song_df['song_id'].tolist())
         ]
 
-    def __filter_user_by_heard_songs(self, users_preferences_df):
-        pass
-
     @staticmethod
     def create():
         pre = DataMining()
@@ -85,3 +82,6 @@ class DataMining:
     def save(self):
         self.__song_df.to_csv(DataMining.clean_data_path + 'songs.csv')
         self.__users_preferences_df.to_csv(DataMining.clean_data_path + 'play_count.csv')
+
+    def __filter_user_by_heard_songs(self, users_preferences_df):
+        pass

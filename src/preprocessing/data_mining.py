@@ -85,3 +85,15 @@ class DataMining:
 
     def __filter_user_by_heard_songs(self, users_preferences_df):
         pass
+
+    @staticmethod
+    def load_set_test():
+        song_df = pd.read_csv(DataMining.clean_data_path + 'songs.csv')
+        song_df.set_index("track_id", drop=True)
+        song_sample = song_df.sample(n=10000, random_state=1)
+        # load users
+        users_preferences_df = pd.read_csv(DataMining.clean_data_path + 'play_count.csv')
+        user_sample = users_preferences_df[
+            users_preferences_df['song_id'].isin(song_sample['song_id'].tolist())
+        ]
+        return song_sample, user_sample

@@ -1,27 +1,26 @@
 import math
 from multiprocessing.dummy import Pool as ThreadPool
+import functools
 
 
 class KNN:
-    def __init__(self, dataset, label, k=3, n_jobs=3):
-        self.DATASET = dataset
-        self.label = label
-        self.K = k
+    def __init__(self, x_train, y_train, n_neighbors=3, n_jobs=3):
+        self.__X_TRAIN = x_train
+        self.__Y_TRAIN = y_train
+        self.__n_neighbors = n_neighbors
+        self.__n_jobs = n_jobs
 
-    def fit_transform(self):
-        pass
+    @staticmethod
+    def __euclidean_distance(x_test, x_train):
+        return math.sqrt(sum([(a - b) ** 2 for a, b in zip(x_test.values.tolist(), x_train.values.tolist())]))
 
-    def __euclidian_distance(self, dimension_x, dimension_y):
-        return math.sqrt(sum([(a - b) ** 2 for a, b in zip(dimension_x, dimension_y)]))
-
-    def __neigh(self, x_test, y_test):
-        pool = ThreadPool(self.K)
-        result = pool.map(self.__euclidian_distance,
-                            self.x_test)
+    def __neigh(self, x_test):
+        pool = ThreadPool(self.__n_jobs)
+        result = pool.map(functools.partial(KNN.__euclidean_distance, dimension_x=x_test), self.__X_TRAIN)
         pool.close()
         pool.join()
 
-    def predict(self, x_test, y_test):
+    def predict(self, x_test):
         for index, row in x_test.iterrows():
-            self.__neigh(x_test, row)
+            self.__neigh(row)
 

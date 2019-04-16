@@ -30,3 +30,7 @@ def preprocessing():
 
 def load_data():
     return DataMining.load_song_set(), DataMining.load_user_set()
+
+
+def load_data_test():
+    return DataMining.load_set_test()

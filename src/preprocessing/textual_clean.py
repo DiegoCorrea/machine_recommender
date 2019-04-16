@@ -4,12 +4,11 @@ from multiprocessing.dummy import Pool as ThreadPool
 import contractions
 import inflect
 import nltk
-import numpy as np
 from bs4 import BeautifulSoup
 from nltk.corpus import stopwords
 from nltk.stem import LancasterStemmer, WordNetLemmatizer
-from functools import partial
 import pandas as pd
+from src.globalVariable import GlobalVariable
 
 
 class TextualClean:
@@ -157,34 +156,30 @@ class TextualClean:
         return stems
 
     @staticmethod
-    def __preprocessing_apply(song_set_df):
-        i = 0
-        for index, row in song_set_df.iterrows():
-            i += 1
-            if (i % 1000) == 0:
-                print(str(i))
-            sample = TextualClean.__strip_html(row['stem_data'])
-            # sample = __remove_between_square_brackets(sample)
-            sample = TextualClean.__replace_contractions(sample)
-            bag_words = nltk.word_tokenize(sample)
-            words = TextualClean.__normalize(bag_words)
-            stems = TextualClean.__stem_and_lemmatize(words)
-            song_set_df.loc[index, 'stem_data'] = " ".join(str(x) for x in stems)
-            # split_dataset_df.at[index, 'lemma_sentence'] = lemmas
-        return song_set_df
+    def __preprocessing_apply(song_df):
+        sample = TextualClean.__strip_html(song_df['data'])
+        # sample = __remove_between_square_brackets(sample)
+        sample = TextualClean.__replace_contractions(sample)
+        bag_words = nltk.word_tokenize(sample)
+        words = TextualClean.__normalize(bag_words)
+        stems = TextualClean.__stem_and_lemmatize(words)
+        song_df['stem_data'] = " ".join(str(x) for x in stems)
+        # split_dataset_df.at[index, 'lemma_sentence'] = lemmas
+        return song_df
 
     @staticmethod
     def main_start(dataset_df):
-        pool = ThreadPool(3)
+        dataset_df['stem_data'] = " "
+        pool = ThreadPool(GlobalVariable.processor_number)
         result = pool.map(TextualClean.__preprocessing_apply,
-                          np.array_split(TextualClean.concat_fields(dataset_df), 3))
+                          TextualClean.concat_fields(dataset_df))
         pool.close()
         pool.join()
         return pd.concat(result, sort=False)
 
     @staticmethod
     def concat_fields(dataset_df):
-        dataset_df['stem_data'] = dataset_df['title'] + ' ' + dataset_df['album'] \
+        dataset_df['data'] = dataset_df['title'] + ' ' + dataset_df['album'] \
                                         + ' ' + dataset_df['artist'] + ' ' + dataset_df['gender']  \
                                         + ' ' + dataset_df['year']
         dataset_df.drop(['title', 'album', 'artist', 'year', 'gender'], inplace=True, axis=1)

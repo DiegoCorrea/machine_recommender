@@ -1,6 +1,7 @@
 import os
 
 import pandas as pd
+from src.globalVariable import GlobalVariable
 
 
 class DataMining:
@@ -90,10 +91,15 @@ class DataMining:
     def load_set_test():
         song_df = pd.read_csv(DataMining.clean_data_path + 'songs.csv')
         song_df.set_index("track_id", drop=True, inplace=True)
-        song_sample = song_df.sample(n=10000, random_state=1)
+        song_sample = song_df.sample(n=1000, random_state=1)
         # load users
         users_preferences_df = pd.read_csv(DataMining.clean_data_path + 'play_count.csv')
         user_sample = users_preferences_df[
             users_preferences_df['song_id'].isin(song_sample['song_id'].tolist())
+        ]
+        result = user_sample.user_id.value_counts()
+        select_user = [a for a, b in result.iteritems() if (b >= GlobalVariable.user_min_song_list)]
+        user_sample = user_sample[
+            user_sample['user_id'].isin(select_user)
         ]
         return song_sample, user_sample

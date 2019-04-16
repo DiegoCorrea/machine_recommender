@@ -4,12 +4,11 @@ from multiprocessing.dummy import Pool as ThreadPool
 import contractions
 import inflect
 import nltk
-import numpy as np
 from bs4 import BeautifulSoup
 from nltk.corpus import stopwords
 from nltk.stem import LancasterStemmer, WordNetLemmatizer
-from functools import partial
 import pandas as pd
+from src.globalVariable import GlobalVariable
 
 
 class TextualClean:
@@ -171,7 +170,7 @@ class TextualClean:
     @staticmethod
     def main_start(dataset_df):
         dataset_df['stem_data'] = " "
-        pool = ThreadPool(3)
+        pool = ThreadPool(GlobalVariable.processor_number)
         result = pool.map(TextualClean.__preprocessing_apply,
                           TextualClean.concat_fields(dataset_df))
         pool.close()

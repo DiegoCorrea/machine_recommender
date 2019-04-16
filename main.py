@@ -54,6 +54,6 @@ if __name__ == '__main__':
     USERS_PREFERENCES_DF = vote.main_start()
     for i in range(GlobalVariable.execution_times):
         for user_id in USERS_PREFERENCES_DF.user_id.unique().tolist():
-            user_preference = USERS_PREFERENCES_DF.loc[USERS_PREFERENCES_DF['user_id'] == user_id]
+            user_preference = USERS_PREFERENCES_DF[USERS_PREFERENCES_DF['user_id'] == user_id]
             # print(str(len(user_preference)))
 

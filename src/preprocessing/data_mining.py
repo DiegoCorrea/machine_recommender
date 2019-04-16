@@ -89,7 +89,7 @@ class DataMining:
     @staticmethod
     def load_set_test():
         song_df = pd.read_csv(DataMining.clean_data_path + 'songs.csv')
-        song_df.set_index("track_id", drop=True)
+        song_df.set_index("track_id", drop=True, inplace=True)
         song_sample = song_df.sample(n=10000, random_state=1)
         # load users
         users_preferences_df = pd.read_csv(DataMining.clean_data_path + 'play_count.csv')

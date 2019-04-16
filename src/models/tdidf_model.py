@@ -44,7 +44,7 @@ class FrequencyModel:
         tf_matrix = count_vec.transform(sentence_list)
         # Retorna os nomes das colunas que são palavras
         # tf_matrix = FrequencyModel.__count(count_vec, sentence_list)
-        print(tf_matrix)
+        # print(tf_matrix)
         word_position = count_vec.vocabulary_.items()
         # Calcula o IDF a partir do TF
         tfidf_tran = TfidfTransformer(norm="l2")
@@ -62,7 +62,7 @@ class FrequencyModel:
         :param original_dataset: DataFrame com as entradas
         :return:
         """
-        print(original_dataset.head())
+        # print(original_dataset.head())
         tfidf_matrix, word_position = FrequencyModel.tf_as_matrix(sentence_list=original_dataset['stem_data'].tolist())
         tfidf_pattern = pd.DataFrame(data=np.matrix(tfidf_matrix), columns=[a for a, v in word_position])
         return tfidf_pattern

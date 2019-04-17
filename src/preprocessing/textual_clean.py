@@ -1,13 +1,16 @@
+import logging
 import re
-import unicodedata
 from multiprocessing.dummy import Pool as ThreadPool
+
 import contractions
 import inflect
 import nltk
+import pandas as pd
+import unicodedata
 from bs4 import BeautifulSoup
 from nltk.corpus import stopwords
 from nltk.stem import LancasterStemmer, WordNetLemmatizer
-import pandas as pd
+
 from src.globalVariable import GlobalVariable
 
 
@@ -175,6 +178,7 @@ class TextualClean:
                           TextualClean.concat_fields(dataset_df))
         pool.close()
         pool.join()
+        logging.info("Concatenando resultados!")
         return pd.concat(result, sort=False)
 
     @staticmethod
@@ -183,4 +187,6 @@ class TextualClean:
                                         + ' ' + dataset_df['artist'] + ' ' + dataset_df['gender']  \
                                         + ' ' + dataset_df['year']
         dataset_df.drop(['title', 'album', 'artist', 'year', 'gender'], inplace=True, axis=1)
+        logging.info("Campos das músicas unificados!")
+        logging.info("Processando limpeza...")
         return dataset_df

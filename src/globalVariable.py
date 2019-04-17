@@ -1,7 +1,7 @@
-import multiprocessing
+import json
 import logging
 import logging.config
-import json
+import multiprocessing
 import os
 
 
@@ -12,6 +12,8 @@ class GlobalVariable:
     test_set_size = 0.20
     path_logs = 'logs/logging.json'
     k_neighbors = 3
+    song_sample_number = 10000
+    sample_random_state = 50
 
     @staticmethod
     def setup_logging(

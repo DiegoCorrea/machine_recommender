@@ -1,3 +1,5 @@
+import logging
+
 import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
@@ -63,6 +65,8 @@ class FrequencyModel:
         :return:
         """
         # print(original_dataset.head())
+        logging.info("Gerando matrix do TF-IDF...")
         tfidf_matrix, word_position = FrequencyModel.tf_as_matrix(sentence_list=original_dataset['stem_data'].tolist())
+        logging.info("Adicionando nome das colunas e as index na matrix TF-IDF")
         tfidf_pattern = pd.DataFrame(data=np.matrix(tfidf_matrix), columns=[a for a, v in word_position], index=original_dataset.song_id.tolist())
         return tfidf_pattern

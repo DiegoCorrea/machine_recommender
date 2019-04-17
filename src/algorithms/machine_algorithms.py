@@ -1,7 +1,7 @@
 import pandas as pd
-from src.algorithms.k_neighbors_classifier import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
-import logging
+
+from src.algorithms.k_neighbors_classifier import KNeighborsClassifier
 
 
 class MachineAlgorithms:
@@ -29,7 +29,7 @@ class MachineAlgorithms:
         clf.fit(x_train, y_train)
         y_pred = clf.predict(x_test)
         accuracy = MachineAlgorithms.__evaluate(y_pred, y_test)
-        logging.info("KNN Accuracy: " + str(accuracy))
+        # logging.info("KNN Accuracy: " + str(accuracy))
         return pd.DataFrame(data=[[run, 'config_1', model, 'KNN', 'accuracy', accuracy]],
                             columns=['round', 'config', 'model', 'algorithm', 'metric', 'value'])
 
@@ -77,8 +77,8 @@ class MachineAlgorithms:
         :param model: Nome do modelo de dados a ser processado
         :return: DataFrame com os resultados de cada algoritmo
         """
-        logging.info("*" * 50)
+        # logging.info("*" * 50)
         # Uso dos dados no treinamento e teste do KNN, por fim avaliação dos resultados
         result_df = MachineAlgorithms.__train_knn(x_train, x_test, y_train, y_test, run, model)
-        logging.info("*" * 50)
+        # logging.info("*" * 50)
         return result_df

@@ -2,6 +2,7 @@ import logging.config
 
 import pandas as pd
 
+from src.evaluations.validation import Validation
 from src.globalVariable import GlobalVariable
 from src.models.tdidf_model import FrequencyModel
 from src.preprocessing.preprocessing import Preprocessing
@@ -18,7 +19,7 @@ if __name__ == '__main__':
     for i in range(GlobalVariable.execution_times):
         for user_id in USERS_PREFERENCES_DF.user_id.unique().tolist():
             user_preference = USERS_PREFERENCES_DF[USERS_PREFERENCES_DF['user_id'] == user_id]
-            balance_check = pd.concat(
+            class_balance_check = pd.concat(
                 [
                     class_balance_check,
                     pd.DataFrame(
@@ -30,7 +31,9 @@ if __name__ == '__main__':
                     )
                 ]
             )
+            x_train_data, x_test_data, y_train_label, y_test_label = Validation.split_data(user_preference['song_id'], user_preference['like'])
+
     StatisticalOverview.song_info(SONGS_DF)
-    StatisticalOverview.song_info(USERS_PREFERENCES_DF)
-    StatisticalOverview.song_info(freq_model)
+    StatisticalOverview.user_info(USERS_PREFERENCES_DF)
+    StatisticalOverview.tfidf_info(freq_model)
     StatisticalOverview.class_balance_check(class_balance_check)

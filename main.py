@@ -1,59 +1,36 @@
-import pandas as pd
-from src.preprocessing.caller import preprocessing, load_data, load_data_test
-from src.models.tdidf_model import FrequencyModel
-from src.globalVariable import GlobalVariable
-from src.preprocessing.vote import Vote
-
-import logging
 import logging.config
-import json
-import os
 
+import pandas as pd
 
-def setup_logging(
-    default_path='logs/logging.json',
-    default_level=logging.DEBUG,
-    env_key='LOG_CFG'
-):
-    """Setup logging configuration
-
-    """
-    path = default_path
-    value = os.getenv(env_key, None)
-    if value:
-        path = value
-    if os.path.exists(path):
-        config = {}
-        with open(path, 'rt') as f:
-            config = json.load(f)
-        logging.config.dictConfig(config)
-    else:
-        logging.basicConfig(level=default_level)
-
+from src.globalVariable import GlobalVariable
+from src.models.tdidf_model import FrequencyModel
+from src.preprocessing.preprocessing import Preprocessing
+from src.evaluations.statisticalOverview import StatisticalOverview
 
 if __name__ == '__main__':
-    setup_logging()
+    GlobalVariable.setup_logging()
     # SONGS_DF, USERS_PREFERENCES_DF = preprocessing()
     # SONGS_DF, USERS_PREFERENCES_DF = load_data()
-    SONGS_DF, USERS_PREFERENCES_DF = load_data_test()
-    logging.info("*" * 50)
-    logging.info("*" * 50)
-    SONGS_DF.info(memory_usage='deep')
-    logging.info(SONGS_DF.head(5))
-    logging.info("*" * 50)
-    logging.info("*" * 50)
-    USERS_PREFERENCES_DF.info(memory_usage='deep')
-    logging.info(USERS_PREFERENCES_DF.head(5))
-    logging.info("*" * 50)
-    logging.info("*" * 50)
+    SONGS_DF, USERS_PREFERENCES_DF = Preprocessing.load_data_test()
     freq_model = FrequencyModel.mold(SONGS_DF)
-    freq_model.info(memory_usage='deep')
-    logging.info(freq_model.head(5))
     results_df = pd.DataFrame(data=[], columns=['round', 'config', 'model', 'algorithm', 'metric', 'value'])
-    vote = Vote(USERS_PREFERENCES_DF)
-    USERS_PREFERENCES_DF = vote.main_start()
+    class_balance_check = pd.DataFrame(data=[], columns=['round', 'positive', 'negative'])
     for i in range(GlobalVariable.execution_times):
         for user_id in USERS_PREFERENCES_DF.user_id.unique().tolist():
             user_preference = USERS_PREFERENCES_DF[USERS_PREFERENCES_DF['user_id'] == user_id]
-            # print(str(len(user_preference)))
-
+            balance_check = pd.concat(
+                [
+                    class_balance_check,
+                    pd.DataFrame(
+                        data=[[i,
+                              user_preference[user_preference['like'] == True].shape[0],
+                              user_preference[user_preference['like'] == False].shape[0]
+                        ]],
+                        columns=['round', 'positive', 'negative']
+                    )
+                ]
+            )
+    StatisticalOverview.song_info(SONGS_DF)
+    StatisticalOverview.song_info(USERS_PREFERENCES_DF)
+    StatisticalOverview.song_info(freq_model)
+    StatisticalOverview.class_balance_check(class_balance_check)

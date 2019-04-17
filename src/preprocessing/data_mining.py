@@ -2,6 +2,7 @@ import os
 
 import pandas as pd
 from src.globalVariable import GlobalVariable
+from src.preprocessing.vote import Vote
 
 
 class DataMining:
@@ -36,11 +37,11 @@ class DataMining:
             DataMining.raw_data_path + 'train_triplets.txt',
             sep='\t', names=['user_id', 'song_id', 'play_count']
         )
-        users_preferences_df.info(memory_usage='deep')
-        print(str(users_preferences_df.user_id.nunique()))
         self.__users_preferences_df = users_preferences_df[
             users_preferences_df['song_id'].isin(self.__song_df['song_id'].tolist())
         ]
+        vote = Vote(self.__users_preferences_df)
+        self.__users_preferences_df = vote.main_start()
 
     @staticmethod
     def create():
@@ -91,7 +92,7 @@ class DataMining:
     def load_set_test():
         song_df = pd.read_csv(DataMining.clean_data_path + 'songs.csv')
         song_df.set_index("track_id", drop=True, inplace=True)
-        song_sample = song_df.sample(n=1000, random_state=1)
+        song_sample = song_df.sample(n=10000, random_state=1)
         # load users
         users_preferences_df = pd.read_csv(DataMining.clean_data_path + 'play_count.csv')
         user_sample = users_preferences_df[
@@ -102,4 +103,6 @@ class DataMining:
         user_sample = user_sample[
             user_sample['user_id'].isin(select_user)
         ]
+        vote = Vote(user_sample)
+        user_sample = vote.main_start()
         return song_sample, user_sample

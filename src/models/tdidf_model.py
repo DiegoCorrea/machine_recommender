@@ -64,5 +64,5 @@ class FrequencyModel:
         """
         # print(original_dataset.head())
         tfidf_matrix, word_position = FrequencyModel.tf_as_matrix(sentence_list=original_dataset['stem_data'].tolist())
-        tfidf_pattern = pd.DataFrame(data=np.matrix(tfidf_matrix), columns=[a for a, v in word_position])
+        tfidf_pattern = pd.DataFrame(data=np.matrix(tfidf_matrix), columns=[a for a, v in word_position], index=original_dataset.song_id.tolist())
         return tfidf_pattern

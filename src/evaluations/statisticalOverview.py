@@ -30,6 +30,15 @@ class StatisticalOverview:
         logging.info("=" * 50)
 
     @staticmethod
+    def result_info(tfidf_df):
+        logging.info("*" * 50)
+        logging.info("*" * 50)
+        tfidf_df.info(memory_usage='deep')
+        logging.info("\n" + str(tfidf_df.head(5)))
+        logging.info("=" * 50)
+        logging.info("=" * 50)
+
+    @staticmethod
     def class_balance_check(balance_check):
         logging.info("*" * 50)
         logging.info("*" * 50)

@@ -11,6 +11,7 @@ class GlobalVariable:
     user_min_song_list = 10
     test_set_size = 0.20
     path_logs = 'logs/logging.json'
+    k_neighbors = 3
 
     @staticmethod
     def setup_logging(

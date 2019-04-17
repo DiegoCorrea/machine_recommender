@@ -3,13 +3,19 @@ from multiprocessing.dummy import Pool as ThreadPool
 import functools
 from statistics import mode
 from src.globalVariable import GlobalVariable
+import pandas as pd
 
 
-class KNN:
-    def __init__(self, dataset, label, n_neighbors=3):
-        self.__DATASET_TRAIN = dataset
-        self.__LABELS_TRAIN = label
+class KNeighborsClassifier:
+    def __init__(self, n_neighbors=GlobalVariable.k_neighbors):
+        self.__DATASET_TRAIN = pd.DataFrame()
+        self.__LABELS_TRAIN = pd.DataFrame()
         self.__N_NEIGHBORS = n_neighbors
+
+    def fit(self, dataset, label):
+        self.__DATASET_TRAIN = dataset
+        self.__LABELS_TRAIN = pd.DataFrame(index=dataset.index.values.tolist())
+        self.__LABELS_TRAIN['label'] = label
 
     @staticmethod
     def __euclidean_distance(x_test, x_train):
@@ -17,7 +23,7 @@ class KNN:
 
     def __neigh(self, x_test):
         pool = ThreadPool(GlobalVariable.processor_number)
-        result = pool.map(functools.partial(KNN.__euclidean_distance, tuple(x_test.values.tolist())),
+        result = pool.map(functools.partial(KNeighborsClassifier.__euclidean_distance, tuple(x_test.values.tolist())),
                           self.__DATASET_TRAIN.values.tolist())
         pool.close()
         pool.join()
@@ -40,8 +46,8 @@ class KNN:
             test_neigh = self.__neigh(row)
             list__ = {a: b for a, b in zip(index_list, test_neigh)}
             ordered_neigh = [(k, list__[k]) for k in sorted(list__, key=list__.get, reverse=False)]
-            label_test = [self.__LABELS_TRAIN[i] for i, v in ordered_neigh[:self.__N_NEIGHBORS]]
-            all_neigh.append({index: mode(label_test)})
+            label_test = [self.__LABELS_TRAIN.loc[i]['label'] for i, v in ordered_neigh[:self.__N_NEIGHBORS]]
+            all_neigh.append(mode(label_test))
         return all_neigh
 
     @staticmethod
@@ -50,6 +56,7 @@ class KNN:
         import pandas as pd
         data = load_iris()
         df = pd.DataFrame(data.data, columns=data.feature_names)
-        knn = KNN(dataset=df[3:149], label=data['target'])
+        knn = KNeighborsClassifier()
+        knn.fit(dataset=df[3:149], label=data['target'])
         predict = knn.predict(df[0:2])
         print(predict)

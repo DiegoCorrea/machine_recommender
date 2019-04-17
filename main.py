@@ -7,6 +7,7 @@ from src.globalVariable import GlobalVariable
 from src.models.tdidf_model import FrequencyModel
 from src.preprocessing.preprocessing import Preprocessing
 from src.evaluations.statisticalOverview import StatisticalOverview
+from src.algorithms.machine_algorithms import MachineAlgorithms
 
 if __name__ == '__main__':
     GlobalVariable.setup_logging()
@@ -31,9 +32,22 @@ if __name__ == '__main__':
                     )
                 ]
             )
-            x_train_data, x_test_data, y_train_label, y_test_label = Validation.split_data(user_preference['song_id'], user_preference['like'])
-
+            x_train_data, x_test_data, y_train_label, y_test_label = Validation.split_data(user_preference['song_id'].values.tolist(), user_preference['like'].values.tolist())
+            results_df = pd.concat(
+                [
+                    results_df,
+                    MachineAlgorithms.main(
+                        x_train=freq_model.loc[x_train_data],
+                        x_test=freq_model.loc[x_test_data],
+                        y_train=y_train_label,
+                        y_test=y_test_label,
+                        run=i,
+                        model='TF-IDF'
+                    )
+                ]
+            )
     StatisticalOverview.song_info(SONGS_DF)
     StatisticalOverview.user_info(USERS_PREFERENCES_DF)
     StatisticalOverview.tfidf_info(freq_model)
     StatisticalOverview.class_balance_check(class_balance_check)
+    StatisticalOverview.result_info(results_df)

@@ -1,6 +1,6 @@
 import logging
 import re
-from multiprocessing.dummy import Pool as ThreadPool
+from multiprocessing import Pool
 
 import contractions
 import inflect
@@ -173,7 +173,7 @@ class TextualClean:
     @staticmethod
     def main_start(dataset_df):
         dataset_df['stem_data'] = " "
-        pool = ThreadPool(GlobalVariable.processor_number)
+        pool = Pool(GlobalVariable.processor_number)
         result = pool.map(TextualClean.__preprocessing_apply,
                           TextualClean.concat_fields(dataset_df))
         pool.close()

@@ -1,9 +1,10 @@
-import math
-from multiprocessing.dummy import Pool as ThreadPool
-import functools
+from multiprocessing import Pool
 from statistics import mode
-from src.globalVariable import GlobalVariable
+
+import math
 import pandas as pd
+
+from src.globalVariable import GlobalVariable
 
 
 class KNeighborsClassifier:
@@ -18,13 +19,21 @@ class KNeighborsClassifier:
         self.__LABELS_TRAIN['label'] = label
 
     @staticmethod
-    def __euclidean_distance(x_test, x_train):
+    def euclidean_distance(x_test, x_train):
         return math.sqrt(sum([(a - b) ** 2 for a, b in zip(x_test, x_train)]))
 
+    @staticmethod
+    def distance(x_train, x_test):
+        return [KNeighborsClassifier.euclidean_distance(x_test=x_test, x_train=x) for x in x_train]
+
     def __neigh(self, x_test):
-        pool = ThreadPool(GlobalVariable.processor_number)
-        result = pool.map(functools.partial(KNeighborsClassifier.__euclidean_distance, tuple(x_test.values.tolist())),
-                          self.__DATASET_TRAIN.values.tolist())
+        x_train_array = self.__DATASET_TRAIN.values.tolist()
+        data_pass = [(xt, x_test) for xt in x_train_array]
+        pool = Pool(GlobalVariable.processor_number)
+        result = pool.starmap(
+            KNeighborsClassifier.euclidean_distance,
+            data_pass
+        )
         pool.close()
         pool.join()
         return result
@@ -49,6 +58,21 @@ class KNeighborsClassifier:
             label_test = [self.__LABELS_TRAIN.loc[i]['label'] for i, v in ordered_neigh[:self.__N_NEIGHBORS]]
             all_neigh.append(mode(label_test))
         return all_neigh
+
+    def xxx(self, x_test):
+        data_pass = []
+        for y in x_test:
+            data_pass = [(xt, x_test) for xt in self.__DATASET_TRAIN.values.tolist()]
+        return data_pass
+
+    def ppp(self, data_test):
+        pool = Pool(GlobalVariable.processor_number)
+        result = pool.starmap(
+            KNeighborsClassifier.euclidean_distance,
+            data_test
+        )
+        pool.close()
+        pool.join()
 
     @staticmethod
     def test():

@@ -1,5 +1,6 @@
 import logging
 
+import gc
 import pandas as pd
 
 from src.algorithms.machine_algorithms import MachineAlgorithms
@@ -50,6 +51,7 @@ class ContentBased:
                     ContentBased.users_result_generate(users_results_df, i)
                 ]
             )
+            gc.collect()
         return class_balance_check, results_df
 
     @staticmethod

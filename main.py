@@ -16,3 +16,4 @@ if __name__ == '__main__':
     StatisticalOverview.tfidf_info(freq_model)
     StatisticalOverview.class_balance_check(class_balance_check)
     StatisticalOverview.result_info(results_df)
+    StatisticalOverview.graphics(results_df)

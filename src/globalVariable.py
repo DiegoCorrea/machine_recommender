@@ -8,12 +8,16 @@ import os
 class GlobalVariable:
     processor_number = multiprocessing.cpu_count() - 1
     execution_times = 3
-    user_min_song_list = 10
+    user_min_song_list = 5
     test_set_size = 0.20
     path_logs = 'logs/logging.json'
     k_neighbors = 3
-    song_sample_number = 10000
+    song_sample_number = 5000
     sample_random_state = 50
+    results_column_name = ['round', 'algorithm', 'metric', 'value']
+    GRAPH_STYLE = [':', '-', '--', '--']
+    GRAPH_COLORS = ['tab:blue', 'tab:orange', 'tab:green', 'tab:red']
+    GRAPH_MAKERS = ['o', '^', 's', 'D']
 
     @staticmethod
     def setup_logging(

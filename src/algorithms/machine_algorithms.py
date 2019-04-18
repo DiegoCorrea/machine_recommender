@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.metrics import accuracy_score
 
 from src.algorithms.k_neighbors_classifier import KNeighborsClassifier
+from src.globalVariable import GlobalVariable
 
 
 class MachineAlgorithms:
@@ -17,7 +18,7 @@ class MachineAlgorithms:
         pass
 
     @staticmethod
-    def __train_knn(x_train, x_test, y_train, y_test, run, model):
+    def __train_knn(x_train, x_test, y_train, y_test, run):
         """
         Função de treino do classificador KNN que retorna uma instancia treinada
         As constantes estão no arquivo de variaveis de sistema
@@ -30,8 +31,8 @@ class MachineAlgorithms:
         y_pred = clf.predict(x_test)
         accuracy = MachineAlgorithms.__evaluate(y_pred, y_test)
         # logging.info("KNN Accuracy: " + str(accuracy))
-        return pd.DataFrame(data=[[run, 'config_1', model, 'KNN', 'accuracy', accuracy]],
-                            columns=['round', 'config', 'model', 'algorithm', 'metric', 'value'])
+        return pd.DataFrame(data=[[run, 'KNN', 'accuracy', accuracy]],
+                            columns=GlobalVariable.results_column_name)
 
     @staticmethod
     def __train_tree(x_train, y_train):
@@ -66,7 +67,7 @@ class MachineAlgorithms:
         return accuracy_score(y_test, y_pred)
 
     @staticmethod
-    def main(x_train, x_test, y_train, y_test, run, model):
+    def main(x_train, x_test, y_train, y_test, run):
         """
         Função principal que executa todos os algoritmos selecionados, retornando um dataframe com os resultados
         :param x_train: Dados de treinamento
@@ -79,6 +80,6 @@ class MachineAlgorithms:
         """
         # logging.info("*" * 50)
         # Uso dos dados no treinamento e teste do KNN, por fim avaliação dos resultados
-        result_df = MachineAlgorithms.__train_knn(x_train, x_test, y_train, y_test, run, model)
+        result_df = MachineAlgorithms.__train_knn(x_train, x_test, y_train, y_test, run)
         # logging.info("*" * 50)
         return result_df

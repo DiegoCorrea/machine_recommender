@@ -7,12 +7,12 @@ import os
 
 class GlobalVariable:
     processor_number = multiprocessing.cpu_count() - 1
-    execution_times = 3
-    user_min_song_list = 5
+    execution_times = 10
+    user_min_song_list = 30
     test_set_size = 0.20
     path_logs = 'logs/logging.json'
     k_neighbors = 3
-    song_sample_number = 5000
+    song_sample_number = 30000
     sample_random_state = 50
     results_column_name = ['round', 'algorithm', 'metric', 'value']
     GRAPH_STYLE = [':', '-', '--', '--']

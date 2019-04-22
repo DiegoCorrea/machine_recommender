@@ -28,7 +28,7 @@ class MachineAlgorithms:
         """
         clf = KNeighborsClassifier()
         clf.fit(x_train, y_train)
-        y_pred = clf.predict(x_test)
+        y_pred = clf.predict_multiprocess(x_test)
         accuracy = MachineAlgorithms.__evaluate(y_pred, y_test)
         # logging.info("KNN Accuracy: " + str(accuracy))
         return pd.DataFrame(data=[[run, 'KNN', 'accuracy', accuracy]],

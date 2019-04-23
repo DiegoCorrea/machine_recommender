@@ -65,10 +65,11 @@ class KNeighborsClassifier:
 
     def predict_multiprocess(self, y_test_dataset):
         index_list = self.__DATASET_TRAIN.index.values
+        data_entry = [(self.__DATASET_TRAIN, self.__LABELS_TRAIN, index_list, test) for test in y_test_dataset]
         pool = Pool(GlobalVariable.processor_number)
         result = pool.starmap(
             KNeighborsClassifier.__neighbor_multi,
-            [(self.__DATASET_TRAIN, self.__LABELS_TRAIN, index_list, test) for test in y_test_dataset]
+            data_entry
         )
         pool.close()
         pool.join()

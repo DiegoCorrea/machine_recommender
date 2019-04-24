@@ -1,7 +1,5 @@
 from multiprocessing import Pool
-from statistics import mode
 
-import math
 import pandas as pd
 
 from src.globalVariable import GlobalVariable
@@ -12,10 +10,10 @@ class NaiveBayesClassifier:
         self.__DATASET_TRAIN = pd.DataFrame()
         self.__LABELS_TRAIN = pd.DataFrame()
 
-    def fit(self, dataset_train, label):
-        self.__DATASET_TRAIN = dataset_train
-        self.__LABELS_TRAIN = pd.DataFrame(index=dataset_train.index.values.tolist())
-        self.__LABELS_TRAIN['label'] = label
+    def fit(self, x_train_dataset, x_label_dataset):
+        self.__DATASET_TRAIN = x_train_dataset
+        self.__LABELS_TRAIN = pd.DataFrame(index=x_train_dataset.index.values.tolist())
+        self.__LABELS_TRAIN['label'] = x_label_dataset
 
     def predict(self, y_test_dataset):
         result = []
@@ -41,11 +39,10 @@ class NaiveBayesClassifier:
     def test():
         from sklearn.datasets import load_iris
         from sklearn.metrics import accuracy_score
-        import pandas as pd
         data = load_iris()
         df = pd.DataFrame(data.data, columns=data.feature_names)
-        knn = NaiveBayesClassifier()
-        knn.fit(dataset_train=df[3:149], label=data['target'][3:149])
-        predict = knn.predict_multiprocess(df[0:2])
+        ckf = NaiveBayesClassifier()
+        ckf.fit(x_train_dataset=df[3:149], x_label_dataset=data['target'][3:149])
+        predict = ckf.predict_multiprocess(df[0:2])
         print(predict)
         print(accuracy_score(data['target'][0:2], predict))

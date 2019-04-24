@@ -56,7 +56,7 @@ class KNeighborsClassifier:
         return all_neigh
 
     @staticmethod
-    def __neighbor_multi(x_train_dataset, x_label_dataset, index_list, x_test):
+    def neighbor_multi(x_train_dataset, x_label_dataset, index_list, x_test):
         distance = [KNeighborsClassifier.euclidean_distance(x_test=x_test, x_train=x) for x in x_train_dataset]
         list__ = {a: b for a, b in zip(index_list, distance)}
         ordered_neigh = [(k, list__[k]) for k in sorted(list__, key=list__.get, reverse=False)]
@@ -68,7 +68,7 @@ class KNeighborsClassifier:
         data_entry = [(self.__DATASET_TRAIN, self.__LABELS_TRAIN, index_list, test) for test in y_test_dataset]
         pool = Pool(GlobalVariable.processor_number)
         result = pool.starmap(
-            KNeighborsClassifier.__neighbor_multi,
+            KNeighborsClassifier.neighbor_multi,
             data_entry
         )
         pool.close()

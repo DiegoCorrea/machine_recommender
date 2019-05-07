@@ -8,7 +8,8 @@ import os
 class GlobalVariable:
     processor_number = multiprocessing.cpu_count() - 1
     execution_times = 5
-    user_min_song_list = 30
+    user_min_song_list = 50
+    RECOMMENDATION_LIST_SIZE = 30
     test_set_size = 0.20
     path_logs = 'logs/logging.json'
     k_neighbors = 3

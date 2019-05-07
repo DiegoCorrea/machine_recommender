@@ -2,10 +2,11 @@ import logging
 
 import gc
 import pandas as pd
-from src.machine_learning.manual_config import MachineAlgorithms
 
 from src.evaluations.validation import Validation
 from src.globalVariable import GlobalVariable
+# from src.machine_learning.manual_config import MachineAlgorithms
+from src.machine_learning.sklearn_config import MachineAlgorithms
 
 
 class ContentBased:
@@ -14,7 +15,7 @@ class ContentBased:
         class_balance_check = pd.DataFrame(data=[], columns=['round', 'positive', 'negative'])
         results_df = pd.DataFrame(data=[], columns=GlobalVariable.results_column_name)
         for i in range(GlobalVariable.execution_times):
-            logging.info("Rodada " + str(i))
+            logging.info("Rodada " + str(i + 1))
             users_results_df = pd.DataFrame(data=[], columns=GlobalVariable.results_column_name)
             for user_id in users_dataset_df.user_id.unique().tolist():
                 user_preference = users_dataset_df[users_dataset_df['user_id'] == user_id]
@@ -22,7 +23,7 @@ class ContentBased:
                     [
                         class_balance_check,
                         pd.DataFrame(
-                            data=[[i,
+                            data=[[i + 1,
                                    user_preference[user_preference['like'] == True].shape[0],
                                    user_preference[user_preference['like'] == False].shape[0]
                                    ]],
@@ -40,7 +41,7 @@ class ContentBased:
                             x_test=freq_model.loc[x_test_data],
                             y_train=y_train_label,
                             y_test=y_test_label,
-                            run=i
+                            run=i + 1
                         )
                     ]
                 )
@@ -48,7 +49,7 @@ class ContentBased:
             results_df = pd.concat(
                 [
                     results_df,
-                    ContentBased.users_result_generate(users_results_df, i)
+                    ContentBased.users_result_generate(users_results_df, i + 1)
                 ]
             )
             gc.collect()

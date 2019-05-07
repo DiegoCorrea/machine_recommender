@@ -37,9 +37,12 @@ class MachineAlgorithms:
         clf.fit(x_train, y_train)
         y_pred = clf.predict(x_test)
         accuracy = MachineAlgorithms.__evaluate(y_pred, y_test)
+        ml_pred_result = pd.DataFrame(data=[[run, 'KNN', 'accuracy', accuracy]],
+                                      columns=GlobalVariable.results_column_name)
+        predction_to_users = pd.DataFrame(index=x_test.index.values.tolist())
+        predction_to_users['pred_like'] = y_pred
         # logging.info("KNN Accuracy: " + str(accuracy))
-        return pd.DataFrame(data=[[run, 'KNN', 'accuracy', accuracy]],
-                            columns=GlobalVariable.results_column_name)
+        return ml_pred_result
 
     @staticmethod
     def __train_tree(x_train, y_train):

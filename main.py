@@ -1,8 +1,8 @@
+from src.data_models.tdidf_model import FrequencyModel
 from src.evaluations.statisticalOverview import StatisticalOverview
 from src.globalVariable import GlobalVariable
-from src.models.tdidf_model import FrequencyModel
+from src.kemures.tecnics.content_based import ContentBased
 from src.preprocessing.preprocessing import Preprocessing
-from src.tecnics.content_based import ContentBased
 
 if __name__ == '__main__':
     GlobalVariable.setup_logging()

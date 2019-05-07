@@ -2,8 +2,8 @@ import logging
 
 import gc
 import pandas as pd
-
 from src.algorithms.machine_algorithms import MachineAlgorithms
+
 from src.evaluations.validation import Validation
 from src.globalVariable import GlobalVariable
 

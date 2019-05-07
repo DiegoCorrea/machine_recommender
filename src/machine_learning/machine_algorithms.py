@@ -1,9 +1,9 @@
 import pandas as pd
 from sklearn.metrics import accuracy_score
 
-from src.algorithms.k_neighbors_classifier import KNeighborsClassifier
-from src.algorithms.naive_bayes_classifier import NaiveBayesClassifier
 from src.globalVariable import GlobalVariable
+from src.machine_learning.k_neighbors_classifier import KNeighborsClassifier
+from src.machine_learning.naive_bayes_classifier import NaiveBayesClassifier
 
 
 class MachineAlgorithms:

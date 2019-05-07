@@ -8,6 +8,9 @@ from src.globalVariable import GlobalVariable
 
 
 class KNeighborsClassifier:
+    t_data = pd.DataFrame()
+    t_label = pd.DataFrame()
+
     def __init__(self, n_neighbors=GlobalVariable.k_neighbors):
         self.__DATASET_TRAIN = pd.DataFrame()
         self.__LABELS_TRAIN = pd.DataFrame()
@@ -15,12 +18,14 @@ class KNeighborsClassifier:
 
     def fit(self, dataset_train, label):
         self.__DATASET_TRAIN = dataset_train
+        KNeighborsClassifier.t_data = dataset_train
         self.__LABELS_TRAIN = pd.DataFrame(index=dataset_train.index.values.tolist())
         self.__LABELS_TRAIN['label'] = label
+        KNeighborsClassifier.t_label = self.__LABELS_TRAIN
 
     @staticmethod
     def euclidean_distance(x_test, x_train):
-        return math.sqrt(sum([(a - b) ** 2 for a, b in zip(x_test, x_train)]))
+        return math.sqrt(sum([(float(a) - float(b)) ** 2 for a, b in zip(x_test, x_train)]))
 
     def __neigh(self, x_test):
         x_train_array = self.__DATASET_TRAIN.values.tolist()
@@ -56,18 +61,22 @@ class KNeighborsClassifier:
         return all_neigh
 
     @staticmethod
-    def neighbor_multi(x_train_dataset, x_label_dataset, index_list, x_test):
-        distance = [KNeighborsClassifier.euclidean_distance(x_test=x_test, x_train=x) for x in x_train_dataset]
+    def neighbor_multi(x_test):
+        index_list = KNeighborsClassifier.t_data.index.values
+        distance = [KNeighborsClassifier.euclidean_distance(x_test=x_test, x_train=data) for data in
+                    KNeighborsClassifier.t_data.values.tolist()]
         list__ = {a: b for a, b in zip(index_list, distance)}
         ordered_neigh = [(k, list__[k]) for k in sorted(list__, key=list__.get, reverse=False)]
-        label_test = [x_label_dataset.loc[i]['label'] for i, v in ordered_neigh[:GlobalVariable.k_neighbors]]
+        label_test = [KNeighborsClassifier.t_label.loc[i]['label'] for i, v in
+                      ordered_neigh[:GlobalVariable.k_neighbors]]
         return mode(label_test)
 
-    def predict_multiprocess(self, y_test_dataset):
-        index_list = self.__DATASET_TRAIN.index.values
-        data_entry = [(self.__DATASET_TRAIN, self.__LABELS_TRAIN, index_list, test) for test in y_test_dataset]
+    @staticmethod
+    def predict_multiprocess(y_test_dataset):
+        data_entry = [data.tolist() for index, data in y_test_dataset.iterrows()]
+        # data_entry = [(index_list, test) for test in y_test_dataset]
         pool = Pool(GlobalVariable.processor_number)
-        result = pool.starmap(
+        result = pool.map(
             KNeighborsClassifier.neighbor_multi,
             data_entry
         )
@@ -84,6 +93,6 @@ class KNeighborsClassifier:
         df = pd.DataFrame(data.data, columns=data.feature_names)
         knn = KNeighborsClassifier()
         knn.fit(dataset_train=df[3:149], label=data['target'][3:149])
-        predict = knn.predict_multiprocess(df[0:2])
+        predict = knn.predict_multiprocess(df[0:2].tolist())
         print(predict)
         print(accuracy_score(data['target'][0:2], predict))

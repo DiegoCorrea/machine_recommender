@@ -1,5 +1,6 @@
 from multiprocessing import Pool
 
+import math
 import pandas as pd
 
 from src.globalVariable import GlobalVariable
@@ -9,11 +10,15 @@ class NaiveBayesClassifier:
     def __init__(self):
         self.__DATASET_TRAIN = pd.DataFrame()
         self.__LABELS_TRAIN = pd.DataFrame()
+        self.__POS_CLASS = pd.DataFrame()
+        self.__NEG_CLASS = pd.DataFrame()
 
     def fit(self, x_train_dataset, x_label_dataset):
         self.__DATASET_TRAIN = x_train_dataset
         self.__LABELS_TRAIN = pd.DataFrame(index=x_train_dataset.index.values.tolist())
         self.__LABELS_TRAIN['label'] = x_label_dataset
+        self.__POS_CLASS = self.__LABELS_TRAIN[self.__LABELS_TRAIN['label'] == True]
+        self.__NEG_CLASS = self.__LABELS_TRAIN[self.__LABELS_TRAIN['label'] == False]
 
     def predict(self, y_test_dataset):
         result = []
@@ -46,3 +51,13 @@ class NaiveBayesClassifier:
         predict = ckf.predict_multiprocess(df[0:2])
         print(predict)
         print(accuracy_score(data['target'][0:2], predict))
+
+    @staticmethod
+    def mean(numbers):
+        return sum(numbers) / float(len(numbers))
+
+    @staticmethod
+    def stdev(numbers):
+        avg = NaiveBayesClassifier.mean(numbers)
+        variance = sum([pow(x - avg, 2) for x in numbers]) / float(len(numbers) - 1)
+        return math.sqrt(variance)

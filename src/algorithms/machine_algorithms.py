@@ -2,20 +2,27 @@ import pandas as pd
 from sklearn.metrics import accuracy_score
 
 from src.algorithms.k_neighbors_classifier import KNeighborsClassifier
+from src.algorithms.naive_bayes_classifier import NaiveBayesClassifier
 from src.globalVariable import GlobalVariable
 
 
 class MachineAlgorithms:
 
     @staticmethod
-    def __train_naive_bayes(x_train, y_train):
+    def __train_naive_bayes(x_train, x_test, y_train, y_test, run):
         """
         Função de treino do classificador Naive Bayes que retorna uma instancia treinada
         :param x_train: Dados de treinamento
         :param y_train: Classes dos dados de treinamento
         :return: Classificador treinado
         """
-        pass
+        clf = NaiveBayesClassifier()
+        clf.fit(x_train, y_train)
+        y_pred = clf.predict_multiprocess(x_test)
+        accuracy = MachineAlgorithms.__evaluate(y_pred, y_test)
+        # logging.info("KNN Accuracy: " + str(accuracy))
+        return pd.DataFrame(data=[[run, 'KNN', 'accuracy', accuracy]],
+                            columns=GlobalVariable.results_column_name)
 
     @staticmethod
     def __train_knn(x_train, x_test, y_train, y_test, run):
@@ -28,7 +35,7 @@ class MachineAlgorithms:
         """
         clf = KNeighborsClassifier()
         clf.fit(x_train, y_train)
-        y_pred = clf.predict_multiprocess(x_test)
+        y_pred = clf.predict(x_test)
         accuracy = MachineAlgorithms.__evaluate(y_pred, y_test)
         # logging.info("KNN Accuracy: " + str(accuracy))
         return pd.DataFrame(data=[[run, 'KNN', 'accuracy', accuracy]],
@@ -75,7 +82,6 @@ class MachineAlgorithms:
         :param y_train: Dados de teste
         :param y_test: Classes dos dados de teste
         :param run: Rodada do sistema
-        :param model: Nome do modelo de dados a ser processado
         :return: DataFrame com os resultados de cada algoritmo
         """
         # logging.info("*" * 50)

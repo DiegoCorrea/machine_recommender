@@ -44,10 +44,12 @@ class MachineAlgorithms:
         user_set = pd.concat([x_train, x_test])
         cos = pd.DataFrame(data=np.matrix(cosine_similarity(X=user_set)), columns=user_set.index.tolist(),
                            index=user_set.index.tolist())
-        u = UserAverageController.start_ranking(similarity_data_df=cos,
-                                                user_model_ids=x_train.index.values.tolist(),
-                                                song_model_ids=x_test.index.values.tolist())
-        print(u)
+        user_list = UserAverageController.start_ranking(similarity_data_df=cos,
+                                                        user_model_ids=x_train.index.values.tolist(),
+                                                        song_model_ids=x_test.index.values.tolist())
+        other = pd.DataFrame(data=[], index=x_test.index.values.tolist())
+        other['pred_like'] = y_test
+        print(pd.concat([user_list, other], axis=1, sort=False))
         return ml_pred_result
 
     @staticmethod

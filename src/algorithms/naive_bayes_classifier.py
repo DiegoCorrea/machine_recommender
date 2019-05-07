@@ -14,6 +14,16 @@ class NaiveBayesClassifier:
         self.__DATASET_TRAIN = x_train_dataset
         self.__LABELS_TRAIN = pd.DataFrame(index=x_train_dataset.index.values.tolist())
         self.__LABELS_TRAIN['label'] = x_label_dataset
+        lt = self.__LABELS_TRAIN['label'].unique().tolist()
+
+    def separateByClass(self):
+        separated = {}
+        for i in self.__LABELS_TRAIN['label'].unique().tolist():
+            vector = dataset[i]
+            if (vector[-1] not in separated):
+                separated[vector[-1]] = []
+            separated[vector[-1]].append(vector)
+        return separated
 
     def predict(self, y_test_dataset):
         result = []
@@ -46,3 +56,6 @@ class NaiveBayesClassifier:
         predict = ckf.predict_multiprocess(df[0:2])
         print(predict)
         print(accuracy_score(data['target'][0:2], predict))
+
+    def predict_seq(self, y_test_dataset):
+        for instance in y_test_dataset:

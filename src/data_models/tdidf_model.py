@@ -6,32 +6,6 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 
 
 class FrequencyModel:
-
-    @staticmethod
-    def __count(count_vec, sentence_list):
-        grow = 0
-        jump = 1000
-        sky = jump
-        tf_matrix_list = []
-        while grow < len(sentence_list):
-            # tf_matrix_list.append(count_vec.transform(sentence_list[grow:sky]).toarray())
-            tf_matrix_list = np.concatenate((tf_matrix_list, count_vec.transform(sentence_list[grow:sky]).toarray()))
-            grow = sky
-            sky += jump
-        return np.concatenate(tf_matrix_list)
-
-    @staticmethod
-    def tf_idf_tran(tfidf_tran, tf_matrix):
-        grow = 0
-        jump = 1000
-        sky = jump
-        tf_matrix_list = []
-        while grow < len(tf_matrix):
-            tf_matrix_list.append(tfidf_tran.transform(tf_matrix[grow:sky]))
-            grow = sky
-            sky += jump
-        return tf_matrix_list
-
     @staticmethod
     def tf_as_matrix(sentence_list):
         """
@@ -44,18 +18,13 @@ class FrequencyModel:
         count_vec = CountVectorizer()
         count_vec.fit_transform(sentence_list)
         tf_matrix = count_vec.transform(sentence_list)
-        # Retorna os nomes das colunas que são palavras
-        # tf_matrix = FrequencyModel.__count(count_vec, sentence_list)
-        # print(tf_matrix)
         word_position = count_vec.vocabulary_.items()
         # Calcula o IDF a partir do TF
         tfidf_tran = TfidfTransformer(norm="l2")
         tfidf_tran.fit(tf_matrix)
         tfidf_matrix = tfidf_tran.transform(tf_matrix)
-        # tfidf_matrix_list = FrequencyModel.tf_idf_tran(tfidf_tran, tf_matrix)
-        # print(tfidf_matrix_list)
-        # tfidf_matrix = np.concatenate(tfidf_matrix_list)
-        return tfidf_matrix.toarray(), sorted(word_position, key=lambda k: (k[1], k[0]))
+        # print(tfidf_matrix.todense())
+        return np.array(tfidf_matrix.toarray()), word_position
 
     @staticmethod
     def mold(original_dataset):
@@ -68,5 +37,9 @@ class FrequencyModel:
         logging.info("Gerando matrix do TF-IDF...")
         tfidf_matrix, word_position = FrequencyModel.tf_as_matrix(sentence_list=original_dataset['stem_data'].tolist())
         logging.info("Adicionando nome das colunas e as index na matrix TF-IDF")
-        tfidf_pattern = pd.DataFrame(data=np.matrix(tfidf_matrix), columns=[a for a, v in word_position], index=original_dataset.song_id.tolist())
-        return tfidf_pattern
+        index_list = original_dataset.song_id.tolist()
+        columns_label = [a for a, v in sorted(word_position, key=lambda k: (k[1], k[0]))]
+        print(tfidf_matrix)
+        print(np.intp)
+        # data_entry = np.matrix(tfidf_matrix)
+        return pd.DataFrame(data=tfidf_matrix, columns=columns_label, index=index_list)

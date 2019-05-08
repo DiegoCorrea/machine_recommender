@@ -1,12 +1,13 @@
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import Perceptron
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, precision_score
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 
+from src.evaluations.MAP.map_controller import MAPController
 from src.globalVariable import GlobalVariable
 from src.kemures.recommenders.UserAverage.user_average_controller import UserAverageController
 
@@ -36,21 +37,32 @@ class MachineAlgorithms:
         clf = KNeighborsClassifier(n_neighbors=GlobalVariable.k_neighbors, n_jobs=GlobalVariable.processor_number)
         clf.fit(x_train, y_train)
         y_pred = clf.predict(x_test)
-        accuracy = MachineAlgorithms.evaluate(y_pred, y_test)
-        ml_pred_result = pd.DataFrame(data=[[run, 'KNN', 'accuracy', accuracy]],
-                                      columns=GlobalVariable.results_column_name)
-        predction_to_users = pd.DataFrame(index=x_test.index.values.tolist())
-        predction_to_users['pred_like'] = y_pred
-        user_set = pd.concat([x_train, x_test])
+        test_results = pd.DataFrame(data=[], index=x_test.index.values.tolist())
+        test_results['pred_like'] = y_pred
+        test_results['original_like'] = y_test
+        positive_pred = test_results[test_results['pred_like'] == True]
+        candidate_songs = x_test.loc[positive_pred.index.values.tolist()]
+        user_set = pd.concat([x_train, candidate_songs])
         cos = pd.DataFrame(data=np.matrix(cosine_similarity(X=user_set)), columns=user_set.index.tolist(),
                            index=user_set.index.tolist())
         user_list = UserAverageController.start_ranking(similarity_data_df=cos,
                                                         user_model_ids=x_train.index.values.tolist(),
-                                                        song_model_ids=x_test.index.values.tolist())
-        other = pd.DataFrame(data=[], index=x_test.index.values.tolist())
-        other['pred_like'] = y_test
-        print(pd.concat([user_list, other], axis=1, sort=False))
-        return ml_pred_result
+                                                        song_model_ids=candidate_songs.index.values.tolist())
+        user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
+        map_value = MAPController.get_ap_from_list(user_results_df['original_like'].tolist())
+        accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
+        output = pd.concat([pd.DataFrame(data=[[run, 'KNN', 'accuracy', accuracy]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'KNN', 'precision', precision]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'KNN->COS', 'map', map_value]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'KNN->COS', 'precision_cos',
+                                                precision_score(positive_pred['original_like'],
+                                                                positive_pred['pred_like'], average='micro')]],
+                                         columns=GlobalVariable.results_column_name)
+                            ])
+        return output
 
     @staticmethod
     def train_tree(x_train, y_train):
@@ -86,7 +98,7 @@ class MachineAlgorithms:
         :param y_test: Entrada real
         :return: Um par: primeiro o valor do MAE, segundo o valor do accuracy
         """
-        return accuracy_score(y_test, y_pred)
+        return accuracy_score(y_test, y_pred), precision_score(y_test, y_pred, average='micro')
 
     # def main(x_train, x_test, y_train, y_test, run):
     #     """

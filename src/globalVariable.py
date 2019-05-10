@@ -13,7 +13,7 @@ class GlobalVariable:
     test_set_size = 0.20
     path_logs = 'logs/logging.json'
     k_neighbors = 3
-    song_sample_number = 50000
+    song_sample_number = 30000
     sample_random_state = 50
     results_column_name = ['round', 'algorithm', 'metric', 'value']
     GRAPH_STYLE = [':', '-', '--', '--']

@@ -18,6 +18,7 @@ class UserAverageController:
             similarity = float(sum(song_values)) / float(
                 len(user_model_ids))
             if similarity == 0.0:
+                recommendation_list[song_id] = [0]
                 continue
             recommendation_list[song_id] = [similarity]
         user_recommendations_df = pd.DataFrame.from_dict(data=dict(recommendation_list), orient='index',

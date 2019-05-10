@@ -1,3 +1,5 @@
+import logging
+
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import Perceptron
@@ -42,6 +44,8 @@ class MachineAlgorithms:
         test_results['original_like'] = y_test
         positive_pred = test_results[test_results['pred_like'] == True]
         candidate_songs = x_test.loc[positive_pred.index.values.tolist()]
+        if len(candidate_songs) == 0:
+            logging.info("User has no candidate songs!")
         user_set = pd.concat([x_train, candidate_songs])
         cos = pd.DataFrame(data=np.matrix(cosine_similarity(X=user_set)), columns=user_set.index.tolist(),
                            index=user_set.index.tolist())
@@ -89,6 +93,22 @@ class MachineAlgorithms:
         clf = Perceptron(n_jobs=GlobalVariable.processor_number)
         clf.fit(x_train, y_train)
         return clf
+
+    @staticmethod
+    def user_average(x_train_data, x_test_data, y_test_label, run):
+        test_df = pd.DataFrame(data=[], index=x_test_data.index.values.tolist())
+        test_df['like'] = y_test_label
+        user_set = pd.concat([x_train_data, x_test_data])
+        cos = pd.DataFrame(data=np.matrix(cosine_similarity(X=user_set)), columns=user_set.index.tolist(),
+                           index=user_set.index.tolist())
+        user_list = UserAverageController.start_ranking(similarity_data_df=cos,
+                                                        user_model_ids=x_train_data.index.values.tolist(),
+                                                        song_model_ids=x_test_data.index.values.tolist())
+        user_results_df = pd.concat([user_list, test_df], axis=1, sort=False, join='inner')
+        print(len(user_results_df))
+        return pd.DataFrame(
+            data=[[run, 'COS', 'map', MAPController.get_ap_from_list(user_results_df['like'].tolist())]],
+            columns=GlobalVariable.results_column_name)
 
     @staticmethod
     def evaluate(y_pred, y_test):
@@ -169,4 +189,5 @@ class MachineAlgorithms:
     @staticmethod
     def main(x_train, x_test, y_train, y_test, run):
         result_df = MachineAlgorithms.train_knn(x_train, x_test, y_train, y_test, run)
-        return result_df
+        return pd.concat([result_df, MachineAlgorithms.user_average(x_train_data=x_train, x_test_data=x_test,
+                                                                    y_test_label=y_test, run=run)])

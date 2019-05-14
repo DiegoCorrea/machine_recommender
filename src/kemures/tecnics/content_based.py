@@ -61,7 +61,7 @@ class ContentBased:
         for algorithm in users_results_df['algorithm'].unique().tolist():
             algorithm_subset = users_results_df[users_results_df['algorithm'] == algorithm]
             for metric in algorithm_subset['metric'].unique().tolist():
-                metric_subset = users_results_df[users_results_df['metric'] == metric]
+                metric_subset = algorithm_subset[algorithm_subset['metric'] == metric]
                 result_df = pd.concat([
                     result_df,
                     pd.DataFrame(data=[[run, algorithm, metric, metric_subset['value'].mean()]],

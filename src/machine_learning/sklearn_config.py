@@ -7,6 +7,7 @@ from sklearn.metrics import accuracy_score, precision_score
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neural_network import MLPClassifier
 from sklearn.tree import DecisionTreeClassifier
 
 from src.evaluations.MAP.map_controller import MAPController
@@ -118,7 +119,7 @@ class MachineAlgorithms:
         :param y_train: Classes dos dados de treinamento
         :return: Classificador treinado
         """
-        clf = Perceptron(n_jobs=GlobalVariable.processor_number)
+        clf = Perceptron(max_iter=1000, tol=1e-3, n_jobs=GlobalVariable.processor_number)
         clf.fit(x_train, y_train)
         y_pred = clf.predict(x_test)
         test_results = pd.DataFrame(data=[], index=x_test.index.values.tolist())
@@ -159,7 +160,7 @@ class MachineAlgorithms:
         :param y_train: Classes dos dados de treinamento
         :return: Classificador treinado
         """
-        clf = Perceptron(n_jobs=GlobalVariable.processor_number)
+        clf = MLPClassifier(max_iter=1000, tol=1e-3, hidden_layer_sizes=5)
         clf.fit(x_train, y_train)
         y_pred = clf.predict(x_test)
         test_results = pd.DataFrame(data=[], index=x_test.index.values.tolist())
@@ -219,7 +220,8 @@ class MachineAlgorithms:
     @staticmethod
     def main(x_train, x_test, y_train, y_test, run):
         result_df = MachineAlgorithms.train_knn(x_train, x_test, y_train, y_test, run)
-        # result_df = pd.concat([result_df, MachineAlgorithms.train_perceptron(x_train, x_test, y_train, y_test, run)])
+        result_df = pd.concat([result_df, MachineAlgorithms.train_perceptron(x_train, x_test, y_train, y_test, run)])
+        result_df = pd.concat([result_df, MachineAlgorithms.train_mlp(x_train, x_test, y_train, y_test, run)])
         result_df = pd.concat([result_df, MachineAlgorithms.train_naive_bayes(x_train, x_test, y_train, y_test, run)])
         return pd.concat([result_df, MachineAlgorithms.user_average(x_train_data=x_train, x_test_data=x_test,
                                                                     y_test_label=y_test, run=run)])

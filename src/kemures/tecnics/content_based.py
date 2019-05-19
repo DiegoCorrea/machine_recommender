@@ -19,6 +19,8 @@ class ContentBased:
             users_results_df = pd.DataFrame(data=[], columns=GlobalVariable.results_column_name)
             for user_id in users_dataset_df.user_id.unique().tolist():
                 user_preference = users_dataset_df[users_dataset_df['user_id'] == user_id]
+                if user_preference['like'].nunique() == 1:
+                    continue
                 class_balance_check = pd.concat(
                     [
                         class_balance_check,
@@ -33,6 +35,8 @@ class ContentBased:
                 )
                 x_train_data, x_test_data, y_train_label, y_test_label = Validation.split_data(
                     user_preference['song_id'].values.tolist(), user_preference['like'].values.tolist())
+                # x_train_data, x_test_data, y_train_label, y_test_label = Validation.stratified_split_data(
+                #     user_preference['song_id'].values, user_preference['like'].values)
                 users_results_df = pd.concat(
                     [
                         users_results_df,

@@ -17,7 +17,7 @@ class Vote:
 
     @staticmethod
     def user_vote(user_id, user_preference):
-        user_std = user_preference['play_count'].std()
+        user_std = user_preference['play_count'].median()
         user_preference['like'] = user_preference.apply(Vote.user_votate, args={user_std}, axis=1)
         return user_preference
 

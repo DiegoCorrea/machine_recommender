@@ -16,9 +16,10 @@ class GlobalVariable:
     song_sample_number = 30000
     sample_random_state = 50
     results_column_name = ['round', 'algorithm', 'metric', 'value']
-    GRAPH_STYLE = [':', '-', '--', '--']
-    GRAPH_COLORS = ['tab:blue', 'tab:orange', 'tab:green', 'tab:red']
-    GRAPH_MAKERS = ['o', '^', 's', 'D']
+    GRAPH_STYLE = [':', '--', ':', '-', '-', '-', '--', ':', '--', '-.', '-.']
+    GRAPH_COLORS = ['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray',
+                    'tab:olive', 'tab:cyan', '#0F0F0F0F']
+    GRAPH_MAKERS = ['o', '^', 's', 'D', 'x', 'p', '.', '1', '|', '*', '2']
 
     @staticmethod
     def setup_logging(

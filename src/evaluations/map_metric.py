@@ -2,8 +2,8 @@
 
 
 class MAPController:
-    @classmethod
-    def get_ap_from_list(cls, relevance_array):
+    @staticmethod
+    def get_ap_from_list(relevance_array):
         relevance_list_size = len(relevance_array)
         if relevance_list_size == 0:
             return 0.0

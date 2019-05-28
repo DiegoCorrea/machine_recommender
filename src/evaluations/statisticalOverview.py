@@ -68,9 +68,12 @@ class StatisticalOverview:
         for metric in results_df['metric'].unique().tolist():
             # Cria e configura gráficos
             plt.figure()
+            plt.figure(figsize=(10, 6))
             plt.grid(True)
-            plt.xlabel('Rodada')
-            plt.ylabel('Valor')
+            plt.rc('xtick', labelsize=14)
+            plt.rc('ytick', labelsize=14)
+            plt.xlabel('Rodada', fontsize=18)
+            plt.ylabel('Score', fontsize=18)
             results_df_by_filter = results_df[results_df['metric'] == metric]
             # Para cada algoritmo usado cria-se uma linha no gráfico com cores e formatos diferentes
             n = results_df_by_filter['algorithm'].nunique()
@@ -91,7 +94,7 @@ class StatisticalOverview:
                     label=algorithm
                 )
             # Configura legenda
-            lgd = plt.legend(loc=9, bbox_to_anchor=(0.5, -0.1), ncol=2)
+            lgd = plt.legend(loc=9, prop={'size': 18}, bbox_to_anchor=(0.5, -0.1), ncol=3)
             plt.xticks(sorted(results_df['round'].unique().tolist()))
             # Salva a figura com alta resolução e qualidade
             plt.savefig(

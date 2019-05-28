@@ -39,7 +39,5 @@ class FrequencyModel:
         logging.info("Adicionando nome das colunas e as index na matrix TF-IDF")
         index_list = original_dataset.song_id.tolist()
         columns_label = [a for a, v in sorted(word_position, key=lambda k: (k[1], k[0]))]
-        print(tfidf_matrix)
-        print(np.intp)
         # data_entry = np.matrix(tfidf_matrix)
         return pd.DataFrame(data=tfidf_matrix, columns=columns_label, index=index_list)

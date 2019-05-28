@@ -16,6 +16,8 @@ class GlobalVariable:
     song_sample_number = 30000
     sample_random_state = 50
     results_column_name = ['round', 'algorithm', 'metric', 'value']
+    AT_SIZE_LIST = [1, 5, 10, 15, 20]
+    SONG_SIZE_LIST = [10000, 30000, 50000]
     GRAPH_STYLE = [':', '--', ':', '-', '-', '-', '--', ':', '--', '-.', '-.']
     GRAPH_COLORS = ['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray',
                     'tab:olive', 'tab:cyan', '#0F0F0F0F']

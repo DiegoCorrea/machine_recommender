@@ -2,20 +2,192 @@ import logging
 
 import numpy as np
 import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import Perceptron
 from sklearn.metrics import accuracy_score, precision_score
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neural_network import MLPClassifier
+from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 
-from src.evaluations.MAP.map_controller import MAPController
+from src.evaluations.map_metric import MAPController
+from src.evaluations.mrr_metric import MRRController
 from src.globalVariable import GlobalVariable
 from src.kemures.recommenders.UserAverage.user_average_controller import UserAverageController
 
 
 class MachineAlgorithms:
+    @staticmethod
+    def train_linear_regressor(x_train, x_test, y_train, y_test, run):
+        """
+        Função de treino do classificador Naive Bayes que retorna uma instancia treinada
+        :param x_train: Dados de treinamento
+        :param y_train: Classes dos dados de treinamento
+        :return: Classificador treinado
+        """
+        clf = LinearRegression()
+        clf = clf.fit(x_train, y_train)
+        y_pred = clf.predict(x_test)
+        test_results = pd.DataFrame(data=[], index=x_test.index.values.tolist())
+        test_results['pred_like'] = y_pred
+        test_results['original_like'] = y_test
+        positive_pred = test_results[test_results['pred_like'] == True]
+        candidate_songs = x_test.loc[positive_pred.index.values.tolist()]
+        if len(candidate_songs) == 0:
+            logging.info("User has no candidate songs!")
+        user_set = pd.concat([x_train, candidate_songs])
+        cos = pd.DataFrame(data=np.matrix(cosine_similarity(X=user_set)), columns=user_set.index.tolist(),
+                           index=user_set.index.tolist())
+        user_list = UserAverageController.start_ranking(similarity_data_df=cos,
+                                                        user_model_ids=x_train.index.values.tolist(),
+                                                        song_model_ids=candidate_songs.index.values.tolist())
+        user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
+        map_value = MAPController.get_ap_from_list(user_results_df['original_like'].tolist())
+        mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
+        accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
+        precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
+        output = pd.concat([pd.DataFrame(data=[[run, 'LR', 'accuracy', accuracy]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'LR', 'precision', precision]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'LR->recModel', 'map', map_value]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'LR->recModel', 'mrr', mrr_value]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'LR->recModel', 'precision_cos', precision_value]],
+                                         columns=GlobalVariable.results_column_name)
+                            ])
+        return output
+
+    @staticmethod
+    def train_random_forest(x_train, x_test, y_train, y_test, run):
+        """
+        Função de treino do classificador Naive Bayes que retorna uma instancia treinada
+        :param x_train: Dados de treinamento
+        :param y_train: Classes dos dados de treinamento
+        :return: Classificador treinado
+        """
+        clf = RandomForestClassifier(n_estimators=100, criterion='entropy')
+        clf = clf.fit(x_train, y_train)
+        y_pred = clf.predict(x_test)
+        test_results = pd.DataFrame(data=[], index=x_test.index.values.tolist())
+        test_results['pred_like'] = y_pred
+        test_results['original_like'] = y_test
+        positive_pred = test_results[test_results['pred_like'] == True]
+        candidate_songs = x_test.loc[positive_pred.index.values.tolist()]
+        if len(candidate_songs) == 0:
+            logging.info("User has no candidate songs!")
+        user_set = pd.concat([x_train, candidate_songs])
+        cos = pd.DataFrame(data=np.matrix(cosine_similarity(X=user_set)), columns=user_set.index.tolist(),
+                           index=user_set.index.tolist())
+        user_list = UserAverageController.start_ranking(similarity_data_df=cos,
+                                                        user_model_ids=x_train.index.values.tolist(),
+                                                        song_model_ids=candidate_songs.index.values.tolist())
+        user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
+        map_value = MAPController.get_ap_from_list(user_results_df['original_like'].tolist())
+        mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
+        accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
+        precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
+        output = pd.concat([pd.DataFrame(data=[[run, 'RF', 'accuracy', accuracy]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'RF', 'precision', precision]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'RF->recModel', 'map', map_value]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'RF->recModel', 'mrr', mrr_value]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'RF->recModel', 'precision_cos', precision_value]],
+                                         columns=GlobalVariable.results_column_name)
+                            ])
+        return output
+
+    @staticmethod
+    def train_decision_tree(x_train, x_test, y_train, y_test, run):
+        """
+        Função de treino do classificador Naive Bayes que retorna uma instancia treinada
+        :param x_train: Dados de treinamento
+        :param y_train: Classes dos dados de treinamento
+        :return: Classificador treinado
+        """
+        clf = DecisionTreeClassifier(criterion='entropy')
+        clf = clf.fit(x_train, y_train)
+        y_pred = clf.predict(x_test)
+        test_results = pd.DataFrame(data=[], index=x_test.index.values.tolist())
+        test_results['pred_like'] = y_pred
+        test_results['original_like'] = y_test
+        positive_pred = test_results[test_results['pred_like'] == True]
+        candidate_songs = x_test.loc[positive_pred.index.values.tolist()]
+        if len(candidate_songs) == 0:
+            logging.info("User has no candidate songs!")
+        user_set = pd.concat([x_train, candidate_songs])
+        cos = pd.DataFrame(data=np.matrix(cosine_similarity(X=user_set)), columns=user_set.index.tolist(),
+                           index=user_set.index.tolist())
+        user_list = UserAverageController.start_ranking(similarity_data_df=cos,
+                                                        user_model_ids=x_train.index.values.tolist(),
+                                                        song_model_ids=candidate_songs.index.values.tolist())
+        user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
+        map_value = MAPController.get_ap_from_list(user_results_df['original_like'].tolist())
+        mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
+        accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
+        precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
+        output = pd.concat([pd.DataFrame(data=[[run, 'DC', 'accuracy', accuracy]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'DC', 'precision', precision]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'DC->recModel', 'map', map_value]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'DC->recModel', 'mrr', mrr_value]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'DC->recModel', 'precision_cos', precision_value]],
+                                         columns=GlobalVariable.results_column_name)
+                            ])
+        return output
+
+    @staticmethod
+    def train_svm_svc(x_train, x_test, y_train, y_test, run):
+        """
+        Função de treino do classificador Naive Bayes que retorna uma instancia treinada
+        :param x_train: Dados de treinamento
+        :param y_train: Classes dos dados de treinamento
+        :return: Classificador treinado
+        """
+        clf = SVC(gamma='scale', decision_function_shape='ovo')
+        clf = clf.fit(x_train, y_train)
+        y_pred = clf.predict(x_test)
+        test_results = pd.DataFrame(data=[], index=x_test.index.values.tolist())
+        test_results['pred_like'] = y_pred
+        test_results['original_like'] = y_test
+        positive_pred = test_results[test_results['pred_like'] == True]
+        candidate_songs = x_test.loc[positive_pred.index.values.tolist()]
+        if len(candidate_songs) == 0:
+            logging.info("User has no candidate songs!")
+        user_set = pd.concat([x_train, candidate_songs])
+        cos = pd.DataFrame(data=np.matrix(cosine_similarity(X=user_set)), columns=user_set.index.tolist(),
+                           index=user_set.index.tolist())
+        user_list = UserAverageController.start_ranking(similarity_data_df=cos,
+                                                        user_model_ids=x_train.index.values.tolist(),
+                                                        song_model_ids=candidate_songs.index.values.tolist())
+        user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
+        map_value = MAPController.get_ap_from_list(user_results_df['original_like'].tolist())
+        mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
+        accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
+        precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
+        output = pd.concat([pd.DataFrame(data=[[run, 'SVC', 'accuracy', accuracy]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'SVC', 'precision', precision]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'SVC->recModel', 'map', map_value]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'SVC->recModel', 'mrr', mrr_value]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'SVC->recModel', 'precision_cos', precision_value]],
+                                         columns=GlobalVariable.results_column_name)
+                            ])
+        return output
+
     @staticmethod
     def train_naive_bayes(x_train, x_test, y_train, y_test, run):
         """
@@ -42,16 +214,18 @@ class MachineAlgorithms:
                                                         song_model_ids=candidate_songs.index.values.tolist())
         user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
         map_value = MAPController.get_ap_from_list(user_results_df['original_like'].tolist())
+        mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
         accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
-        output = pd.concat([pd.DataFrame(data=[[run, 'GaussianNB', 'accuracy', accuracy]],
+        precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
+        output = pd.concat([pd.DataFrame(data=[[run, 'GNB', 'accuracy', accuracy]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'GaussianNB', 'precision', precision]],
+                            pd.DataFrame(data=[[run, 'GNB', 'precision', precision]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'GaussianNB->COS', 'map', map_value]],
+                            pd.DataFrame(data=[[run, 'GNB->recModel', 'map', map_value]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'GaussianNB->COS', 'precision_cos',
-                                                precision_score(positive_pred['original_like'],
-                                                                positive_pred['pred_like'], average='micro')]],
+                            pd.DataFrame(data=[[run, 'GNB->recModel', 'mrr', mrr_value]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'GNB->recModel', 'precision_cos', precision_value]],
                                          columns=GlobalVariable.results_column_name)
                             ])
         return output
@@ -83,32 +257,21 @@ class MachineAlgorithms:
                                                         song_model_ids=candidate_songs.index.values.tolist())
         user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
         map_value = MAPController.get_ap_from_list(user_results_df['original_like'].tolist())
+        mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
         accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
+        precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
         output = pd.concat([pd.DataFrame(data=[[run, 'KNN', 'accuracy', accuracy]],
                                          columns=GlobalVariable.results_column_name),
                             pd.DataFrame(data=[[run, 'KNN', 'precision', precision]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'KNN->COS', 'map', map_value]],
+                            pd.DataFrame(data=[[run, 'KNN->recModel', 'map', map_value]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'KNN->COS', 'precision_cos',
-                                                precision_score(positive_pred['original_like'],
-                                                                positive_pred['pred_like'], average='micro')]],
+                            pd.DataFrame(data=[[run, 'KNN->recModel', 'mrr', mrr_value]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'DC->recModel', 'precision_cos', precision_value]],
                                          columns=GlobalVariable.results_column_name)
                             ])
         return output
-
-    @staticmethod
-    def train_tree(x_train, y_train):
-        """
-        Função de treino do classificador Decision Tree que retorna uma instancia treinada
-        As constantes estão no arquivo de variaveis de sistema
-        :param x_train: Dados de treinamento
-        :param y_train: Classes dos dados de treinamento
-        :return: Classificador treinado
-        """
-        clf = DecisionTreeClassifier(criterion="entropy")
-        clf = clf.fit(x_train, y_train)
-        return clf
 
     @staticmethod
     def train_perceptron(x_train, x_test, y_train, y_test, run):
@@ -137,16 +300,18 @@ class MachineAlgorithms:
                                                         song_model_ids=candidate_songs.index.values.tolist())
         user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
         map_value = MAPController.get_ap_from_list(user_results_df['original_like'].tolist())
+        mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
         accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
-        output = pd.concat([pd.DataFrame(data=[[run, 'Perceptron', 'accuracy', accuracy]],
+        precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
+        output = pd.concat([pd.DataFrame(data=[[run, 'PERC', 'accuracy', accuracy]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'Perceptron', 'precision', precision]],
+                            pd.DataFrame(data=[[run, 'PERC', 'precision', precision]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'Perceptron->COS', 'map', map_value]],
+                            pd.DataFrame(data=[[run, 'PERC->recModel', 'map', map_value]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'Perceptron->COS', 'precision_cos',
-                                                precision_score(positive_pred['original_like'],
-                                                                positive_pred['pred_like'], average='micro')]],
+                            pd.DataFrame(data=[[run, 'PERC->recModel', 'mrr', mrr_value]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'DC->recModel', 'precision_cos', precision_value]],
                                          columns=GlobalVariable.results_column_name)
                             ])
         return output
@@ -178,16 +343,18 @@ class MachineAlgorithms:
                                                         song_model_ids=candidate_songs.index.values.tolist())
         user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
         map_value = MAPController.get_ap_from_list(user_results_df['original_like'].tolist())
+        mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
         accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
+        precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
         output = pd.concat([pd.DataFrame(data=[[run, 'MLP', 'accuracy', accuracy]],
                                          columns=GlobalVariable.results_column_name),
                             pd.DataFrame(data=[[run, 'MLP', 'precision', precision]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'MLP->COS', 'map', map_value]],
+                            pd.DataFrame(data=[[run, 'MLP->recModel', 'map', map_value]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'MLP->COS', 'precision_cos',
-                                                precision_score(positive_pred['original_like'],
-                                                                positive_pred['pred_like'], average='micro')]],
+                            pd.DataFrame(data=[[run, 'MLP->recModel', 'mrr', mrr_value]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'MLP->recModel', 'precision_cos', precision_value]],
                                          columns=GlobalVariable.results_column_name)
                             ])
         return output
@@ -203,9 +370,14 @@ class MachineAlgorithms:
                                                         user_model_ids=x_train_data.index.values.tolist(),
                                                         song_model_ids=x_test_data.index.values.tolist())
         user_results_df = pd.concat([user_list, test_df], axis=1, sort=False, join='inner')
-        return pd.DataFrame(
-            data=[[run, 'COS', 'map', MAPController.get_ap_from_list(user_results_df['like'].tolist())]],
-            columns=GlobalVariable.results_column_name)
+        map_value = MAPController.get_ap_from_list(user_results_df['like'].tolist())
+        mrr_value = MRRController.get_rr_from_list(user_results_df['like'].tolist())
+        output = pd.concat([pd.DataFrame(data=[[run, 'recModel', 'map', map_value]],
+                                         columns=GlobalVariable.results_column_name),
+                            pd.DataFrame(data=[[run, 'recModel', 'mrr', mrr_value]],
+                                         columns=GlobalVariable.results_column_name)
+                            ])
+        return output
 
     @staticmethod
     def evaluate(y_pred, y_test):
@@ -222,6 +394,10 @@ class MachineAlgorithms:
         result_df = MachineAlgorithms.train_knn(x_train, x_test, y_train, y_test, run)
         result_df = pd.concat([result_df, MachineAlgorithms.train_perceptron(x_train, x_test, y_train, y_test, run)])
         result_df = pd.concat([result_df, MachineAlgorithms.train_mlp(x_train, x_test, y_train, y_test, run)])
+        result_df = pd.concat([result_df, MachineAlgorithms.train_decision_tree(x_train, x_test, y_train, y_test, run)])
+        result_df = pd.concat([result_df, MachineAlgorithms.train_random_forest(x_train, x_test, y_train, y_test, run)])
         result_df = pd.concat([result_df, MachineAlgorithms.train_naive_bayes(x_train, x_test, y_train, y_test, run)])
+        result_df = pd.concat([result_df, MachineAlgorithms.train_svm_svc(x_train, x_test, y_train, y_test, run)])
+        # result_df = pd.concat([result_df, MachineAlgorithms.train_linear_regressor(x_train, x_test, y_train, y_test, run)])
         return pd.concat([result_df, MachineAlgorithms.user_average(x_train_data=x_train, x_test_data=x_test,
                                                                     y_test_label=y_test, run=run)])

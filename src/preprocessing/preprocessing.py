@@ -25,5 +25,5 @@ class Preprocessing:
         return DataMining.load_song_set(), DataMining.load_user_set()
 
     @staticmethod
-    def load_data_test():
-        return DataMining.load_set_test()
+    def load_data_test(scenario):
+        return DataMining.load_set_test(scenario)

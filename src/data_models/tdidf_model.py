@@ -6,6 +6,7 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 
 
 class FrequencyModel:
+    logger = logging.getLogger(__name__)
     @staticmethod
     def tf_as_matrix(sentence_list):
         """
@@ -34,9 +35,9 @@ class FrequencyModel:
         :return:
         """
         # print(original_dataset.head())
-        logging.info("Gerando matrix do TF-IDF...")
+        FrequencyModel.logger.info("Gerando matrix do TF-IDF...")
         tfidf_matrix, word_position = FrequencyModel.tf_as_matrix(sentence_list=original_dataset['stem_data'].tolist())
-        logging.info("Adicionando nome das colunas e as index na matrix TF-IDF")
+        FrequencyModel.logger.info("Adicionando nome das colunas e as index na matrix TF-IDF")
         index_list = original_dataset.song_id.tolist()
         columns_label = [a for a, v in sorted(word_position, key=lambda k: (k[1], k[0]))]
         # data_entry = np.matrix(tfidf_matrix)

@@ -7,6 +7,8 @@ from src.globalVariable import GlobalVariable
 
 
 class Vote:
+    logger = logging.getLogger(__name__)
+
     def __init__(self, user_preference_df):
         self.user_preference_df = user_preference_df
 
@@ -26,7 +28,7 @@ class Vote:
         pass
 
     def main_start(self):
-        logging.info("Iniciando o processo de votação...")
+        Vote.logger.info("Iniciando o processo de votação...")
         self.user_preference_df['like'] = None
         split_preference = [(user_id, self.user_preference_df[self.user_preference_df['user_id'] == user_id]) for
                             user_id in self.user_preference_df['user_id'].unique().tolist()]
@@ -35,6 +37,6 @@ class Vote:
                                  split_preference)
         pool.close()
         pool.join()
-        logging.info("Votação finalizada!")
-        logging.info("Realizando merge nos resultados...")
+        Vote.logger.info("Votação finalizada!")
+        Vote.logger.info("Realizando merge nos resultados...")
         return pd.concat(result_df, sort=False)

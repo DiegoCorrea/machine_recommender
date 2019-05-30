@@ -10,6 +10,7 @@ from src.preprocessing.vote import Vote
 class DataMining:
     raw_data_path = os.getcwd() + "/data/original_set/"
     clean_data_path = os.getcwd() + "/data/clean_set/"
+    logger = logging.getLogger(__name__)
 
     def __init__(self):
         self.__song_df = None
@@ -94,16 +95,16 @@ class DataMining:
         pass
 
     @staticmethod
-    def load_set_test():
-        logging.info("Carregando músicas e realizando sample...")
+    def load_set_test(scenario_size):
+        DataMining.logger.info("Carregando músicas e realizando sample...")
         song_df = pd.read_csv(DataMining.clean_data_path + 'songs.csv')
         song_df.set_index("track_id", drop=True, inplace=True)
-        song_sample = song_df.sample(n=GlobalVariable.song_sample_number,
+        song_sample = song_df.sample(n=scenario_size,
                                      random_state=GlobalVariable.sample_random_state)
         # load users
-        logging.info("Carregando usuários...")
+        DataMining.logger.info("Carregando usuários...")
         users_preferences_df = pd.read_csv(DataMining.clean_data_path + 'play_count.csv')
-        logging.info("Filtrando usuários...")
+        DataMining.logger.info("Filtrando usuários...")
         user_sample = users_preferences_df[
             users_preferences_df['song_id'].isin(song_sample['song_id'].tolist())
         ]
@@ -112,7 +113,7 @@ class DataMining:
         user_sample = user_sample[
             user_sample['user_id'].isin(select_user)
         ]
-        logging.info("Realizando votação do usuário...")
+        DataMining.logger.info("Realizando votação do usuário...")
         vote = Vote(user_sample)
         user_sample = vote.main_start()
         return song_sample, user_sample

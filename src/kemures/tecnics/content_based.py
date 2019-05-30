@@ -5,17 +5,17 @@ import pandas as pd
 
 from src.evaluations.validation import Validation
 from src.globalVariable import GlobalVariable
-# from src.machine_learning.manual_config import MachineAlgorithms
 from src.machine_learning.sklearn_config import MachineAlgorithms
 
 
 class ContentBased:
+    logger = logging.getLogger(__name__)
     @staticmethod
-    def run_recommenders(users_dataset_df, freq_model):
+    def run_recommenders(users_dataset_df, freq_model, scenario):
         class_balance_check = pd.DataFrame(data=[], columns=['round', 'positive', 'negative'])
         results_df = pd.DataFrame(data=[], columns=GlobalVariable.results_column_name)
         for i in range(GlobalVariable.execution_times):
-            logging.info("Rodada " + str(i + 1))
+            ContentBased.logger.info("Rodada " + str(i + 1))
             users_results_df = pd.DataFrame(data=[], columns=GlobalVariable.results_column_name)
             for user_id in users_dataset_df.user_id.unique().tolist():
                 user_preference = users_dataset_df[users_dataset_df['user_id'] == user_id]
@@ -35,8 +35,6 @@ class ContentBased:
                 )
                 x_train_data, x_test_data, y_train_label, y_test_label = Validation.split_data(
                     user_preference['song_id'].values.tolist(), user_preference['like'].values.tolist())
-                # x_train_data, x_test_data, y_train_label, y_test_label = Validation.stratified_split_data(
-                #     user_preference['song_id'].values, user_preference['like'].values)
                 users_results_df = pd.concat(
                     [
                         users_results_df,
@@ -45,7 +43,8 @@ class ContentBased:
                             x_test=freq_model.loc[x_test_data],
                             y_train=y_train_label,
                             y_test=y_test_label,
-                            run=i + 1
+                            run=i + 1,
+                            scenario=scenario
                         )
                     ]
                 )
@@ -53,14 +52,14 @@ class ContentBased:
             results_df = pd.concat(
                 [
                     results_df,
-                    ContentBased.users_result_generate(users_results_df, i + 1)
+                    ContentBased.users_result_generate(users_results_df, i + 1, scenario)
                 ]
             )
             gc.collect()
         return class_balance_check, results_df
 
     @staticmethod
-    def users_result_generate(users_results_df, run):
+    def users_result_generate(users_results_df, run, scenario):
         result_df = pd.DataFrame(data=[], columns=GlobalVariable.results_column_name)
         for algorithm in users_results_df['algorithm'].unique().tolist():
             algorithm_subset = users_results_df[users_results_df['algorithm'] == algorithm]
@@ -68,7 +67,7 @@ class ContentBased:
                 metric_subset = algorithm_subset[algorithm_subset['metric'] == metric]
                 result_df = pd.concat([
                     result_df,
-                    pd.DataFrame(data=[[run, algorithm, metric, metric_subset['value'].mean()]],
+                    pd.DataFrame(data=[[run, scenario, algorithm, metric, metric_subset['value'].mean()]],
                                  columns=GlobalVariable.results_column_name)
                 ])
         return result_df

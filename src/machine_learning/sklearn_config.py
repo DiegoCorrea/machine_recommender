@@ -21,7 +21,7 @@ from src.kemures.recommenders.UserAverage.user_average_controller import UserAve
 
 class MachineAlgorithms:
     @staticmethod
-    def train_linear_regressor(x_train, x_test, y_train, y_test, run):
+    def train_linear_regressor(x_train, x_test, y_train, y_test, run, scenario):
         """
         Função de treino do classificador Naive Bayes que retorna uma instancia treinada
         :param x_train: Dados de treinamento
@@ -49,21 +49,21 @@ class MachineAlgorithms:
         mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
         accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
         precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
-        output = pd.concat([pd.DataFrame(data=[[run, 'LR', 'accuracy', accuracy]],
+        output = pd.concat([pd.DataFrame(data=[[run, scenario, 'LR', 'accuracy', accuracy]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'LR', 'precision', precision]],
+                            pd.DataFrame(data=[[run, scenario, 'LR', 'precision', precision]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'LR->recModel', 'map', map_value]],
+                            pd.DataFrame(data=[[run, scenario, 'LR->recModel', 'map', map_value]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'LR->recModel', 'mrr', mrr_value]],
+                            pd.DataFrame(data=[[run, scenario, 'LR->recModel', 'mrr', mrr_value]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'LR->recModel', 'precision_cos', precision_value]],
+                            pd.DataFrame(data=[[run, scenario, 'LR->recModel', 'precision_cos', precision_value]],
                                          columns=GlobalVariable.results_column_name)
                             ])
         return output
 
     @staticmethod
-    def train_random_forest(x_train, x_test, y_train, y_test, run):
+    def train_random_forest(x_train, x_test, y_train, y_test, run, scenario):
         """
         Função de treino do classificador Naive Bayes que retorna uma instancia treinada
         :param x_train: Dados de treinamento
@@ -91,21 +91,21 @@ class MachineAlgorithms:
         mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
         accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
         precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
-        output = pd.concat([pd.DataFrame(data=[[run, 'RF', 'accuracy', accuracy]],
+        output = pd.concat([pd.DataFrame(data=[[run, scenario, 'RF', 'accuracy', accuracy]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'RF', 'precision', precision]],
+                            pd.DataFrame(data=[[run, scenario, 'RF', 'precision', precision]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'RF->recModel', 'map', map_value]],
+                            pd.DataFrame(data=[[run, scenario, 'RF->recModel', 'map', map_value]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'RF->recModel', 'mrr', mrr_value]],
+                            pd.DataFrame(data=[[run, scenario, 'RF->recModel', 'mrr', mrr_value]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'RF->recModel', 'precision_cos', precision_value]],
+                            pd.DataFrame(data=[[run, scenario, 'RF->recModel', 'precision_cos', precision_value]],
                                          columns=GlobalVariable.results_column_name)
                             ])
         return output
 
     @staticmethod
-    def train_decision_tree(x_train, x_test, y_train, y_test, run):
+    def train_decision_tree(x_train, x_test, y_train, y_test, run, scenario):
         """
         Função de treino do classificador Naive Bayes que retorna uma instancia treinada
         :param x_train: Dados de treinamento
@@ -133,21 +133,21 @@ class MachineAlgorithms:
         mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
         accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
         precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
-        output = pd.concat([pd.DataFrame(data=[[run, 'DC', 'accuracy', accuracy]],
+        output = pd.concat([pd.DataFrame(data=[[run, scenario, 'DC', 'accuracy', accuracy]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'DC', 'precision', precision]],
+                            pd.DataFrame(data=[[run, scenario, 'DC', 'precision', precision]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'DC->recModel', 'map', map_value]],
+                            pd.DataFrame(data=[[run, scenario, 'DC->recModel', 'map', map_value]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'DC->recModel', 'mrr', mrr_value]],
+                            pd.DataFrame(data=[[run, scenario, 'DC->recModel', 'mrr', mrr_value]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'DC->recModel', 'precision_cos', precision_value]],
+                            pd.DataFrame(data=[[run, scenario, 'DC->recModel', 'precision_cos', precision_value]],
                                          columns=GlobalVariable.results_column_name)
                             ])
         return output
 
     @staticmethod
-    def train_svm_svc(x_train, x_test, y_train, y_test, run):
+    def train_svm_svc(x_train, x_test, y_train, y_test, run, scenario):
         """
         Função de treino do classificador Naive Bayes que retorna uma instancia treinada
         :param x_train: Dados de treinamento
@@ -175,21 +175,21 @@ class MachineAlgorithms:
         mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
         accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
         precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
-        output = pd.concat([pd.DataFrame(data=[[run, 'SVC', 'accuracy', accuracy]],
+        output = pd.concat([pd.DataFrame(data=[[run, scenario, 'SVC', 'accuracy', accuracy]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'SVC', 'precision', precision]],
+                            pd.DataFrame(data=[[run, scenario, 'SVC', 'precision', precision]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'SVC->recModel', 'map', map_value]],
+                            pd.DataFrame(data=[[run, scenario, 'SVC->recModel', 'map', map_value]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'SVC->recModel', 'mrr', mrr_value]],
+                            pd.DataFrame(data=[[run, scenario, 'SVC->recModel', 'mrr', mrr_value]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'SVC->recModel', 'precision_cos', precision_value]],
+                            pd.DataFrame(data=[[run, scenario, 'SVC->recModel', 'precision_cos', precision_value]],
                                          columns=GlobalVariable.results_column_name)
                             ])
         return output
 
     @staticmethod
-    def train_naive_bayes(x_train, x_test, y_train, y_test, run):
+    def train_naive_bayes(x_train, x_test, y_train, y_test, run, scenario):
         """
         Função de treino do classificador Naive Bayes que retorna uma instancia treinada
         :param x_train: Dados de treinamento
@@ -217,21 +217,21 @@ class MachineAlgorithms:
         mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
         accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
         precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
-        output = pd.concat([pd.DataFrame(data=[[run, 'GNB', 'accuracy', accuracy]],
+        output = pd.concat([pd.DataFrame(data=[[run, scenario, 'GNB', 'accuracy', accuracy]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'GNB', 'precision', precision]],
+                            pd.DataFrame(data=[[run, scenario, 'GNB', 'precision', precision]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'GNB->recModel', 'map', map_value]],
+                            pd.DataFrame(data=[[run, scenario, 'GNB->recModel', 'map', map_value]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'GNB->recModel', 'mrr', mrr_value]],
+                            pd.DataFrame(data=[[run, scenario, 'GNB->recModel', 'mrr', mrr_value]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'GNB->recModel', 'precision_cos', precision_value]],
+                            pd.DataFrame(data=[[run, scenario, 'GNB->recModel', 'precision_cos', precision_value]],
                                          columns=GlobalVariable.results_column_name)
                             ])
         return output
 
     @staticmethod
-    def train_knn(x_train, x_test, y_train, y_test, run):
+    def train_knn(x_train, x_test, y_train, y_test, run, scenario):
         """
         Função de treino do classificador KNN que retorna uma instancia treinada
         As constantes estão no arquivo de variaveis de sistema
@@ -260,21 +260,21 @@ class MachineAlgorithms:
         mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
         accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
         precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
-        output = pd.concat([pd.DataFrame(data=[[run, 'KNN', 'accuracy', accuracy]],
+        output = pd.concat([pd.DataFrame(data=[[run, scenario, 'KNN', 'accuracy', accuracy]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'KNN', 'precision', precision]],
+                            pd.DataFrame(data=[[run, scenario, 'KNN', 'precision', precision]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'KNN->recModel', 'map', map_value]],
+                            pd.DataFrame(data=[[run, scenario, 'KNN->recModel', 'map', map_value]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'KNN->recModel', 'mrr', mrr_value]],
+                            pd.DataFrame(data=[[run, scenario, 'KNN->recModel', 'mrr', mrr_value]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'DC->recModel', 'precision_cos', precision_value]],
+                            pd.DataFrame(data=[[run, scenario, 'DC->recModel', 'precision_cos', precision_value]],
                                          columns=GlobalVariable.results_column_name)
                             ])
         return output
 
     @staticmethod
-    def train_perceptron(x_train, x_test, y_train, y_test, run):
+    def train_perceptron(x_train, x_test, y_train, y_test, run, scenario):
         """
         Função de treino do classificador Perceptron que retorna uma instancia treinada
         As constantes estão no arquivo de variaveis de sistema
@@ -303,21 +303,21 @@ class MachineAlgorithms:
         mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
         accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
         precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
-        output = pd.concat([pd.DataFrame(data=[[run, 'PERC', 'accuracy', accuracy]],
+        output = pd.concat([pd.DataFrame(data=[[run, scenario, 'PERC', 'accuracy', accuracy]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'PERC', 'precision', precision]],
+                            pd.DataFrame(data=[[run, scenario, 'PERC', 'precision', precision]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'PERC->recModel', 'map', map_value]],
+                            pd.DataFrame(data=[[run, scenario, 'PERC->recModel', 'map', map_value]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'PERC->recModel', 'mrr', mrr_value]],
+                            pd.DataFrame(data=[[run, scenario, 'PERC->recModel', 'mrr', mrr_value]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'DC->recModel', 'precision_cos', precision_value]],
+                            pd.DataFrame(data=[[run, scenario, 'DC->recModel', 'precision_cos', precision_value]],
                                          columns=GlobalVariable.results_column_name)
                             ])
         return output
 
     @staticmethod
-    def train_mlp(x_train, x_test, y_train, y_test, run):
+    def train_mlp(x_train, x_test, y_train, y_test, run, scenario):
         """
         Função de treino do classificador Perceptron que retorna uma instancia treinada
         As constantes estão no arquivo de variaveis de sistema
@@ -346,21 +346,21 @@ class MachineAlgorithms:
         mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
         accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
         precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
-        output = pd.concat([pd.DataFrame(data=[[run, 'MLP', 'accuracy', accuracy]],
+        output = pd.concat([pd.DataFrame(data=[[run, scenario, 'MLP', 'accuracy', accuracy]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'MLP', 'precision', precision]],
+                            pd.DataFrame(data=[[run, scenario, 'MLP', 'precision', precision]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'MLP->recModel', 'map', map_value]],
+                            pd.DataFrame(data=[[run, scenario, 'MLP->recModel', 'map', map_value]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'MLP->recModel', 'mrr', mrr_value]],
+                            pd.DataFrame(data=[[run, scenario, 'MLP->recModel', 'mrr', mrr_value]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'MLP->recModel', 'precision_cos', precision_value]],
+                            pd.DataFrame(data=[[run, scenario, 'MLP->recModel', 'precision_cos', precision_value]],
                                          columns=GlobalVariable.results_column_name)
                             ])
         return output
 
     @staticmethod
-    def user_average(x_train_data, x_test_data, y_test_label, run):
+    def user_average(x_train_data, x_test_data, y_test_label, run, scenario):
         test_df = pd.DataFrame(data=[], index=x_test_data.index.values.tolist())
         test_df['like'] = y_test_label
         user_set = pd.concat([x_train_data, x_test_data])
@@ -372,9 +372,9 @@ class MachineAlgorithms:
         user_results_df = pd.concat([user_list, test_df], axis=1, sort=False, join='inner')
         map_value = MAPController.get_ap_from_list(user_results_df['like'].tolist())
         mrr_value = MRRController.get_rr_from_list(user_results_df['like'].tolist())
-        output = pd.concat([pd.DataFrame(data=[[run, 'recModel', 'map', map_value]],
+        output = pd.concat([pd.DataFrame(data=[[run, scenario, 'recModel', 'map', map_value]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, 'recModel', 'mrr', mrr_value]],
+                            pd.DataFrame(data=[[run, scenario, 'recModel', 'mrr', mrr_value]],
                                          columns=GlobalVariable.results_column_name)
                             ])
         return output
@@ -390,14 +390,18 @@ class MachineAlgorithms:
         return accuracy_score(y_test, y_pred), precision_score(y_test, y_pred, average='micro')
 
     @staticmethod
-    def main(x_train, x_test, y_train, y_test, run):
-        result_df = MachineAlgorithms.train_knn(x_train, x_test, y_train, y_test, run)
-        result_df = pd.concat([result_df, MachineAlgorithms.train_perceptron(x_train, x_test, y_train, y_test, run)])
-        result_df = pd.concat([result_df, MachineAlgorithms.train_mlp(x_train, x_test, y_train, y_test, run)])
-        result_df = pd.concat([result_df, MachineAlgorithms.train_decision_tree(x_train, x_test, y_train, y_test, run)])
-        result_df = pd.concat([result_df, MachineAlgorithms.train_random_forest(x_train, x_test, y_train, y_test, run)])
-        result_df = pd.concat([result_df, MachineAlgorithms.train_naive_bayes(x_train, x_test, y_train, y_test, run)])
-        result_df = pd.concat([result_df, MachineAlgorithms.train_svm_svc(x_train, x_test, y_train, y_test, run)])
-        # result_df = pd.concat([result_df, MachineAlgorithms.train_linear_regressor(x_train, x_test, y_train, y_test, run)])
+    def main(x_train, x_test, y_train, y_test, run, scenario):
+        result_df = MachineAlgorithms.train_knn(x_train, x_test, y_train, y_test, run, scenario)
+        result_df = pd.concat(
+            [result_df, MachineAlgorithms.train_perceptron(x_train, x_test, y_train, y_test, run, scenario)])
+        result_df = pd.concat([result_df, MachineAlgorithms.train_mlp(x_train, x_test, y_train, y_test, run, scenario)])
+        result_df = pd.concat(
+            [result_df, MachineAlgorithms.train_decision_tree(x_train, x_test, y_train, y_test, run, scenario)])
+        result_df = pd.concat(
+            [result_df, MachineAlgorithms.train_random_forest(x_train, x_test, y_train, y_test, run, scenario)])
+        result_df = pd.concat(
+            [result_df, MachineAlgorithms.train_naive_bayes(x_train, x_test, y_train, y_test, run, scenario)])
+        result_df = pd.concat(
+            [result_df, MachineAlgorithms.train_svm_svc(x_train, x_test, y_train, y_test, run, scenario)])
         return pd.concat([result_df, MachineAlgorithms.user_average(x_train_data=x_train, x_test_data=x_test,
-                                                                    y_test_label=y_test, run=run)])
+                                                                    y_test_label=y_test, run=run, scenario=scenario)])

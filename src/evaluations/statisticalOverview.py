@@ -64,50 +64,53 @@ class StatisticalOverview:
         Gera todos os gráficos. Para qualquer modelo e todas as métricas cria um gráfico com os algoritmos nas linhas
         :param results_df: Pandas DataFrame com cinco colunas: ['round', 'algorithm', 'metric', 'value']
         """
-        # Para cada metrica usada durante a validação dos algoritmos
-        for metric in results_df['metric'].unique().tolist():
-            # Cria e configura gráficos
-            plt.figure()
-            plt.figure(figsize=(10, 6))
-            plt.grid(True)
-            plt.rc('xtick', labelsize=14)
-            plt.rc('ytick', labelsize=14)
-            plt.xlabel('Rodada', fontsize=18)
-            plt.ylabel('Score', fontsize=18)
-            results_df_by_filter = results_df[results_df['metric'] == metric]
-            # Para cada algoritmo usado cria-se uma linha no gráfico com cores e formatos diferentes
-            n = results_df_by_filter['algorithm'].nunique()
-            for algorithm, style, colors, makers in zip(results_df_by_filter['algorithm'].unique().tolist(),
-                                                        GlobalVariable.GRAPH_STYLE[:n],
-                                                        GlobalVariable.GRAPH_COLORS[:n],
-                                                        GlobalVariable.GRAPH_MAKERS[:n]):
-                at_df = results_df[
-                    (results_df['algorithm'] == algorithm) &
-                    (results_df['metric'] == metric)]
-                at_df.sort_values("round")
-                plt.plot(
-                    at_df['round'],
-                    at_df['value'],
-                    linestyle=style,
-                    color=colors,
-                    marker=makers,
-                    label=algorithm
+        for scenario in results_df['scenario'].unique().tolist():
+            # Para cada metrica usada durante a validação dos algoritmos
+            results_df_by_scenario = results_df[results_df['scenario'] == scenario]
+            for metric in results_df_by_scenario['metric'].unique().tolist():
+                # Cria e configura gráficos
+                plt.figure()
+                plt.figure(figsize=(10, 6))
+                plt.grid(True)
+                plt.rc('xtick', labelsize=14)
+                plt.rc('ytick', labelsize=14)
+                plt.xlabel('Rodada', fontsize=18)
+                plt.ylabel('Score', fontsize=18)
+                results_df_by_scenario_metric = results_df_by_scenario[results_df_by_scenario['metric'] == metric]
+                # Para cada algoritmo usado cria-se uma linha no gráfico com cores e formatos diferentes
+                n = results_df_by_scenario_metric['algorithm'].nunique()
+                for algorithm, style, colors, makers in zip(
+                        results_df_by_scenario_metric['algorithm'].unique().tolist(),
+                        GlobalVariable.GRAPH_STYLE[:n],
+                        GlobalVariable.GRAPH_COLORS[:n],
+                        GlobalVariable.GRAPH_MAKERS[:n]):
+                    at_df = results_df_by_scenario_metric[results_df_by_scenario_metric['algorithm'] == algorithm]
+                    at_df.sort_values("round")
+                    plt.plot(
+                        at_df['round'],
+                        at_df['value'],
+                        linestyle=style,
+                        color=colors,
+                        marker=makers,
+                        label=algorithm
+                    )
+                # Configura legenda
+                lgd = plt.legend(loc=9, prop={'size': 18}, bbox_to_anchor=(0.5, -0.1), ncol=3)
+                plt.xticks(sorted(results_df['round'].unique().tolist()))
+                # Salva a figura com alta resolução e qualidade
+                plt.savefig(
+                    'results/'
+                    + str(scenario)
+                    + '_'
+                    + metric
+                    + '.png',
+                    format='png',
+                    dpi=300,
+                    quality=100,
+                    bbox_extra_artists=(lgd,),
+                    bbox_inches='tight'
                 )
-            # Configura legenda
-            lgd = plt.legend(loc=9, prop={'size': 18}, bbox_to_anchor=(0.5, -0.1), ncol=3)
-            plt.xticks(sorted(results_df['round'].unique().tolist()))
-            # Salva a figura com alta resolução e qualidade
-            plt.savefig(
-                'results/'
-                + metric
-                + '.png',
-                format='png',
-                dpi=300,
-                quality=100,
-                bbox_extra_artists=(lgd,),
-                bbox_inches='tight'
-            )
-            plt.close()
+                plt.close()
 
     @staticmethod
     def comparate(results_df):

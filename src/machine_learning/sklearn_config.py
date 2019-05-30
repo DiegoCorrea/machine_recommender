@@ -5,7 +5,6 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import Perceptron
-from sklearn.metrics import accuracy_score, precision_score
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
@@ -20,6 +19,20 @@ from src.kemures.recommenders.UserAverage.user_average_controller import UserAve
 
 
 class MachineAlgorithms:
+    @staticmethod
+    def rank_evaluation(run, scenario, algorithm, relevance_array):
+        output = pd.DataFrame()
+        map_score_list = MAPController.at_all_position(relevance_array)
+        mrr_score_list = MRRController.at_all_position(relevance_array)
+        for at, map_score, mrr_score in zip(GlobalVariable.AT_SIZE_LIST, map_score_list, mrr_score_list):
+            output = pd.concat([output,
+                                pd.DataFrame(data=[[run, scenario, algorithm, 'map', at, map_score]],
+                                             columns=GlobalVariable.results_column_name),
+                                pd.DataFrame(data=[[run, scenario, algorithm, 'mrr', at, mrr_score]],
+                                             columns=GlobalVariable.results_column_name)
+                                ])
+        return output
+
     @staticmethod
     def train_linear_regressor(x_train, x_test, y_train, y_test, run, scenario):
         """
@@ -47,17 +60,9 @@ class MachineAlgorithms:
         user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
         map_value = MAPController.get_ap_from_list(user_results_df['original_like'].tolist())
         mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
-        accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
-        precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
-        output = pd.concat([pd.DataFrame(data=[[run, scenario, 'LR', 'accuracy', accuracy]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'LR', 'precision', precision]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'LR->recModel', 'map', map_value]],
+        output = pd.concat([pd.DataFrame(data=[[run, scenario, 'LR->recModel', 'map', map_value]],
                                          columns=GlobalVariable.results_column_name),
                             pd.DataFrame(data=[[run, scenario, 'LR->recModel', 'mrr', mrr_value]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'LR->recModel', 'precision_cos', precision_value]],
                                          columns=GlobalVariable.results_column_name)
                             ])
         return output
@@ -87,22 +92,8 @@ class MachineAlgorithms:
                                                         user_model_ids=x_train.index.values.tolist(),
                                                         song_model_ids=candidate_songs.index.values.tolist())
         user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
-        map_value = MAPController.get_ap_from_list(user_results_df['original_like'].tolist())
-        mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
-        accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
-        precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
-        output = pd.concat([pd.DataFrame(data=[[run, scenario, 'RF', 'accuracy', accuracy]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'RF', 'precision', precision]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'RF->recModel', 'map', map_value]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'RF->recModel', 'mrr', mrr_value]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'RF->recModel', 'precision_cos', precision_value]],
-                                         columns=GlobalVariable.results_column_name)
-                            ])
-        return output
+        return MachineAlgorithms.rank_evaluation(run=run, scenario=scenario, algorithm="RF->recModel",
+                                                 relevance_array=user_results_df['original_like'].values.tolist())
 
     @staticmethod
     def train_decision_tree(x_train, x_test, y_train, y_test, run, scenario):
@@ -129,22 +120,8 @@ class MachineAlgorithms:
                                                         user_model_ids=x_train.index.values.tolist(),
                                                         song_model_ids=candidate_songs.index.values.tolist())
         user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
-        map_value = MAPController.get_ap_from_list(user_results_df['original_like'].tolist())
-        mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
-        accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
-        precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
-        output = pd.concat([pd.DataFrame(data=[[run, scenario, 'DC', 'accuracy', accuracy]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'DC', 'precision', precision]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'DC->recModel', 'map', map_value]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'DC->recModel', 'mrr', mrr_value]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'DC->recModel', 'precision_cos', precision_value]],
-                                         columns=GlobalVariable.results_column_name)
-                            ])
-        return output
+        return MachineAlgorithms.rank_evaluation(run=run, scenario=scenario, algorithm="AD->recModel",
+                                                 relevance_array=user_results_df['original_like'].values.tolist())
 
     @staticmethod
     def train_svm_svc(x_train, x_test, y_train, y_test, run, scenario):
@@ -171,22 +148,8 @@ class MachineAlgorithms:
                                                         user_model_ids=x_train.index.values.tolist(),
                                                         song_model_ids=candidate_songs.index.values.tolist())
         user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
-        map_value = MAPController.get_ap_from_list(user_results_df['original_like'].tolist())
-        mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
-        accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
-        precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
-        output = pd.concat([pd.DataFrame(data=[[run, scenario, 'SVC', 'accuracy', accuracy]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'SVC', 'precision', precision]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'SVC->recModel', 'map', map_value]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'SVC->recModel', 'mrr', mrr_value]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'SVC->recModel', 'precision_cos', precision_value]],
-                                         columns=GlobalVariable.results_column_name)
-                            ])
-        return output
+        return MachineAlgorithms.rank_evaluation(run=run, scenario=scenario, algorithm="SVC->recModel",
+                                                 relevance_array=user_results_df['original_like'].values.tolist())
 
     @staticmethod
     def train_naive_bayes(x_train, x_test, y_train, y_test, run, scenario):
@@ -213,22 +176,8 @@ class MachineAlgorithms:
                                                         user_model_ids=x_train.index.values.tolist(),
                                                         song_model_ids=candidate_songs.index.values.tolist())
         user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
-        map_value = MAPController.get_ap_from_list(user_results_df['original_like'].tolist())
-        mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
-        accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
-        precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
-        output = pd.concat([pd.DataFrame(data=[[run, scenario, 'GNB', 'accuracy', accuracy]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'GNB', 'precision', precision]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'GNB->recModel', 'map', map_value]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'GNB->recModel', 'mrr', mrr_value]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'GNB->recModel', 'precision_cos', precision_value]],
-                                         columns=GlobalVariable.results_column_name)
-                            ])
-        return output
+        return MachineAlgorithms.rank_evaluation(run=run, scenario=scenario, algorithm="GNB->recModel",
+                                                 relevance_array=user_results_df['original_like'].values.tolist())
 
     @staticmethod
     def train_knn(x_train, x_test, y_train, y_test, run, scenario):
@@ -256,22 +205,8 @@ class MachineAlgorithms:
                                                         user_model_ids=x_train.index.values.tolist(),
                                                         song_model_ids=candidate_songs.index.values.tolist())
         user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
-        map_value = MAPController.get_ap_from_list(user_results_df['original_like'].tolist())
-        mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
-        accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
-        precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
-        output = pd.concat([pd.DataFrame(data=[[run, scenario, 'KNN', 'accuracy', accuracy]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'KNN', 'precision', precision]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'KNN->recModel', 'map', map_value]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'KNN->recModel', 'mrr', mrr_value]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'DC->recModel', 'precision_cos', precision_value]],
-                                         columns=GlobalVariable.results_column_name)
-                            ])
-        return output
+        return MachineAlgorithms.rank_evaluation(run=run, scenario=scenario, algorithm="3NN->recModel",
+                                                 relevance_array=user_results_df['original_like'].values.tolist())
 
     @staticmethod
     def train_perceptron(x_train, x_test, y_train, y_test, run, scenario):
@@ -299,22 +234,8 @@ class MachineAlgorithms:
                                                         user_model_ids=x_train.index.values.tolist(),
                                                         song_model_ids=candidate_songs.index.values.tolist())
         user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
-        map_value = MAPController.get_ap_from_list(user_results_df['original_like'].tolist())
-        mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
-        accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
-        precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
-        output = pd.concat([pd.DataFrame(data=[[run, scenario, 'PERC', 'accuracy', accuracy]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'PERC', 'precision', precision]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'PERC->recModel', 'map', map_value]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'PERC->recModel', 'mrr', mrr_value]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'DC->recModel', 'precision_cos', precision_value]],
-                                         columns=GlobalVariable.results_column_name)
-                            ])
-        return output
+        return MachineAlgorithms.rank_evaluation(run=run, scenario=scenario, algorithm="PER->recModel",
+                                                 relevance_array=user_results_df['original_like'].values.tolist())
 
     @staticmethod
     def train_mlp(x_train, x_test, y_train, y_test, run, scenario):
@@ -342,27 +263,13 @@ class MachineAlgorithms:
                                                         user_model_ids=x_train.index.values.tolist(),
                                                         song_model_ids=candidate_songs.index.values.tolist())
         user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
-        map_value = MAPController.get_ap_from_list(user_results_df['original_like'].tolist())
-        mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
-        accuracy, precision = MachineAlgorithms.evaluate(y_pred, y_test)
-        precision_value = precision_score(positive_pred['original_like'], positive_pred['pred_like'], average='micro')
-        output = pd.concat([pd.DataFrame(data=[[run, scenario, 'MLP', 'accuracy', accuracy]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'MLP', 'precision', precision]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'MLP->recModel', 'map', map_value]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'MLP->recModel', 'mrr', mrr_value]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'MLP->recModel', 'precision_cos', precision_value]],
-                                         columns=GlobalVariable.results_column_name)
-                            ])
-        return output
+        return MachineAlgorithms.rank_evaluation(run=run, scenario=scenario, algorithm="MLP->recModel",
+                                                 relevance_array=user_results_df['original_like'].values.tolist())
 
     @staticmethod
     def user_average(x_train_data, x_test_data, y_test_label, run, scenario):
         test_df = pd.DataFrame(data=[], index=x_test_data.index.values.tolist())
-        test_df['like'] = y_test_label
+        test_df['original_like'] = y_test_label
         user_set = pd.concat([x_train_data, x_test_data])
         cos = pd.DataFrame(data=np.matrix(cosine_similarity(X=user_set)), columns=user_set.index.tolist(),
                            index=user_set.index.tolist())
@@ -370,24 +277,8 @@ class MachineAlgorithms:
                                                         user_model_ids=x_train_data.index.values.tolist(),
                                                         song_model_ids=x_test_data.index.values.tolist())
         user_results_df = pd.concat([user_list, test_df], axis=1, sort=False, join='inner')
-        map_value = MAPController.get_ap_from_list(user_results_df['like'].tolist())
-        mrr_value = MRRController.get_rr_from_list(user_results_df['like'].tolist())
-        output = pd.concat([pd.DataFrame(data=[[run, scenario, 'recModel', 'map', map_value]],
-                                         columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'recModel', 'mrr', mrr_value]],
-                                         columns=GlobalVariable.results_column_name)
-                            ])
-        return output
-
-    @staticmethod
-    def evaluate(y_pred, y_test):
-        """
-        Função que valida o treinamento com as métricas MAE e accuracy
-        :param y_pred: Entrada predita
-        :param y_test: Entrada real
-        :return: Um par: primeiro o valor do MAE, segundo o valor do accuracy
-        """
-        return accuracy_score(y_test, y_pred), precision_score(y_test, y_pred, average='micro')
+        return MachineAlgorithms.rank_evaluation(run=run, scenario=scenario, algorithm="recModel",
+                                                 relevance_array=user_results_df['original_like'].values.tolist())
 
     @staticmethod
     def main(x_train, x_test, y_train, y_test, run, scenario):

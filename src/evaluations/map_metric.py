@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from src.globalVariable import GlobalVariable
 
 
 class MAPController:
@@ -18,3 +19,7 @@ class MAPController:
             return ap / relevance_list_size
         else:
             return 0.0
+
+    @staticmethod
+    def at_all_position(relevance_array):
+        return [MAPController.get_ap_from_list(relevance_array[:at]) for at in GlobalVariable.AT_SIZE_LIST]

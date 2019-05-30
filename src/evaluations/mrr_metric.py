@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from src.globalVariable import GlobalVariable
 
 
 class MRRController:
@@ -11,3 +12,7 @@ class MRRController:
             if relevance_array[i]:
                 return 1 / (i + 1)
         return 0.0
+
+    @staticmethod
+    def at_all_position(relevance_array):
+        return [MRRController.get_rr_from_list(relevance_array[:at]) for at in GlobalVariable.AT_SIZE_LIST]

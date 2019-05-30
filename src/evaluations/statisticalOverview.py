@@ -74,7 +74,7 @@ class StatisticalOverview:
                 plt.grid(True)
                 plt.rc('xtick', labelsize=14)
                 plt.rc('ytick', labelsize=14)
-                plt.xlabel('Rodada', fontsize=18)
+                plt.xlabel('Tamanho da lista', fontsize=18)
                 plt.ylabel('Score', fontsize=18)
                 results_df_by_scenario_metric = results_df_by_scenario[results_df_by_scenario['metric'] == metric]
                 # Para cada algoritmo usado cria-se uma linha no gráfico com cores e formatos diferentes
@@ -84,11 +84,20 @@ class StatisticalOverview:
                         GlobalVariable.GRAPH_STYLE[:n],
                         GlobalVariable.GRAPH_COLORS[:n],
                         GlobalVariable.GRAPH_MAKERS[:n]):
-                    at_df = results_df_by_scenario_metric[results_df_by_scenario_metric['algorithm'] == algorithm]
-                    at_df.sort_values("round")
+                    results_df_by_scenario_metric_algorithm = results_df_by_scenario_metric[
+                        results_df_by_scenario_metric['algorithm'] == algorithm]
+                    results = dict()
+                    results['at'] = []
+                    results['value'] = []
+                    for at in results_df_by_scenario_metric_algorithm['at'].unique().tolist():
+                        at_df = results_df_by_scenario_metric_algorithm[
+                            results_df_by_scenario_metric_algorithm['at'] == at]
+                        results['at'].append(at)
+                        results['value'].append(at_df['value'].mean())
+                    print(results)
                     plt.plot(
-                        at_df['round'],
-                        at_df['value'],
+                        results['at'],
+                        results['value'],
                         linestyle=style,
                         color=colors,
                         marker=makers,
@@ -96,7 +105,7 @@ class StatisticalOverview:
                     )
                 # Configura legenda
                 lgd = plt.legend(loc=9, prop={'size': 18}, bbox_to_anchor=(0.5, -0.1), ncol=3)
-                plt.xticks(sorted(results_df['round'].unique().tolist()))
+                plt.xticks(sorted(GlobalVariable.AT_SIZE_LIST))
                 # Salva a figura com alta resolução e qualidade
                 plt.savefig(
                     'results/'
@@ -117,22 +126,20 @@ class StatisticalOverview:
         """
         :param results_df: Pandas DataFrame com seis colunas: ['round', 'algorithm', 'metric', 'value']
         """
-        for config in results_df['config'].unique().tolist():
-            # Para cada modelagem de dados
-            for model in results_df['model'].unique().tolist():
-                # Para cada metrica usada durante a validação dos algoritmos
-                for metric in results_df['metric'].unique().tolist():
-                    results_df_by_filter = results_df[
-                        (results_df['config'] == config) &
-                        (results_df['model'] == model) &
-                        (results_df['metric'] == metric)]
-                    # Para cada algoritmo usado
-                    for algorithm in results_df_by_filter['algorithm'].unique().tolist():
-                        at_df = results_df[
-                            (results_df['config'] == config) &
-                            (results_df['algorithm'] == algorithm) &
-                            (results_df['model'] == model) &
-                            (results_df['metric'] == metric)]
-                        print("Config; ", str(config), "\t| Algoritmo: ", str(algorithm), "\t| Model: ", str(model),
-                              "\t| Metrica: ", str(metric), "RESULT; ",
-                              str(at_df['value'].sum() / at_df['value'].count()))
+        for scenario in GlobalVariable.SCENARIO_SIZE_LIST:
+            # Para cada metrica usada durante a validação dos algoritmos
+            print("+ Cenário: ", str(scenario))
+            for metric in results_df['metric'].unique().tolist():
+                print("+ + Métrica: ", str(metric))
+                results_df_by_filter = results_df[
+                    (results_df['scenario'] == scenario) &
+                    (results_df['metric'] == metric)]
+                # Para cada algoritmo usado
+                for algorithm in results_df_by_filter['algorithm'].unique().tolist():
+                    at_df = results_df[
+                        (results_df['scenario'] == scenario) &
+                        (results_df['algorithm'] == algorithm) &
+                        (results_df['metric'] == metric)
+                        ]
+                    print("+ + + Algorithm: ", str(algorithm), " -> ",
+                          str(at_df['value'].sum() / at_df['value'].count()))

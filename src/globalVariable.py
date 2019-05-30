@@ -13,10 +13,10 @@ class GlobalVariable:
     test_set_size = 0.20
     path_logs = 'logs/logging.json'
     k_neighbors = 3
-    song_sample_number = 30000
+    song_sample_number = 10000
     sample_random_state = 50
-    results_column_name = ['round', 'scenario', 'algorithm', 'metric', 'value']
-    AT_SIZE_LIST = [1, 5, 10, 15, 20]
+    results_column_name = ['round', 'scenario', 'algorithm', 'metric', 'at', 'value']
+    AT_SIZE_LIST = [1, 3, 5, 7, 9, 11, 13, 15]
     SCENARIO_SIZE_LIST = [10000, 30000, 50000]
     GRAPH_STYLE = [':', '--', ':', '-', '-', '-', '--', ':', '--', '-.', '-.']
     GRAPH_COLORS = ['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray',

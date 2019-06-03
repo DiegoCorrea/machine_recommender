@@ -7,17 +7,17 @@ import os
 
 class GlobalVariable:
     processor_number = multiprocessing.cpu_count() - 1
-    execution_times = 5
-    user_min_song_list = 20
-    RECOMMENDATION_LIST_SIZE = 15
+    user_min_song_list = 30
     test_set_size = 0.20
     path_logs = 'logs/logging.json'
     k_neighbors = 3
     song_sample_number = 10000
     sample_random_state = 50
     results_column_name = ['round', 'scenario', 'algorithm', 'metric', 'at', 'value']
+    RUN_TIMES = 5
+    RECOMMENDATION_LIST_SIZE = 15
     AT_SIZE_LIST = [1, 3, 5, 7, 9, 11, 13, 15]
-    SCENARIO_SIZE_LIST = [10000, 30000, 50000]
+    SCENARIO_SIZE_LIST = [10000, 20000, 30000]
     GRAPH_STYLE = [':', '--', ':', '-', '-', '-', '--', ':', '--', '-.', '-.']
     GRAPH_COLORS = ['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray',
                     'tab:olive', 'tab:cyan', '#0F0F0F0F']

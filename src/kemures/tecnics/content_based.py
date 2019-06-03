@@ -1,6 +1,5 @@
 import logging
 
-import gc
 import pandas as pd
 
 from src.evaluations.validation import Validation
@@ -11,51 +10,42 @@ from src.machine_learning.sklearn_config import MachineAlgorithms
 class ContentBased:
     logger = logging.getLogger(__name__)
     @staticmethod
-    def run_recommenders(users_dataset_df, freq_model, scenario):
+    def run_recommenders(users_dataset_df, freq_model, scenario, run):
         class_balance_check = pd.DataFrame(data=[], columns=['round', 'positive', 'negative'])
-        results_df = pd.DataFrame(data=[], columns=GlobalVariable.results_column_name)
-        for i in range(GlobalVariable.execution_times):
-            ContentBased.logger.info("Rodada " + str(i + 1))
-            users_results_df = pd.DataFrame(data=[], columns=GlobalVariable.results_column_name)
-            for user_id in users_dataset_df.user_id.unique().tolist():
-                user_preference = users_dataset_df[users_dataset_df['user_id'] == user_id]
-                if user_preference['like'].nunique() == 1:
-                    continue
-                class_balance_check = pd.concat(
-                    [
-                        class_balance_check,
-                        pd.DataFrame(
-                            data=[[i + 1,
-                                   user_preference[user_preference['like'] == True].shape[0],
-                                   user_preference[user_preference['like'] == False].shape[0]
-                                   ]],
-                            columns=['round', 'positive', 'negative']
-                        )
-                    ]
-                )
-                x_train_data, x_test_data, y_train_label, y_test_label = Validation.split_data(
-                    user_preference['song_id'].values.tolist(), user_preference['like'].values.tolist())
-                users_results_df = pd.concat(
-                    [
-                        users_results_df,
-                        MachineAlgorithms.main(
-                            x_train=freq_model.loc[x_train_data],
-                            x_test=freq_model.loc[x_test_data],
-                            y_train=y_train_label,
-                            y_test=y_test_label,
-                            run=i + 1,
-                            scenario=scenario
-                        )
-                    ]
-                )
-            # ####
-            results_df = pd.concat(
+        users_results_df = pd.DataFrame(data=[], columns=GlobalVariable.results_column_name)
+        for user_id in users_dataset_df.user_id.unique().tolist():
+            user_preference = users_dataset_df[users_dataset_df['user_id'] == user_id]
+            if user_preference['like'].nunique() == 1:
+                continue
+            class_balance_check = pd.concat(
                 [
-                    results_df,
-                    ContentBased.users_result_generate(users_results_df, i + 1, scenario)
+                    class_balance_check,
+                    pd.DataFrame(
+                        data=[[run,
+                               user_preference[user_preference['like'] == True].shape[0],
+                               user_preference[user_preference['like'] == False].shape[0]
+                               ]],
+                        columns=['round', 'positive', 'negative']
+                    )
                 ]
             )
-            gc.collect()
+            x_train_data, x_test_data, y_train_label, y_test_label = Validation.split_data(
+                user_preference['song_id'].values.tolist(), user_preference['like'].values.tolist())
+            users_results_df = pd.concat(
+                [
+                    users_results_df,
+                    MachineAlgorithms.main(
+                        x_train=freq_model.loc[x_train_data],
+                        x_test=freq_model.loc[x_test_data],
+                        y_train=y_train_label,
+                        y_test=y_test_label,
+                        run=run,
+                        scenario=scenario
+                    )
+                ]
+            )
+        # ####
+        results_df = ContentBased.users_result_generate(users_results_df, run, scenario)
         return class_balance_check, results_df
 
     @staticmethod

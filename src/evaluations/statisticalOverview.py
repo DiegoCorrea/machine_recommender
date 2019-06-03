@@ -1,6 +1,7 @@
 import logging
 
 import matplotlib.pyplot as plt
+import numpy as np
 
 from src.globalVariable import GlobalVariable
 
@@ -31,30 +32,11 @@ class StatisticalOverview:
         logging.info("=" * 50)
 
     @staticmethod
-    def tfidf_info(df):
-        logging.info("*" * 50)
-        logging.info("*" * 50)
-        df.info(memory_usage='deep')
-        logging.info("\n" + str(df.head(5)))
-        logging.info("=" * 50)
-        logging.info("=" * 50)
-
-    @staticmethod
     def result_info(df):
         logging.info("*" * 50)
         logging.info("*" * 50)
         df.info(memory_usage='deep')
         logging.info("\n" + str(df.head(5)))
-        logging.info("=" * 50)
-        logging.info("=" * 50)
-
-    @staticmethod
-    def class_balance_check(df):
-        logging.info("*" * 50)
-        logging.info("*" * 50)
-        logging.info("\n" + str(df.tail(5)))
-        logging.info("Positive: " + str(df['positive'].sum()))
-        logging.info("Negative: " + str(df['negative'].sum()))
         logging.info("=" * 50)
         logging.info("=" * 50)
 
@@ -142,4 +124,35 @@ class StatisticalOverview:
                         (results_df['metric'] == metric)
                         ]
                     print("+ + + Algorithm: ", str(algorithm), " -> ",
-                          str(at_df['value'].sum() / at_df['value'].count()))
+                          str(at_df['value'].mean()))
+
+    @staticmethod
+    def scenario_compare(df):
+        for metric in df['metric'].unique().tolist():
+            plt.figure()
+            values = []
+            labels = []
+            print("+ + Métrica: ", str(metric))
+            results_df_by_filter = df[df['metric'] == metric]
+            # Para cada algoritmo usado
+            for algorithm in results_df_by_filter['algorithm'].unique().tolist():
+                at_df = df[
+                    (df['algorithm'] == algorithm) &
+                    (df['metric'] == metric)
+                    ]
+                labels.append(algorithm)
+                values.append(at_df['value'].mean())
+            y_pos = np.arange(len(labels))
+            plt.bar(y_pos, values, align='center', alpha=0.5)
+            plt.xticks(y_pos, labels)
+            plt.ylabel('Score')
+            plt.savefig(
+                'results/'
+                + 'final_compare_'
+                + metric
+                + '.png',
+                format='png',
+                dpi=300,
+                quality=100
+            )
+            plt.close()

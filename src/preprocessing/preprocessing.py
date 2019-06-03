@@ -1,5 +1,7 @@
 import logging
 
+import matplotlib.pyplot as plt
+
 from .data_mining import DataMining
 from .textual_clean import TextualClean
 
@@ -27,3 +29,21 @@ class Preprocessing:
     @staticmethod
     def load_data_test(scenario):
         return DataMining.load_set_test(scenario)
+
+    @staticmethod
+    def database_evaluate_graph():
+        user_preference_base_df = DataMining.load_user_set()
+        x = user_preference_base_df.sort_values(by=['play_count'])
+        plt.figure()
+        plt.xlabel('Preferência do usuário normalizada')
+        plt.ylabel('Quantidade')
+        data = (x['play_count'].values.tolist() / x['play_count'].max())
+        plt.hist(data, bins=100, alpha=0.5,
+                 histtype='bar', color='steelblue',
+                 edgecolor='black')
+        plt.grid(axis='y')
+        plt.savefig(
+            'results/'
+            + 'user_play_count_histo.eps', format='eps', dpi=300
+        )
+        plt.close()

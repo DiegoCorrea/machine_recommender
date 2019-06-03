@@ -60,9 +60,9 @@ class MachineAlgorithms:
         user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
         map_value = MAPController.get_ap_from_list(user_results_df['original_like'].tolist())
         mrr_value = MRRController.get_rr_from_list(user_results_df['original_like'].tolist())
-        output = pd.concat([pd.DataFrame(data=[[run, scenario, 'LR->recModel', 'map', map_value]],
+        output = pd.concat([pd.DataFrame(data=[[run, scenario, 'LR', 'map', map_value]],
                                          columns=GlobalVariable.results_column_name),
-                            pd.DataFrame(data=[[run, scenario, 'LR->recModel', 'mrr', mrr_value]],
+                            pd.DataFrame(data=[[run, scenario, 'LR', 'mrr', mrr_value]],
                                          columns=GlobalVariable.results_column_name)
                             ])
         return output
@@ -92,7 +92,7 @@ class MachineAlgorithms:
                                                         user_model_ids=x_train.index.values.tolist(),
                                                         song_model_ids=candidate_songs.index.values.tolist())
         user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
-        return MachineAlgorithms.rank_evaluation(run=run, scenario=scenario, algorithm="RF->recModel",
+        return MachineAlgorithms.rank_evaluation(run=run, scenario=scenario, algorithm="RF",
                                                  relevance_array=user_results_df['original_like'].values.tolist())
 
     @staticmethod
@@ -120,7 +120,7 @@ class MachineAlgorithms:
                                                         user_model_ids=x_train.index.values.tolist(),
                                                         song_model_ids=candidate_songs.index.values.tolist())
         user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
-        return MachineAlgorithms.rank_evaluation(run=run, scenario=scenario, algorithm="AD->recModel",
+        return MachineAlgorithms.rank_evaluation(run=run, scenario=scenario, algorithm="AD",
                                                  relevance_array=user_results_df['original_like'].values.tolist())
 
     @staticmethod
@@ -148,7 +148,7 @@ class MachineAlgorithms:
                                                         user_model_ids=x_train.index.values.tolist(),
                                                         song_model_ids=candidate_songs.index.values.tolist())
         user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
-        return MachineAlgorithms.rank_evaluation(run=run, scenario=scenario, algorithm="SVC->recModel",
+        return MachineAlgorithms.rank_evaluation(run=run, scenario=scenario, algorithm="SVC",
                                                  relevance_array=user_results_df['original_like'].values.tolist())
 
     @staticmethod
@@ -176,7 +176,7 @@ class MachineAlgorithms:
                                                         user_model_ids=x_train.index.values.tolist(),
                                                         song_model_ids=candidate_songs.index.values.tolist())
         user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
-        return MachineAlgorithms.rank_evaluation(run=run, scenario=scenario, algorithm="GNB->recModel",
+        return MachineAlgorithms.rank_evaluation(run=run, scenario=scenario, algorithm="GNB",
                                                  relevance_array=user_results_df['original_like'].values.tolist())
 
     @staticmethod
@@ -205,7 +205,7 @@ class MachineAlgorithms:
                                                         user_model_ids=x_train.index.values.tolist(),
                                                         song_model_ids=candidate_songs.index.values.tolist())
         user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
-        return MachineAlgorithms.rank_evaluation(run=run, scenario=scenario, algorithm="3NN->recModel",
+        return MachineAlgorithms.rank_evaluation(run=run, scenario=scenario, algorithm="3NN",
                                                  relevance_array=user_results_df['original_like'].values.tolist())
 
     @staticmethod
@@ -234,7 +234,7 @@ class MachineAlgorithms:
                                                         user_model_ids=x_train.index.values.tolist(),
                                                         song_model_ids=candidate_songs.index.values.tolist())
         user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
-        return MachineAlgorithms.rank_evaluation(run=run, scenario=scenario, algorithm="PER->recModel",
+        return MachineAlgorithms.rank_evaluation(run=run, scenario=scenario, algorithm="PER",
                                                  relevance_array=user_results_df['original_like'].values.tolist())
 
     @staticmethod
@@ -263,7 +263,7 @@ class MachineAlgorithms:
                                                         user_model_ids=x_train.index.values.tolist(),
                                                         song_model_ids=candidate_songs.index.values.tolist())
         user_results_df = pd.concat([user_list, positive_pred], axis=1, sort=False)
-        return MachineAlgorithms.rank_evaluation(run=run, scenario=scenario, algorithm="MLP->recModel",
+        return MachineAlgorithms.rank_evaluation(run=run, scenario=scenario, algorithm="MLP",
                                                  relevance_array=user_results_df['original_like'].values.tolist())
 
     @staticmethod

@@ -145,7 +145,9 @@ class StatisticalOverview:
             y_pos = np.arange(len(labels))
             plt.bar(y_pos, values, align='center', alpha=0.5)
             plt.xticks(y_pos, labels)
+            plt.grid(axis='y')
             plt.ylabel('Score')
+            plt.xticks(rotation=30)
             plt.savefig(
                 'results/'
                 + 'final_compare_'

@@ -1,6 +1,5 @@
 import logging
 import re
-from multiprocessing import Pool
 
 import contractions
 import inflect
@@ -10,8 +9,6 @@ import unicodedata
 from bs4 import BeautifulSoup
 from nltk.corpus import stopwords
 from nltk.stem import LancasterStemmer, WordNetLemmatizer
-
-from src.globalVariable import GlobalVariable
 
 
 class TextualClean:
@@ -160,16 +157,11 @@ class TextualClean:
 
     @staticmethod
     def preprocessing_apply(song_df):
-        logging.info("Aplicando Limpeza 1")
         sample = TextualClean.strip_html(song_df['data'])
-        logging.info("Aplicando Limpeza 2")
         # sample = remove_between_square_brackets(sample)
         sample = TextualClean.replace_contractions(sample)
-        logging.info("Aplicando Limpeza 3")
         bag_words = nltk.word_tokenize(sample)
-        logging.info("Aplicando Limpeza 4")
         words = TextualClean.normalize(bag_words)
-        logging.info("Aplicando Limpeza 5")
         stems = TextualClean.stem_and_lemmatize(words)
         song_df['stem_data'] = " ".join(str(x) for x in stems)
         # split_dataset_df.at[index, 'lemma_sentence'] = lemmas
@@ -179,13 +171,16 @@ class TextualClean:
     def main_start(dataset_df):
         df = TextualClean.concat_fields(dataset_df)
         logging.info("Finalizando unificação")
-        pool = Pool(GlobalVariable.processor_number)
-        result = pool.map(TextualClean.preprocessing_apply,
-                          df)
-        pool.close()
-        pool.join()
+        # pool = Pool(GlobalVariable.processor_number)
+        # result = pool.map(TextualClean.preprocessing_apply, df)
+        # pool.close()
+        # pool.join()
+        # result = pd.DataFrame()
+        # for index, row in df.iterrows():
+        #     result = pd.concat([TextualClean.preprocessing_apply(row), result])
+        result = [TextualClean.preprocessing_apply(row) for index, row in df.iterrows()]
         logging.info("Concatenando resultados!")
-        return pd.concat(result, sort=False)
+        return pd.concat(result)
 
     @staticmethod
     def concat_fields(dataset_df):

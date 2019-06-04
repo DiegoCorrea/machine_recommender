@@ -13,6 +13,7 @@ class ContentBased:
     def run_recommenders(users_dataset_df, freq_model, scenario, run):
         class_balance_check = pd.DataFrame(data=[], columns=['round', 'positive', 'negative'])
         users_results_df = pd.DataFrame(data=[], columns=GlobalVariable.results_column_name)
+        ContentBased.logger.info("Total de usuários nesta rodada: " + str(users_dataset_df.user_id.nunique()))
         for user_id in users_dataset_df.user_id.unique().tolist():
             user_preference = users_dataset_df[users_dataset_df['user_id'] == user_id]
             if user_preference['like'].nunique() == 1:

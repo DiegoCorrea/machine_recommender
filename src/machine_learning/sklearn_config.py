@@ -50,7 +50,8 @@ class MachineAlgorithms:
         positive_pred = test_results[test_results['pred_like'] == True]
         candidate_songs = x_test.loc[positive_pred.index.values.tolist()]
         if len(candidate_songs) == 0:
-            logging.info("User has no candidate songs!")
+            return pd.DataFrame()
+            # logging.info("User has no candidate songs!")
         user_set = pd.concat([x_train, candidate_songs])
         cos = pd.DataFrame(data=np.matrix(cosine_similarity(X=user_set)), columns=user_set.index.tolist(),
                            index=user_set.index.tolist())
@@ -84,7 +85,8 @@ class MachineAlgorithms:
         positive_pred = test_results[test_results['pred_like'] == True]
         candidate_songs = x_test.loc[positive_pred.index.values.tolist()]
         if len(candidate_songs) == 0:
-            logging.info("User has no candidate songs!")
+            return pd.DataFrame()
+            # logging.info("User has no candidate songs!")
         user_set = pd.concat([x_train, candidate_songs])
         cos = pd.DataFrame(data=np.matrix(cosine_similarity(X=user_set)), columns=user_set.index.tolist(),
                            index=user_set.index.tolist())
@@ -112,7 +114,8 @@ class MachineAlgorithms:
         positive_pred = test_results[test_results['pred_like'] == True]
         candidate_songs = x_test.loc[positive_pred.index.values.tolist()]
         if len(candidate_songs) == 0:
-            logging.info("User has no candidate songs!")
+            return pd.DataFrame()
+            # logging.info("User has no candidate songs!")
         user_set = pd.concat([x_train, candidate_songs])
         cos = pd.DataFrame(data=np.matrix(cosine_similarity(X=user_set)), columns=user_set.index.tolist(),
                            index=user_set.index.tolist())
@@ -140,7 +143,8 @@ class MachineAlgorithms:
         positive_pred = test_results[test_results['pred_like'] == True]
         candidate_songs = x_test.loc[positive_pred.index.values.tolist()]
         if len(candidate_songs) == 0:
-            logging.info("User has no candidate songs!")
+            return pd.DataFrame()
+            # logging.info("User has no candidate songs!")
         user_set = pd.concat([x_train, candidate_songs])
         cos = pd.DataFrame(data=np.matrix(cosine_similarity(X=user_set)), columns=user_set.index.tolist(),
                            index=user_set.index.tolist())
@@ -168,7 +172,8 @@ class MachineAlgorithms:
         positive_pred = test_results[test_results['pred_like'] == True]
         candidate_songs = x_test.loc[positive_pred.index.values.tolist()]
         if len(candidate_songs) == 0:
-            logging.info("User has no candidate songs!")
+            return pd.DataFrame()
+            # logging.info("User has no candidate songs!")
         user_set = pd.concat([x_train, candidate_songs])
         cos = pd.DataFrame(data=np.matrix(cosine_similarity(X=user_set)), columns=user_set.index.tolist(),
                            index=user_set.index.tolist())
@@ -197,7 +202,8 @@ class MachineAlgorithms:
         positive_pred = test_results[test_results['pred_like'] == True]
         candidate_songs = x_test.loc[positive_pred.index.values.tolist()]
         if len(candidate_songs) == 0:
-            logging.info("User has no candidate songs!")
+            return pd.DataFrame()
+            # logging.info("User has no candidate songs!")
         user_set = pd.concat([x_train, candidate_songs])
         cos = pd.DataFrame(data=np.matrix(cosine_similarity(X=user_set)), columns=user_set.index.tolist(),
                            index=user_set.index.tolist())
@@ -226,7 +232,8 @@ class MachineAlgorithms:
         positive_pred = test_results[test_results['pred_like'] == True]
         candidate_songs = x_test.loc[positive_pred.index.values.tolist()]
         if len(candidate_songs) == 0:
-            logging.info("User has no candidate songs!")
+            return pd.DataFrame()
+            # logging.info("User has no candidate songs!")
         user_set = pd.concat([x_train, candidate_songs])
         cos = pd.DataFrame(data=np.matrix(cosine_similarity(X=user_set)), columns=user_set.index.tolist(),
                            index=user_set.index.tolist())
@@ -255,7 +262,8 @@ class MachineAlgorithms:
         positive_pred = test_results[test_results['pred_like'] == True]
         candidate_songs = x_test.loc[positive_pred.index.values.tolist()]
         if len(candidate_songs) == 0:
-            logging.info("User has no candidate songs!")
+            return pd.DataFrame()
+            # logging.info("User has no candidate songs!")
         user_set = pd.concat([x_train, candidate_songs])
         cos = pd.DataFrame(data=np.matrix(cosine_similarity(X=user_set)), columns=user_set.index.tolist(),
                            index=user_set.index.tolist())

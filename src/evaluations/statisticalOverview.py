@@ -108,20 +108,18 @@ class StatisticalOverview:
         """
         :param results_df: Pandas DataFrame com seis colunas: ['round', 'algorithm', 'metric', 'value']
         """
-        for scenario in GlobalVariable.SCENARIO_SIZE_LIST:
+        for scenario in results_df['scenario'].unique().tolist():
             # Para cada metrica usada durante a validação dos algoritmos
+            results_scenario_df = results_df[results_df['scenario'] == scenario]
             print("+ Cenário: ", str(scenario))
-            for metric in results_df['metric'].unique().tolist():
+            for metric in results_scenario_df['metric'].unique().tolist():
                 print("+ + Métrica: ", str(metric))
-                results_df_by_filter = results_df[
-                    (results_df['scenario'] == scenario) &
-                    (results_df['metric'] == metric)]
+                results_df_by_filter = results_scenario_df[
+                    results_scenario_df['metric'] == metric]
                 # Para cada algoritmo usado
                 for algorithm in results_df_by_filter['algorithm'].unique().tolist():
-                    at_df = results_df[
-                        (results_df['scenario'] == scenario) &
-                        (results_df['algorithm'] == algorithm) &
-                        (results_df['metric'] == metric)
+                    at_df = results_df_by_filter[
+                        results_df_by_filter['algorithm'] == algorithm
                         ]
                     print("+ + + Algorithm: ", str(algorithm), " -> ",
                           str(at_df['value'].mean()))

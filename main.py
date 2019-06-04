@@ -12,18 +12,24 @@ from src.preprocessing.preprocessing import Preprocessing
 
 
 def execute_one_time():
-    scenario = GlobalVariable.song_sample_number
+    Preprocessing.database_evaluate_graph()
+    scenario = GlobalVariable.ONE_SCENARIO_SIZE
+    scenario_class_df = pd.DataFrame()
+    scenario_results_df = pd.DataFrame()
+    for run in range(GlobalVariable.RUN_TIMES):
+        os.system('cls||clear')
+        logger.info("+ Rodada " + str(run + 1))
+        logger.info("+ Carregando o Cenário com " + str(scenario))
+        songs_base_df, users_preference_base_df = Preprocessing.load_data_test(scenario)
+        run_class_df, run_results_df = ContentBased.run_recommenders(
+            users_preference_base_df, FrequencyModel.mold(songs_base_df), scenario, run + 1
+        )
+        scenario_results_df = pd.concat([scenario_results_df, run_results_df])
+        scenario_class_df = pd.concat([scenario_class_df, run_class_df])
+    StatisticalOverview.result_info(scenario_results_df)
+    StatisticalOverview.graphics(scenario_results_df)
     os.system('cls||clear')
-    logger.info("+ Carregando o Cenário com " + str(scenario))
-    SONGS_DF, USERS_PREFERENCES_DF = Preprocessing.load_data_test(scenario)
-    freq_model = FrequencyModel.mold(SONGS_DF)
-    class_balance_check, results_df = ContentBased.run_recommenders(USERS_PREFERENCES_DF, freq_model, scenario)
-    StatisticalOverview.song_info(SONGS_DF)
-    StatisticalOverview.user_info(USERS_PREFERENCES_DF)
-    StatisticalOverview.result_info(results_df)
-    StatisticalOverview.graphics(results_df)
-    os.system('cls||clear')
-    StatisticalOverview.comparate(results_df)
+    StatisticalOverview.comparate(scenario_results_df)
 
 
 def execute_by_scenarios():
@@ -59,7 +65,7 @@ if __name__ == '__main__':
     # SONGS_DF, USERS_PREFERENCES_DF = Preprocessing.load_data()
     logger = logging.getLogger(__name__)
     print("Escolha o formato da execução")
-    print("1 - Executar uma vez com ", str(GlobalVariable.song_sample_number), " músicas")
+    print("1 - Executar uma vez com ", str(GlobalVariable.ONE_SCENARIO_SIZE), " músicas")
     print("2 - Executar várias vezes com ", str(GlobalVariable.SCENARIO_SIZE_LIST), " músicas")
 
     choice = int(input("Digite a opção a ser executada: "))

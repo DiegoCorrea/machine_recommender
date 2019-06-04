@@ -99,8 +99,7 @@ class DataMining:
         DataMining.logger.info("Carregando músicas e realizando sample...")
         song_df = pd.read_csv(DataMining.clean_data_path + 'songs.csv')
         song_df.set_index("track_id", drop=True, inplace=True)
-        song_sample = song_df.sample(n=scenario_size,
-                                     random_state=GlobalVariable.sample_random_state)
+        song_sample = song_df.sample(n=scenario_size)
         # load users
         DataMining.logger.info("Carregando usuários...")
         users_preferences_df = pd.read_csv(DataMining.clean_data_path + 'play_count.csv')

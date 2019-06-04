@@ -112,7 +112,7 @@ class DataMining:
         user_sample = user_sample[
             user_sample['user_id'].isin(select_user)
         ]
-        DataMining.logger.info("Realizando votação do usuário...")
-        vote = Vote(user_sample)
-        user_sample = vote.main_start()
+        # DataMining.logger.info("Realizando votação do usuário...")
+        # vote = Vote(user_sample)
+        # user_sample = vote.main_start()
         return song_sample, user_sample

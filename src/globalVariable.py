@@ -14,7 +14,7 @@ class GlobalVariable:
     sample_random_state = 50
     results_column_name = ['round', 'scenario', 'algorithm', 'metric', 'at', 'value']
     RUN_TIMES = 5
-    ONE_SCENARIO_SIZE = 45000
+    ONE_SCENARIO_SIZE = 30000
     RECOMMENDATION_LIST_SIZE = 15
     AT_SIZE_LIST = [1, 3, 5, 7, 9, 11, 13, 15]
     SCENARIO_SIZE_LIST = [15000, 30000, 45000]

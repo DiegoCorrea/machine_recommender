@@ -43,8 +43,8 @@ class DataMining:
         self.__users_preferences_df = users_preferences_df[
             users_preferences_df['song_id'].isin(self.__song_df['song_id'].tolist())
         ]
-        vote = Vote(self.__users_preferences_df)
-        self.__users_preferences_df = vote.main_start()
+        # vote = Vote(self.__users_preferences_df)
+        # self.__users_preferences_df = vote.main_start()
 
     @staticmethod
     def create():
@@ -112,7 +112,7 @@ class DataMining:
         user_sample = user_sample[
             user_sample['user_id'].isin(select_user)
         ]
-        # DataMining.logger.info("Realizando votação do usuário...")
-        # vote = Vote(user_sample)
-        # user_sample = vote.main_start()
+        DataMining.logger.info("Realizando votação do usuário...")
+        vote = Vote(user_sample)
+        user_sample = vote.main_start()
         return song_sample, user_sample

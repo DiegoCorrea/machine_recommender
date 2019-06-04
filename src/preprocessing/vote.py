@@ -18,7 +18,7 @@ class Vote:
         return result
 
     @staticmethod
-    def user_vote(user_id, user_preference):
+    def user_vote(user_preference):
         user_std = user_preference['play_count'].median()
         user_preference['like'] = user_preference.apply(Vote.user_votate, args={user_std}, axis=1)
         return user_preference
@@ -30,11 +30,14 @@ class Vote:
     def main_start(self):
         Vote.logger.info("Iniciando o processo de votação...")
         self.user_preference_df['like'] = None
-        split_preference = [(user_id, self.user_preference_df[self.user_preference_df['user_id'] == user_id]) for
-                            user_id in self.user_preference_df['user_id'].unique().tolist()]
+        gb = self.user_preference_df.groupby('user_id')
+        # split_preference = [(user_id, self.user_preference_df[self.user_preference_df['user_id'] == user_id]) for
+        #                     user_id in self.user_preference_df['user_id'].unique().tolist()]
+        Vote.logger.info("Grupos")
+        groups = [gb.get_group(x) for x in gb.groups]
+        Vote.logger.info("Abrindo Threads")
         pool = Pool(GlobalVariable.processor_number)
-        result_df = pool.starmap(Vote.user_vote,
-                                 split_preference)
+        result_df = pool.map(Vote.user_vote, groups)
         pool.close()
         pool.join()
         Vote.logger.info("Votação finalizada!")

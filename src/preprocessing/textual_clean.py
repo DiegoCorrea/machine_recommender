@@ -159,7 +159,7 @@ class TextualClean:
         return stems
 
     @staticmethod
-    def __preprocessing_apply(song_df):
+    def preprocessing_apply(song_df):
         logging.info("Aplicando Limpeza")
         sample = TextualClean.__strip_html(song_df['data'])
         # sample = __remove_between_square_brackets(sample)
@@ -169,14 +169,14 @@ class TextualClean:
         stems = TextualClean.__stem_and_lemmatize(words)
         song_df['stem_data'] = " ".join(str(x) for x in stems)
         # split_dataset_df.at[index, 'lemma_sentence'] = lemmas
-        logging.info("Finalizando Limpeza")
         return song_df
 
     @staticmethod
     def main_start(dataset_df):
         df = TextualClean.concat_fields(dataset_df)
+        logging.info("Finalizando unificação")
         pool = Pool(GlobalVariable.processor_number)
-        result = pool.map(TextualClean.__preprocessing_apply,
+        result = pool.map(TextualClean.preprocessing_apply,
                           df)
         pool.close()
         pool.join()

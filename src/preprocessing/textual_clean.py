@@ -160,12 +160,16 @@ class TextualClean:
 
     @staticmethod
     def preprocessing_apply(song_df):
-        logging.info("Aplicando Limpeza")
+        logging.info("Aplicando Limpeza 1")
         sample = TextualClean.strip_html(song_df['data'])
+        logging.info("Aplicando Limpeza 2")
         # sample = remove_between_square_brackets(sample)
         sample = TextualClean.replace_contractions(sample)
+        logging.info("Aplicando Limpeza 3")
         bag_words = nltk.word_tokenize(sample)
+        logging.info("Aplicando Limpeza 4")
         words = TextualClean.normalize(bag_words)
+        logging.info("Aplicando Limpeza 5")
         stems = TextualClean.stem_and_lemmatize(words)
         song_df['stem_data'] = " ".join(str(x) for x in stems)
         # split_dataset_df.at[index, 'lemma_sentence'] = lemmas

@@ -19,7 +19,7 @@ class TextualClean:
     lemmatizer = WordNetLemmatizer()
 
     @staticmethod
-    def __strip_html(text):
+    def strip_html(text):
         """
         Retira as TAGs HTML do texto
         :param text: texto a ser processado
@@ -29,7 +29,7 @@ class TextualClean:
         return soup.get_text()
 
     @staticmethod
-    def __remove_between_square_brackets(text):
+    def remove_between_square_brackets(text):
         """
         Remove texto entre cochetes
         :param text: texto a ser processado
@@ -38,7 +38,7 @@ class TextualClean:
         return re.sub('\[[^]]*\]', '', text)
 
     @staticmethod
-    def __replace_contractions(text):
+    def replace_contractions(text):
         """
         Troca as palavras contraidas para palavras independentes
         :param text: texto a ser processado
@@ -47,7 +47,7 @@ class TextualClean:
         return contractions.fix(text)
 
     @staticmethod
-    def __remove_non_ascii(words):
+    def remove_non_ascii(words):
         """
         Remove non-ASCII characters from list of tokenized words
         :param words:
@@ -60,7 +60,7 @@ class TextualClean:
         return new_words
 
     @staticmethod
-    def __to_lowercase(words):
+    def to_lowercase(words):
         """
         Convert all characters to lowercase from list of tokenized words
         :param words:
@@ -73,7 +73,7 @@ class TextualClean:
         return new_words
 
     @staticmethod
-    def __remove_punctuation(words):
+    def remove_punctuation(words):
         """
         Remove punctuation from list of tokenized words
         :param words:
@@ -87,7 +87,7 @@ class TextualClean:
         return new_words
 
     @staticmethod
-    def __replace_numbers(words):
+    def replace_numbers(words):
         """
         Replace all interger occurrences in list of tokenized words with textual representation
         :param words:
@@ -104,7 +104,7 @@ class TextualClean:
         return new_words
 
     @staticmethod
-    def __remove_stopwords(words):
+    def remove_stopwords(words):
         """
         Remove stop words from list of tokenized words
         :param words:
@@ -117,7 +117,7 @@ class TextualClean:
         return new_words
 
     @staticmethod
-    def __stem_words(words):
+    def stem_words(words):
         """
         Stem words in list of tokenized words
         :param words:
@@ -131,7 +131,7 @@ class TextualClean:
         return stems
 
     @staticmethod
-    def __lemmatize_verbs(words):
+    def lemmatize_verbs(words):
         """
         Lemmatize verbs in list of tokenized words
         :param words:
@@ -144,29 +144,29 @@ class TextualClean:
         return lemmas
 
     @staticmethod
-    def __normalize(words):
-        words = TextualClean.__remove_non_ascii(words)
-        words = TextualClean.__to_lowercase(words)
-        words = TextualClean.__remove_punctuation(words)
-        words = TextualClean.__replace_numbers(words)
-        words = TextualClean.__remove_stopwords(words)
+    def normalize(words):
+        words = TextualClean.remove_non_ascii(words)
+        words = TextualClean.to_lowercase(words)
+        words = TextualClean.remove_punctuation(words)
+        words = TextualClean.replace_numbers(words)
+        words = TextualClean.remove_stopwords(words)
         return words
 
     @staticmethod
-    def __stem_and_lemmatize(words):
-        stems = TextualClean.__stem_words(words)
-        # lemmas = TextualClean.__lemmatize_verbs(words)
+    def stem_and_lemmatize(words):
+        stems = TextualClean.stem_words(words)
+        # lemmas = TextualClean.lemmatize_verbs(words)
         return stems
 
     @staticmethod
     def preprocessing_apply(song_df):
         logging.info("Aplicando Limpeza")
-        sample = TextualClean.__strip_html(song_df['data'])
-        # sample = __remove_between_square_brackets(sample)
-        sample = TextualClean.__replace_contractions(sample)
+        sample = TextualClean.strip_html(song_df['data'])
+        # sample = remove_between_square_brackets(sample)
+        sample = TextualClean.replace_contractions(sample)
         bag_words = nltk.word_tokenize(sample)
-        words = TextualClean.__normalize(bag_words)
-        stems = TextualClean.__stem_and_lemmatize(words)
+        words = TextualClean.normalize(bag_words)
+        stems = TextualClean.stem_and_lemmatize(words)
         song_df['stem_data'] = " ".join(str(x) for x in stems)
         # split_dataset_df.at[index, 'lemma_sentence'] = lemmas
         return song_df

@@ -14,10 +14,10 @@ class GlobalVariable:
     sample_random_state = 50
     results_column_name = ['round', 'scenario', 'algorithm', 'metric', 'at', 'value']
     RUN_TIMES = 5
-    ONE_SCENARIO_SIZE = 30000
+    ONE_SCENARIO_SIZE = 90000
     RECOMMENDATION_LIST_SIZE = 15
     AT_SIZE_LIST = [1, 3, 5, 7, 9, 11, 13, 15]
-    SCENARIO_SIZE_LIST = [15000, 30000, 45000]
+    SCENARIO_SIZE_LIST = [30000, 60000, 90000]
     GRAPH_STYLE = [':', '--', ':', '-', '-', '-', '--', ':', '--', '-.', '-.']
     GRAPH_COLORS = ['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray',
                     'tab:olive', 'tab:cyan', '#0F0F0F0F']

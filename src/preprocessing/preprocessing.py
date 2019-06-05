@@ -17,9 +17,12 @@ class Preprocessing:
         # song_set = DataMining.load_song_set()
         # user_set = DataMining.load_user_set()
         logging.info("Limpando os dados textuais...")
+        song_set.head()
         songs_df = TextualClean.main_start(song_set)
+        song_set.head()
         logging.info("Atualizando arquivos do dataset...")
         DataMining.update_songs(songs_df)
+        song_set.head()
         return songs_df, user_set
 
     @staticmethod

@@ -4,7 +4,6 @@ import re
 import contractions
 import inflect
 import nltk
-import pandas as pd
 import unicodedata
 from bs4 import BeautifulSoup
 from nltk.corpus import stopwords
@@ -156,24 +155,27 @@ class TextualClean:
         return stems
 
     @staticmethod
-    def preprocessing_apply(song_df):
-        sample = TextualClean.strip_html(song_df['data'])
+    def preprocessing_apply(data):
+        sample = TextualClean.strip_html(data)
+        data = " "
         # sample = remove_between_square_brackets(sample)
         sample = TextualClean.replace_contractions(sample)
         bag_words = nltk.word_tokenize(sample)
         words = TextualClean.normalize(bag_words)
         stems = TextualClean.stem_and_lemmatize(words)
-        song_df['stem_data'] = " ".join(str(x) for x in stems)
+        data = " ".join(str(x) for x in stems)
         # split_dataset_df.at[index, 'lemma_sentence'] = lemmas
-        return song_df
+        return data
 
     @staticmethod
     def main_start(dataset_df):
         df = TextualClean.concat_fields(dataset_df)
         logging.info("Finalizando unificação")
-        result = [TextualClean.preprocessing_apply(row) for index, row in df.iterrows()]
+        # result = [TextualClean.preprocessing_apply(row) for index, row in df.iterrows()]
+        df['stem_data'] = df.apply(lambda row: TextualClean.preprocessing_apply(row['data']), axis=1)
         logging.info("Concatenando resultados!")
-        return pd.concat(result)
+        df.drop(['data'], inplace=True, axis=1)
+        return df
 
     @staticmethod
     def concat_fields(dataset_df):

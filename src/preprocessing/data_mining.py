@@ -31,7 +31,7 @@ class DataMining:
                      how='left', left_on='song_id', right_on='song_id'),
             DataMining.load_raw_gender(), how='inner', left_on='track_id', right_on='track_id')
         self.__song_df = self.__song_df.drop_duplicates(['song_id'])
-        self.__song_df.set_index("track_id", inplace=True, drop=False)
+        self.__song_df.set_index("track_id", inplace=True, drop=True)
         indexNames = self.__song_df[(self.__song_df['year'] == '0')].index
         self.__song_df.drop(indexNames, inplace=True)
 
@@ -88,8 +88,8 @@ class DataMining:
         return song_by_track_df.drop(['title', 'artist'], axis=1)
 
     def save(self):
-        self.__song_df.to_csv(DataMining.clean_data_path + 'songs.csv')
-        self.__users_preferences_df.to_csv(DataMining.clean_data_path + 'play_count.csv')
+        self.__song_df.to_csv(DataMining.clean_data_path + 'songs.csv', header=True)
+        self.__users_preferences_df.to_csv(DataMining.clean_data_path + 'play_count.csv', index=False)
 
     def __filter_user_by_heard_songs(self, users_preferences_df):
         pass
@@ -98,7 +98,7 @@ class DataMining:
     def load_set_test(scenario_size):
         DataMining.logger.info("Carregando músicas e realizando sample...")
         song_df = pd.read_csv(DataMining.clean_data_path + 'songs.csv')
-        # song_df.set_index("track_id", drop=False, inplace=True)
+        song_df.set_index("track_id", inplace=True)
         song_sample = song_df.sample(n=scenario_size)
         # load users
         DataMining.logger.info("Carregando usuários...")

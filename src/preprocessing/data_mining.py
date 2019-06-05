@@ -73,13 +73,13 @@ class DataMining:
     @staticmethod
     def load_raw_gender():
         return pd.read_csv(DataMining.raw_data_path + 'msd-MAGD-genreAssignment.cls',
-                                sep='\t', names=['track_id', 'gender'])
+                           sep='\t', names=['track_id', 'gender'])
 
     @staticmethod
     def load_raw_songs():
         return pd.read_csv(DataMining.raw_data_path + 'songs.csv',
-                                  names=['song_id', 'title', 'album', 'artist', 'year'],
-                                  dtype='unicode')
+                           names=['song_id', 'title', 'album', 'artist', 'year'],
+                           dtype='unicode')
 
     @staticmethod
     def load_raw_track():
@@ -98,7 +98,7 @@ class DataMining:
     def load_set_test(scenario_size):
         DataMining.logger.info("Carregando músicas e realizando sample...")
         song_df = pd.read_csv(DataMining.clean_data_path + 'songs.csv')
-        song_df.set_index("track_id", drop=False, inplace=True)
+        # song_df.set_index("track_id", drop=False, inplace=True)
         song_sample = song_df.sample(n=scenario_size)
         # load users
         DataMining.logger.info("Carregando usuários...")

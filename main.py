@@ -61,7 +61,7 @@ def execute_by_scenarios():
 
 if __name__ == '__main__':
     GlobalVariable.setup_logging()
-    SONGS_DF, USERS_PREFERENCES_DF = Preprocessing.data()
+    # SONGS_DF, USERS_PREFERENCES_DF = Preprocessing.data()
     # SONGS_DF, USERS_PREFERENCES_DF = Preprocessing.load_data()
     logger = logging.getLogger(__name__)
     print("Escolha o formato da execução")

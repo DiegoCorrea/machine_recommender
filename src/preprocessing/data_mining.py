@@ -98,7 +98,7 @@ class DataMining:
     def load_set_test(scenario_size):
         DataMining.logger.info("Carregando músicas e realizando sample...")
         song_df = pd.read_csv(DataMining.clean_data_path + 'songs.csv')
-        song_df.set_index("track_id", drop=True, inplace=True)
+        song_df.set_index("song_id", drop=False, inplace=True)
         song_sample = song_df.sample(n=scenario_size)
         # load users
         DataMining.logger.info("Carregando usuários...")

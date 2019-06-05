@@ -171,13 +171,6 @@ class TextualClean:
     def main_start(dataset_df):
         df = TextualClean.concat_fields(dataset_df)
         logging.info("Finalizando unificação")
-        # pool = Pool(GlobalVariable.processor_number)
-        # result = pool.map(TextualClean.preprocessing_apply, df)
-        # pool.close()
-        # pool.join()
-        # result = pd.DataFrame()
-        # for index, row in df.iterrows():
-        #     result = pd.concat([TextualClean.preprocessing_apply(row), result])
         result = [TextualClean.preprocessing_apply(row) for index, row in df.iterrows()]
         logging.info("Concatenando resultados!")
         return pd.concat(result)

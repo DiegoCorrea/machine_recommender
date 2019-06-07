@@ -16,7 +16,7 @@ class ContentBased:
         ContentBased.logger.info("Total de usuários nesta rodada: " + str(users_dataset_df.user_id.nunique()))
         for user_id in users_dataset_df.user_id.unique().tolist():
             user_preference = users_dataset_df[users_dataset_df['user_id'] == user_id]
-            if user_preference['like'].nunique() == 1:
+            if user_preference['like'].nunique() == 1 or user_preference[user_preference['like'] == True].shape[0] < 2 or user_preference[user_preference['like'] == False].shape[0] < 2:
                 continue
             class_balance_check = pd.concat(
                 [

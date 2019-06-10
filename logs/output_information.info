@@ -1,0 +1,401 @@
+sh: 1: cls: not found
+[H[J2019-06-07 19:14:53,224 - __main__ - INFO - + Rodada 1
+2019-06-07 19:14:53,226 - __main__ - INFO - + Carregando o Cenário com 25000
+2019-06-07 19:14:53,226 - src.preprocessing.data_mining - INFO - Carregando músicas e realizando sample...
+2019-06-07 19:14:54,181 - src.preprocessing.data_mining - INFO - Carregando usuários...
+2019-06-07 19:15:18,041 - src.preprocessing.data_mining - INFO - Filtrando usuários...
+2019-06-07 19:15:27,056 - src.preprocessing.data_mining - INFO - Realizando votação do usuário...
+2019-06-07 19:15:27,056 - src.preprocessing.vote - INFO - Iniciando o processo de votação...
+2019-06-07 19:15:27,126 - src.preprocessing.vote - INFO - Grupos
+2019-06-07 19:15:27,397 - src.preprocessing.vote - INFO - Abrindo Threads
+2019-06-07 19:15:28,216 - src.preprocessing.vote - INFO - Votação finalizada!
+2019-06-07 19:15:28,217 - src.preprocessing.vote - INFO - Realizando merge nos resultados...
+2019-06-07 19:15:28,847 - src.data_models.tdidf_model - INFO - Gerando matrix do TF-IDF...
+2019-06-07 19:15:39,825 - src.data_models.tdidf_model - INFO - Adicionando nome das colunas e as index na matrix TF-IDF
+2019-06-07 19:15:39,884 - src.kemures.tecnics.content_based - INFO - Total de usuários nesta rodada: 776
+sh: 1: cls: not found
+[H[J2019-06-07 19:22:17,125 - __main__ - INFO - + Rodada 2
+2019-06-07 19:22:17,125 - __main__ - INFO - + Carregando o Cenário com 25000
+2019-06-07 19:22:17,126 - src.preprocessing.data_mining - INFO - Carregando músicas e realizando sample...
+2019-06-07 19:22:18,112 - src.preprocessing.data_mining - INFO - Carregando usuários...
+2019-06-07 19:22:42,541 - src.preprocessing.data_mining - INFO - Filtrando usuários...
+2019-06-07 19:22:51,260 - src.preprocessing.data_mining - INFO - Realizando votação do usuário...
+2019-06-07 19:22:51,260 - src.preprocessing.vote - INFO - Iniciando o processo de votação...
+2019-06-07 19:22:51,340 - src.preprocessing.vote - INFO - Grupos
+2019-06-07 19:22:51,722 - src.preprocessing.vote - INFO - Abrindo Threads
+2019-06-07 19:22:52,722 - src.preprocessing.vote - INFO - Votação finalizada!
+2019-06-07 19:22:52,722 - src.preprocessing.vote - INFO - Realizando merge nos resultados...
+2019-06-07 19:22:53,496 - src.data_models.tdidf_model - INFO - Gerando matrix do TF-IDF...
+2019-06-07 19:23:01,677 - src.data_models.tdidf_model - INFO - Adicionando nome das colunas e as index na matrix TF-IDF
+2019-06-07 19:23:01,749 - src.kemures.tecnics.content_based - INFO - Total de usuários nesta rodada: 1139
+sh: 1: cls: not found
+[H[J2019-06-07 19:31:14,924 - __main__ - INFO - + Rodada 3
+2019-06-07 19:31:14,924 - __main__ - INFO - + Carregando o Cenário com 25000
+2019-06-07 19:31:14,924 - src.preprocessing.data_mining - INFO - Carregando músicas e realizando sample...
+2019-06-07 19:31:15,927 - src.preprocessing.data_mining - INFO - Carregando usuários...
+2019-06-07 19:31:40,154 - src.preprocessing.data_mining - INFO - Filtrando usuários...
+2019-06-07 19:31:49,485 - src.preprocessing.data_mining - INFO - Realizando votação do usuário...
+2019-06-07 19:31:49,485 - src.preprocessing.vote - INFO - Iniciando o processo de votação...
+2019-06-07 19:31:49,587 - src.preprocessing.vote - INFO - Grupos
+2019-06-07 19:31:49,894 - src.preprocessing.vote - INFO - Abrindo Threads
+2019-06-07 19:31:50,800 - src.preprocessing.vote - INFO - Votação finalizada!
+2019-06-07 19:31:50,800 - src.preprocessing.vote - INFO - Realizando merge nos resultados...
+2019-06-07 19:31:51,486 - src.data_models.tdidf_model - INFO - Gerando matrix do TF-IDF...
+2019-06-07 19:31:58,561 - src.data_models.tdidf_model - INFO - Adicionando nome das colunas e as index na matrix TF-IDF
+2019-06-07 19:31:58,627 - src.kemures.tecnics.content_based - INFO - Total de usuários nesta rodada: 922
+sh: 1: cls: not found
+[H[J2019-06-07 19:39:19,372 - __main__ - INFO - + Rodada 4
+2019-06-07 19:39:19,373 - __main__ - INFO - + Carregando o Cenário com 25000
+2019-06-07 19:39:19,373 - src.preprocessing.data_mining - INFO - Carregando músicas e realizando sample...
+2019-06-07 19:39:20,331 - src.preprocessing.data_mining - INFO - Carregando usuários...
+2019-06-07 19:39:44,571 - src.preprocessing.data_mining - INFO - Filtrando usuários...
+2019-06-07 19:39:53,417 - src.preprocessing.data_mining - INFO - Realizando votação do usuário...
+2019-06-07 19:39:53,418 - src.preprocessing.vote - INFO - Iniciando o processo de votação...
+2019-06-07 19:39:53,491 - src.preprocessing.vote - INFO - Grupos
+2019-06-07 19:39:53,743 - src.preprocessing.vote - INFO - Abrindo Threads
+2019-06-07 19:39:54,556 - src.preprocessing.vote - INFO - Votação finalizada!
+2019-06-07 19:39:54,556 - src.preprocessing.vote - INFO - Realizando merge nos resultados...
+2019-06-07 19:39:55,274 - src.data_models.tdidf_model - INFO - Gerando matrix do TF-IDF...
+2019-06-07 19:40:02,789 - src.data_models.tdidf_model - INFO - Adicionando nome das colunas e as index na matrix TF-IDF
+2019-06-07 19:40:02,849 - src.kemures.tecnics.content_based - INFO - Total de usuários nesta rodada: 744
+sh: 1: cls: not found
+[H[J2019-06-07 19:44:44,687 - __main__ - INFO - + Rodada 5
+2019-06-07 19:44:44,688 - __main__ - INFO - + Carregando o Cenário com 25000
+2019-06-07 19:44:44,688 - src.preprocessing.data_mining - INFO - Carregando músicas e realizando sample...
+2019-06-07 19:44:45,660 - src.preprocessing.data_mining - INFO - Carregando usuários...
+2019-06-07 19:45:10,511 - src.preprocessing.data_mining - INFO - Filtrando usuários...
+2019-06-07 19:45:20,246 - src.preprocessing.data_mining - INFO - Realizando votação do usuário...
+2019-06-07 19:45:20,247 - src.preprocessing.vote - INFO - Iniciando o processo de votação...
+2019-06-07 19:45:20,321 - src.preprocessing.vote - INFO - Grupos
+2019-06-07 19:45:20,604 - src.preprocessing.vote - INFO - Abrindo Threads
+2019-06-07 19:45:21,470 - src.preprocessing.vote - INFO - Votação finalizada!
+2019-06-07 19:45:21,471 - src.preprocessing.vote - INFO - Realizando merge nos resultados...
+2019-06-07 19:45:22,148 - src.data_models.tdidf_model - INFO - Gerando matrix do TF-IDF...
+2019-06-07 19:45:29,503 - src.data_models.tdidf_model - INFO - Adicionando nome das colunas e as index na matrix TF-IDF
+2019-06-07 19:45:29,567 - src.kemures.tecnics.content_based - INFO - Total de usuários nesta rodada: 823
+2019-06-07 19:52:20,463 - root - INFO - **************************************************
+2019-06-07 19:52:20,464 - root - INFO - **************************************************
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 640 entries, 0 to 0
+Data columns (total 6 columns):
+round        640 non-null object
+scenario     640 non-null object
+algorithm    640 non-null object
+metric       640 non-null object
+at           640 non-null object
+value        640 non-null float64
+dtypes: float64(1), object(5)
+memory usage: 152.7 KB
+2019-06-07 19:52:20,479 - root - INFO - 
+  round scenario algorithm metric at     value
+0     1    25000       3NN    map  1  0.710744
+0     1    25000       3NN    map  3  0.677227
+0     1    25000       3NN    map  5  0.667202
+0     1    25000       3NN    map  7  0.662745
+0     1    25000       3NN    map  9  0.661919
+2019-06-07 19:52:20,479 - root - INFO - ==================================================
+2019-06-07 19:52:20,480 - root - INFO - ==================================================
+sh: 1: cls: not found
+[H[Jsh: 1: cls: not found
+[H[J{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7358194025583435, 0.6973264657563216, 0.678987184255283, 0.6726816195206268, 0.6716154562141805, 0.6714440007872426, 0.6713830761056029, 0.6713830761056029]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.753197358748252, 0.7239709084467921, 0.7072938593847419, 0.7008291944418898, 0.6998302964935604, 0.6995871880332987, 0.6995323049687779, 0.6995170217094616]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7601183680716945, 0.7312630147099723, 0.7053244602636256, 0.6942428573960486, 0.6917043017685727, 0.6911895336672162, 0.6910962192765226, 0.6910972292044907]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7209662614705209, 0.6929786531980806, 0.6739934286885112, 0.6688427492788889, 0.6681475462032465, 0.6683091264245336, 0.6683287423572138, 0.6683287423572138]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.741616252123914, 0.7093350015765495, 0.692199311760467, 0.6842535903767447, 0.6827687333486698, 0.6826142185836893, 0.6826875686900898, 0.6826986883486761]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7485240672524902, 0.7170145175597022, 0.7029503764987128, 0.698035380532278, 0.6971668782942068, 0.6971231122288775, 0.6971085368285569, 0.6971085368285569]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7557109415155168, 0.7281899200090385, 0.7031219131400497, 0.688783351025462, 0.6844548647286381, 0.6836295495099831, 0.6835089461124588, 0.6834971981551918]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.6762497257304961, 0.660818967149617, 0.6401671424764164, 0.6241873161667629, 0.6179513212430411, 0.6162853739152071, 0.6159234013975169, 0.6159611684175041]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7358194025583435, 0.8348572472980443, 0.8399980824554045, 0.8399980824554045, 0.8399980824554045, 0.8399980824554045, 0.8399980824554045, 0.8399980824554045]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.753197358748252, 0.8501431527534706, 0.8535198103821113, 0.8535198103821113, 0.8535198103821113, 0.8535198103821113, 0.8535198103821113, 0.8535198103821113]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7601183680716945, 0.8582710739260477, 0.8608015279681297, 0.8608015279681297, 0.8608015279681297, 0.8608015279681297, 0.8608015279681297, 0.8608015279681297]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7209662614705209, 0.8269954838104541, 0.8295585533165774, 0.8295585533165774, 0.8295585533165774, 0.8295585533165774, 0.8295585533165774, 0.8295585533165774]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.741616252123914, 0.8474782351934558, 0.8513754549541652, 0.8513754549541652, 0.8513754549541652, 0.8513754549541652, 0.8513754549541652, 0.8513754549541652]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7485240672524902, 0.8428004833823783, 0.8460526382935193, 0.8460526382935193, 0.8460526382935193, 0.8460526382935193, 0.8460526382935193, 0.8460526382935193]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7557109415155168, 0.858569242313064, 0.8607469843072095, 0.8607469843072095, 0.8607469843072095, 0.8607469843072095, 0.8607469843072095, 0.8607469843072095]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.6762497257304961, 0.817719312260919, 0.8227422316431227, 0.8227422316431227, 0.8227422316431227, 0.8227422316431227, 0.8227422316431227, 0.8227422316431227]}
++ Cenário:  25000
++ + Métrica:  map
++ + + Algorithm:  3NN  ->  0.6838300351629005
++ + + Algorithm:  PER  ->  0.7104697665283467
++ + + Algorithm:  MLP  ->  0.707004498044768
++ + + Algorithm:  AD  ->  0.6787369062472762
++ + + Algorithm:  RF  ->  0.6947716706011
++ + + Algorithm:  GNB  ->  0.7068789257529227
++ + + Algorithm:  SVC  ->  0.7013620855245424
++ + + Algorithm:  recModel  ->  0.6334430520620702
++ + Métrica:  mrr
++ + + Algorithm:  3NN  ->  0.8263331430736021
++ + + Algorithm:  PER  ->  0.8405574217242988
++ + + Algorithm:  MLP  ->  0.8478998262258151
++ + + Algorithm:  AD  ->  0.8156641331475548
++ + + Algorithm:  RF  ->  0.8371684021302951
++ + + Algorithm:  GNB  ->  0.8334550475494981
++ + + Algorithm:  SVC  ->  0.8473452612089798
++ + + Algorithm:  recModel  ->  0.8038028034812689
+2019-06-07 19:52:24,191 - __main__ - INFO - + Rodada 1
+2019-06-07 19:52:24,193 - __main__ - INFO - + Carregando o Cenário com 50000
+2019-06-07 19:52:24,193 - src.preprocessing.data_mining - INFO - Carregando músicas e realizando sample...
+2019-06-07 19:52:25,218 - src.preprocessing.data_mining - INFO - Carregando usuários...
+2019-06-07 19:52:49,524 - src.preprocessing.data_mining - INFO - Filtrando usuários...
+2019-06-07 19:53:00,544 - src.preprocessing.data_mining - INFO - Realizando votação do usuário...
+2019-06-07 19:53:00,544 - src.preprocessing.vote - INFO - Iniciando o processo de votação...
+2019-06-07 19:53:00,651 - src.preprocessing.vote - INFO - Grupos
+2019-06-07 19:53:03,398 - src.preprocessing.vote - INFO - Abrindo Threads
+2019-06-07 19:53:10,188 - src.preprocessing.vote - INFO - Votação finalizada!
+2019-06-07 19:53:10,188 - src.preprocessing.vote - INFO - Realizando merge nos resultados...
+2019-06-07 19:53:11,970 - src.data_models.tdidf_model - INFO - Gerando matrix do TF-IDF...
+2019-06-07 19:53:41,121 - src.data_models.tdidf_model - INFO - Adicionando nome das colunas e as index na matrix TF-IDF
+2019-06-07 19:53:41,245 - src.kemures.tecnics.content_based - INFO - Total de usuários nesta rodada: 7918
+sh: 1: cls: not found
+[H[J2019-06-07 21:35:13,755 - __main__ - INFO - + Rodada 2
+2019-06-07 21:35:13,756 - __main__ - INFO - + Carregando o Cenário com 50000
+2019-06-07 21:35:13,756 - src.preprocessing.data_mining - INFO - Carregando músicas e realizando sample...
+2019-06-07 21:35:14,861 - src.preprocessing.data_mining - INFO - Carregando usuários...
+2019-06-07 21:35:42,960 - src.preprocessing.data_mining - INFO - Filtrando usuários...
+2019-06-07 21:35:56,472 - src.preprocessing.data_mining - INFO - Realizando votação do usuário...
+2019-06-07 21:35:56,472 - src.preprocessing.vote - INFO - Iniciando o processo de votação...
+2019-06-07 21:35:56,585 - src.preprocessing.vote - INFO - Grupos
+2019-06-07 21:36:00,049 - src.preprocessing.vote - INFO - Abrindo Threads
+2019-06-07 21:36:08,730 - src.preprocessing.vote - INFO - Votação finalizada!
+2019-06-07 21:36:08,730 - src.preprocessing.vote - INFO - Realizando merge nos resultados...
+2019-06-07 21:36:11,109 - src.data_models.tdidf_model - INFO - Gerando matrix do TF-IDF...
+2019-06-07 21:36:41,935 - src.data_models.tdidf_model - INFO - Adicionando nome das colunas e as index na matrix TF-IDF
+2019-06-07 21:36:42,068 - src.kemures.tecnics.content_based - INFO - Total de usuários nesta rodada: 9818
+sh: 1: cls: not found
+[H[J2019-06-07 23:46:53,920 - __main__ - INFO - + Rodada 3
+2019-06-07 23:46:53,921 - __main__ - INFO - + Carregando o Cenário com 50000
+2019-06-07 23:46:53,921 - src.preprocessing.data_mining - INFO - Carregando músicas e realizando sample...
+2019-06-07 23:46:55,109 - src.preprocessing.data_mining - INFO - Carregando usuários...
+2019-06-07 23:47:22,934 - src.preprocessing.data_mining - INFO - Filtrando usuários...
+2019-06-07 23:47:36,614 - src.preprocessing.data_mining - INFO - Realizando votação do usuário...
+2019-06-07 23:47:36,614 - src.preprocessing.vote - INFO - Iniciando o processo de votação...
+2019-06-07 23:47:36,729 - src.preprocessing.vote - INFO - Grupos
+2019-06-07 23:47:39,701 - src.preprocessing.vote - INFO - Abrindo Threads
+2019-06-07 23:47:46,939 - src.preprocessing.vote - INFO - Votação finalizada!
+2019-06-07 23:47:46,939 - src.preprocessing.vote - INFO - Realizando merge nos resultados...
+2019-06-07 23:47:49,098 - src.data_models.tdidf_model - INFO - Gerando matrix do TF-IDF...
+2019-06-07 23:48:20,323 - src.data_models.tdidf_model - INFO - Adicionando nome das colunas e as index na matrix TF-IDF
+2019-06-07 23:48:20,470 - src.kemures.tecnics.content_based - INFO - Total de usuários nesta rodada: 8389
+sh: 1: cls: not found
+[H[J2019-06-08 01:36:39,607 - __main__ - INFO - + Rodada 4
+2019-06-08 01:36:39,608 - __main__ - INFO - + Carregando o Cenário com 50000
+2019-06-08 01:36:39,608 - src.preprocessing.data_mining - INFO - Carregando músicas e realizando sample...
+2019-06-08 01:36:40,701 - src.preprocessing.data_mining - INFO - Carregando usuários...
+2019-06-08 01:37:08,580 - src.preprocessing.data_mining - INFO - Filtrando usuários...
+2019-06-08 01:37:22,402 - src.preprocessing.data_mining - INFO - Realizando votação do usuário...
+2019-06-08 01:37:22,402 - src.preprocessing.vote - INFO - Iniciando o processo de votação...
+2019-06-08 01:37:22,510 - src.preprocessing.vote - INFO - Grupos
+2019-06-08 01:37:25,407 - src.preprocessing.vote - INFO - Abrindo Threads
+2019-06-08 01:37:32,535 - src.preprocessing.vote - INFO - Votação finalizada!
+2019-06-08 01:37:32,536 - src.preprocessing.vote - INFO - Realizando merge nos resultados...
+2019-06-08 01:37:34,644 - src.data_models.tdidf_model - INFO - Gerando matrix do TF-IDF...
+2019-06-08 01:38:05,089 - src.data_models.tdidf_model - INFO - Adicionando nome das colunas e as index na matrix TF-IDF
+2019-06-08 01:38:05,225 - src.kemures.tecnics.content_based - INFO - Total de usuários nesta rodada: 8302
+sh: 1: cls: not found
+[H[J2019-06-08 03:22:38,713 - __main__ - INFO - + Rodada 5
+2019-06-08 03:22:38,713 - __main__ - INFO - + Carregando o Cenário com 50000
+2019-06-08 03:22:38,713 - src.preprocessing.data_mining - INFO - Carregando músicas e realizando sample...
+2019-06-08 03:22:39,771 - src.preprocessing.data_mining - INFO - Carregando usuários...
+2019-06-08 03:23:07,080 - src.preprocessing.data_mining - INFO - Filtrando usuários...
+2019-06-08 03:23:18,834 - src.preprocessing.data_mining - INFO - Realizando votação do usuário...
+2019-06-08 03:23:18,835 - src.preprocessing.vote - INFO - Iniciando o processo de votação...
+2019-06-08 03:23:18,947 - src.preprocessing.vote - INFO - Grupos
+2019-06-08 03:23:21,831 - src.preprocessing.vote - INFO - Abrindo Threads
+2019-06-08 03:23:28,808 - src.preprocessing.vote - INFO - Votação finalizada!
+2019-06-08 03:23:28,808 - src.preprocessing.vote - INFO - Realizando merge nos resultados...
+2019-06-08 03:23:30,863 - src.data_models.tdidf_model - INFO - Gerando matrix do TF-IDF...
+2019-06-08 03:24:00,756 - src.data_models.tdidf_model - INFO - Adicionando nome das colunas e as index na matrix TF-IDF
+2019-06-08 03:24:00,875 - src.kemures.tecnics.content_based - INFO - Total de usuários nesta rodada: 8112
+2019-06-08 05:02:13,404 - root - INFO - **************************************************
+2019-06-08 05:02:13,405 - root - INFO - **************************************************
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 640 entries, 0 to 0
+Data columns (total 6 columns):
+round        640 non-null object
+scenario     640 non-null object
+algorithm    640 non-null object
+metric       640 non-null object
+at           640 non-null object
+value        640 non-null float64
+dtypes: float64(1), object(5)
+memory usage: 163.7 KB
+2019-06-08 05:02:13,422 - root - INFO - 
+  round scenario algorithm metric at     value
+0     1    50000       3NN    map  1  0.748295
+0     1    50000       3NN    map  3  0.728551
+0     1    50000       3NN    map  5  0.712039
+0     1    50000       3NN    map  7  0.705646
+0     1    50000       3NN    map  9  0.704223
+2019-06-08 05:02:13,422 - root - INFO - ==================================================
+2019-06-08 05:02:13,422 - root - INFO - ==================================================
+sh: 1: cls: not found
+[H[Jsh: 1: cls: not found
+[H[J{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7451089109134781, 0.7245498295791234, 0.7086855404023165, 0.7026542747299139, 0.7013429986213942, 0.7009914472862608, 0.7008780881287829, 0.7008427745477884]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7515159971229306, 0.7349094007818368, 0.7218951258422557, 0.7174331351910325, 0.716552904338118, 0.7162763424696863, 0.7161798600787277, 0.7161538664263796]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7501379700987167, 0.7330274819757364, 0.7174905370787641, 0.709585860435135, 0.7074054529794686, 0.7067935658433615, 0.7065743834445656, 0.7064728149221127]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7301991569717055, 0.7047912948072272, 0.6903136698005401, 0.6857183429769402, 0.6847251929141063, 0.6844583209449605, 0.6844047064728607, 0.6843988025282789]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7444472243563657, 0.7267515490947959, 0.7099586807200999, 0.7031177855350813, 0.7014169772052302, 0.7009412184992069, 0.7007930589140985, 0.7007366187690909]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.760482238331252, 0.7420206917516582, 0.7292173319999536, 0.7248866644832479, 0.723954054017516, 0.7236955136039029, 0.7235740309071332, 0.7235151227389011]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7440290396254057, 0.7309852916032843, 0.7155330777462686, 0.7055143402476827, 0.7027669991989122, 0.7019664872874183, 0.7016492403986323, 0.7015231260284084]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.6631875489023379, 0.6514308417275866, 0.6368598841631568, 0.6248531670575769, 0.6205909017961896, 0.6192004336487671, 0.6186146890018112, 0.6183516873694053]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7451089109134781, 0.8511947192402538, 0.8538386620113915, 0.8538386620113915, 0.8538386620113915, 0.8538386620113915, 0.8538386620113915, 0.8538386620113915]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7515159971229306, 0.8538916957568423, 0.8558960670458988, 0.8558960670458988, 0.8559133441709854, 0.8559133441709854, 0.8559133441709854, 0.8559133441709854]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7501379700987167, 0.8519089189458311, 0.8548895537031335, 0.8548895537031335, 0.8548895537031335, 0.8548895537031335, 0.8548895537031335, 0.8548895537031335]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7301991569717055, 0.8384724211318468, 0.8415664985880438, 0.8416112895482716, 0.8416285547416417, 0.8416285547416417, 0.8416285547416417, 0.8416285547416417]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7444472243563657, 0.8516361145925544, 0.8547596539924157, 0.8547596539924157, 0.8547596539924157, 0.8547596539924157, 0.8547596539924157, 0.8547596539924157]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.760482238331252, 0.8572967987742268, 0.8586081073854409, 0.8586313848528524, 0.8586313848528524, 0.8586313848528524, 0.8586313848528524, 0.8586313848528524]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7440290396254057, 0.851988501281639, 0.8550339343070581, 0.8550339343070581, 0.8550339343070581, 0.8550339343070581, 0.8550339343070581, 0.8550339343070581]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.6631875489023379, 0.8032479949132707, 0.8100540864121166, 0.8101402415894577, 0.810157364877129, 0.810157364877129, 0.810157364877129, 0.810157364877129]}
++ Cenário:  50000
++ + Métrica:  map
++ + + Algorithm:  3NN  ->  0.7106317330261323
++ + + Algorithm:  PER  ->  0.7238645790313709
++ + + Algorithm:  MLP  ->  0.7171860083472327
++ + + Algorithm:  AD  ->  0.6936261859270775
++ + + Algorithm:  RF  ->  0.7110203891367461
++ + + Algorithm:  GNB  ->  0.7314182059791956
++ + + Algorithm:  SVC  ->  0.7129959502670016
++ + + Algorithm:  recModel  ->  0.6316361442083539
++ + Métrica:  mrr
++ + + Algorithm:  3NN  ->  0.8399169502777601
++ + + Algorithm:  PER  ->  0.8426066504569389
++ + + Algorithm:  MLP  ->  0.8414230264079187
++ + + Algorithm:  AD  ->  0.8272954481508042
++ + + Algorithm:  RF  ->  0.8405801578629267
++ + + Algorithm:  GNB  ->  0.8461930085943978
++ + + Algorithm:  SVC  ->  0.8407776433436741
++ + + Algorithm:  recModel  ->  0.7909074164157124
+2019-06-08 05:02:17,245 - __main__ - INFO - + Rodada 1
+2019-06-08 05:02:17,247 - __main__ - INFO - + Carregando o Cenário com 75000
+2019-06-08 05:02:17,247 - src.preprocessing.data_mining - INFO - Carregando músicas e realizando sample...
+2019-06-08 05:02:18,360 - src.preprocessing.data_mining - INFO - Carregando usuários...
+2019-06-08 05:02:46,120 - src.preprocessing.data_mining - INFO - Filtrando usuários...
+2019-06-08 05:02:55,347 - src.preprocessing.data_mining - INFO - Realizando votação do usuário...
+2019-06-08 05:02:55,347 - src.preprocessing.vote - INFO - Iniciando o processo de votação...
+2019-06-08 05:02:55,565 - src.preprocessing.vote - INFO - Grupos
+2019-06-08 05:03:03,909 - src.preprocessing.vote - INFO - Abrindo Threads
+2019-06-08 05:03:23,626 - src.preprocessing.vote - INFO - Votação finalizada!
+2019-06-08 05:03:23,626 - src.preprocessing.vote - INFO - Realizando merge nos resultados...
+2019-06-08 05:03:28,727 - src.data_models.tdidf_model - INFO - Gerando matrix do TF-IDF...
+2019-06-08 05:04:12,528 - src.data_models.tdidf_model - INFO - Adicionando nome das colunas e as index na matrix TF-IDF
+2019-06-08 05:04:12,760 - src.kemures.tecnics.content_based - INFO - Total de usuários nesta rodada: 22931
+sh: 1: cls: not found
+[H[J2019-06-08 11:52:37,345 - __main__ - INFO - + Rodada 2
+2019-06-08 11:52:37,345 - __main__ - INFO - + Carregando o Cenário com 75000
+2019-06-08 11:52:37,345 - src.preprocessing.data_mining - INFO - Carregando músicas e realizando sample...
+2019-06-08 11:52:38,440 - src.preprocessing.data_mining - INFO - Carregando usuários...
+2019-06-08 11:53:07,306 - src.preprocessing.data_mining - INFO - Filtrando usuários...
+2019-06-08 11:53:17,141 - src.preprocessing.data_mining - INFO - Realizando votação do usuário...
+2019-06-08 11:53:17,142 - src.preprocessing.vote - INFO - Iniciando o processo de votação...
+2019-06-08 11:53:17,377 - src.preprocessing.vote - INFO - Grupos
+2019-06-08 11:53:26,160 - src.preprocessing.vote - INFO - Abrindo Threads
+2019-06-08 11:53:47,058 - src.preprocessing.vote - INFO - Votação finalizada!
+2019-06-08 11:53:47,059 - src.preprocessing.vote - INFO - Realizando merge nos resultados...
+2019-06-08 11:53:51,920 - src.data_models.tdidf_model - INFO - Gerando matrix do TF-IDF...
+2019-06-08 11:54:46,781 - src.data_models.tdidf_model - INFO - Adicionando nome das colunas e as index na matrix TF-IDF
+2019-06-08 11:54:46,998 - src.kemures.tecnics.content_based - INFO - Total de usuários nesta rodada: 24066
+sh: 1: cls: not found
+[H[J2019-06-08 19:06:24,309 - __main__ - INFO - + Rodada 3
+2019-06-08 19:06:24,310 - __main__ - INFO - + Carregando o Cenário com 75000
+2019-06-08 19:06:24,310 - src.preprocessing.data_mining - INFO - Carregando músicas e realizando sample...
+2019-06-08 19:06:25,499 - src.preprocessing.data_mining - INFO - Carregando usuários...
+2019-06-08 19:06:54,205 - src.preprocessing.data_mining - INFO - Filtrando usuários...
+2019-06-08 19:07:04,432 - src.preprocessing.data_mining - INFO - Realizando votação do usuário...
+2019-06-08 19:07:04,432 - src.preprocessing.vote - INFO - Iniciando o processo de votação...
+2019-06-08 19:07:04,666 - src.preprocessing.vote - INFO - Grupos
+2019-06-08 19:07:13,373 - src.preprocessing.vote - INFO - Abrindo Threads
+2019-06-08 19:07:33,760 - src.preprocessing.vote - INFO - Votação finalizada!
+2019-06-08 19:07:33,760 - src.preprocessing.vote - INFO - Realizando merge nos resultados...
+2019-06-08 19:07:38,809 - src.data_models.tdidf_model - INFO - Gerando matrix do TF-IDF...
+2019-06-08 19:08:40,502 - src.data_models.tdidf_model - INFO - Adicionando nome das colunas e as index na matrix TF-IDF
+2019-06-08 19:08:40,734 - src.kemures.tecnics.content_based - INFO - Total de usuários nesta rodada: 23951
+sh: 1: cls: not found
+[H[J2019-06-09 02:29:59,440 - __main__ - INFO - + Rodada 4
+2019-06-09 02:29:59,441 - __main__ - INFO - + Carregando o Cenário com 75000
+2019-06-09 02:29:59,441 - src.preprocessing.data_mining - INFO - Carregando músicas e realizando sample...
+2019-06-09 02:30:00,520 - src.preprocessing.data_mining - INFO - Carregando usuários...
+2019-06-09 02:30:29,267 - src.preprocessing.data_mining - INFO - Filtrando usuários...
+2019-06-09 02:30:38,752 - src.preprocessing.data_mining - INFO - Realizando votação do usuário...
+2019-06-09 02:30:38,752 - src.preprocessing.vote - INFO - Iniciando o processo de votação...
+2019-06-09 02:30:38,992 - src.preprocessing.vote - INFO - Grupos
+2019-06-09 02:30:47,965 - src.preprocessing.vote - INFO - Abrindo Threads
+2019-06-09 02:31:09,163 - src.preprocessing.vote - INFO - Votação finalizada!
+2019-06-09 02:31:09,164 - src.preprocessing.vote - INFO - Realizando merge nos resultados...
+2019-06-09 02:31:14,235 - src.data_models.tdidf_model - INFO - Gerando matrix do TF-IDF...
+2019-06-09 02:32:08,416 - src.data_models.tdidf_model - INFO - Adicionando nome das colunas e as index na matrix TF-IDF
+2019-06-09 02:32:08,627 - src.kemures.tecnics.content_based - INFO - Total de usuários nesta rodada: 24685
+sh: 1: cls: not found
+[H[J2019-06-09 09:58:19,557 - __main__ - INFO - + Rodada 5
+2019-06-09 09:58:19,557 - __main__ - INFO - + Carregando o Cenário com 75000
+2019-06-09 09:58:19,557 - src.preprocessing.data_mining - INFO - Carregando músicas e realizando sample...
+2019-06-09 09:58:20,735 - src.preprocessing.data_mining - INFO - Carregando usuários...
+2019-06-09 09:58:49,227 - src.preprocessing.data_mining - INFO - Filtrando usuários...
+2019-06-09 09:58:59,373 - src.preprocessing.data_mining - INFO - Realizando votação do usuário...
+2019-06-09 09:58:59,373 - src.preprocessing.vote - INFO - Iniciando o processo de votação...
+2019-06-09 09:58:59,595 - src.preprocessing.vote - INFO - Grupos
+2019-06-09 09:59:08,154 - src.preprocessing.vote - INFO - Abrindo Threads
+2019-06-09 09:59:28,585 - src.preprocessing.vote - INFO - Votação finalizada!
+2019-06-09 09:59:28,585 - src.preprocessing.vote - INFO - Realizando merge nos resultados...
+2019-06-09 09:59:33,335 - src.data_models.tdidf_model - INFO - Gerando matrix do TF-IDF...
+2019-06-09 10:00:27,596 - src.data_models.tdidf_model - INFO - Adicionando nome das colunas e as index na matrix TF-IDF
+2019-06-09 10:00:27,813 - src.kemures.tecnics.content_based - INFO - Total de usuários nesta rodada: 23317
+2019-06-09 16:32:49,069 - root - INFO - **************************************************
+2019-06-09 16:32:49,069 - root - INFO - **************************************************
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 640 entries, 0 to 0
+Data columns (total 6 columns):
+round        640 non-null object
+scenario     640 non-null object
+algorithm    640 non-null object
+metric       640 non-null object
+at           640 non-null object
+value        640 non-null float64
+dtypes: float64(1), object(5)
+memory usage: 163.7 KB
+2019-06-09 16:32:49,086 - root - INFO - 
+  round scenario algorithm metric at     value
+0     1    75000       3NN    map  1  0.773546
+0     1    75000       3NN    map  3  0.751282
+0     1    75000       3NN    map  5  0.735421
+0     1    75000       3NN    map  7  0.729072
+0     1    75000       3NN    map  9  0.727233
+2019-06-09 16:32:49,087 - root - INFO - ==================================================
+2019-06-09 16:32:49,087 - root - INFO - ==================================================
+sh: 1: cls: not found
+[H[J{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7588196705061978, 0.7395687088435962, 0.7251181573339389, 0.7189526974630385, 0.71733607837365, 0.7168274297802745, 0.7166485270567746, 0.7165740280208249]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7646528021805052, 0.7476374724195104, 0.7350010609707811, 0.7300946691987568, 0.7288568158326425, 0.7284829655764928, 0.7283442471757673, 0.7282908553059089]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7574833413428681, 0.7420874655052868, 0.7289136646499033, 0.721740127186308, 0.719405984415881, 0.7186203136628346, 0.7183175821730468, 0.718209501822883]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7348338199975786, 0.715221073637066, 0.7021750038748477, 0.6974404553894356, 0.6960644202280791, 0.6956590926104631, 0.695488727640419, 0.695421622921274]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7567496623182233, 0.739845030017598, 0.7249793219339221, 0.7177905798479423, 0.7157753562413036, 0.7151244285638179, 0.7148796478468086, 0.7147834151102922]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7703556971341088, 0.7521046687144525, 0.7396747625071793, 0.735513978271323, 0.7344543558958826, 0.734134660845173, 0.7340366882409359, 0.733992352560704]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7523036934119357, 0.7396506716083924, 0.7263381677173216, 0.7173451638309645, 0.7141800031931572, 0.7130945774573938, 0.7126905314046622, 0.7125266297728043]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.6690492044977996, 0.6552099742382548, 0.6422812748163126, 0.6304714355006867, 0.6255869231587265, 0.6237219450096608, 0.6229651965366464, 0.6226282579910982]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7588196705061978, 0.8595721984089362, 0.8621032934009337, 0.862141873103865, 0.862141873103865, 0.862141873103865, 0.862141873103865, 0.862141873103865]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7646528021805052, 0.8618521450906027, 0.8640042604348546, 0.8640359039396313, 0.8640359039396313, 0.8640359039396313, 0.8640359039396313, 0.8640359039396313]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7574833413428681, 0.8570385598506896, 0.8601234076592863, 0.8601372092589354, 0.8601372092589354, 0.8601372092589354, 0.8601372092589354, 0.8601372092589354]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7348338199975786, 0.8428960004200278, 0.8457505190162454, 0.8457822917701682, 0.8457822917701682, 0.8457822917701682, 0.8457822917701682, 0.8457822917701682]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7567496623182233, 0.8594501614287461, 0.8620218587940174, 0.8620407300039592, 0.8620407300039592, 0.8620407300039592, 0.8620407300039592, 0.8620407300039592]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7703556971341088, 0.8623839829120872, 0.8642719919153979, 0.8642915725576099, 0.8642915725576099, 0.8642915725576099, 0.8642915725576099, 0.8642915725576099]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.7523036934119357, 0.8563216842912936, 0.8595930172800014, 0.859611538432123, 0.859611538432123, 0.859611538432123, 0.859611538432123, 0.859611538432123]}
+{'at': [1, 3, 5, 7, 9, 11, 13, 15], 'value': [0.6690492044977996, 0.804356610813068, 0.812011792228114, 0.8121072665202602, 0.8121160932782875, 0.8121160932782875, 0.8121160932782875, 0.8121160932782875]}
++ Cenário:  75000
++ + Métrica:  map
++ + + Algorithm:  3NN  ->  0.7262306621722869
++ + + Algorithm:  PER  ->  0.7364201110825457
++ + + Algorithm:  MLP  ->  0.7280972475948764
++ + + Algorithm:  AD  ->  0.7040380270373954
++ + + Algorithm:  RF  ->  0.7249909302349885
++ + + Algorithm:  GNB  ->  0.7417833955212199
++ + + Algorithm:  SVC  ->  0.723516179799579
++ + + Algorithm:  recModel  ->  0.6364892764686483
++ + Métrica:  mrr
++ + + Algorithm:  3NN  ->  0.8489005659794241
++ + + Algorithm:  PER  ->  0.8513360909255148
++ + + Algorithm:  MLP  ->  0.8469164193934402
++ + + Algorithm:  AD  ->  0.8315489747855865
++ + + Algorithm:  RF  ->  0.8485531665700978
++ + + Algorithm:  GNB  ->  0.8523086918437055
++ + + Algorithm:  SVC  ->  0.8457845108929807
++ + + Algorithm:  recModel  ->  0.793248655896549
++ + Métrica:  map
++ + Métrica:  mrr

@@ -105,3 +105,4 @@ venv.bak/
 .idea/*
 data/original_set/
 data/clean_set/
+data/inner_join_set/

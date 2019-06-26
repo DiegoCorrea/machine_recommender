@@ -154,20 +154,20 @@ class PreferenceAnalytics:
         plt.hist(data, bins=100, alpha=0.5,
                  histtype='bar', color='steelblue',
                  edgecolor='black')
-        plt.xlabel('Música preferida normalizada')
-        plt.ylabel('Quantidade')
+        plt.xlabel('Number of times a song was added in users preference')
+        plt.ylabel('Song amount')
         plt.grid(axis='y')
         plt.savefig(
             self.__path_to_save_graphics
-            + 'song_global_relevance_score_histo.eps', format='eps', dpi=300
+            + 'song_global_relevance_score_histo.png', format='png', dpi=300
         )
         plt.close()
 
     def user_global_relevance_score_histo(self):
         x = self.__users_relevance_df.sort_values(by=['global_relevance_score'])
         plt.figure()
-        plt.xlabel('Preferência do usuário normalizada')
-        plt.ylabel('Quantidade')
+        plt.xlabel('Number of songs in users preference')
+        plt.ylabel('User amount')
         data = x['global_relevance_score'].values.tolist()
         plt.hist(data, bins=100, alpha=0.5,
                  histtype='bar', color='steelblue',
@@ -175,7 +175,7 @@ class PreferenceAnalytics:
         plt.grid(axis='y')
         plt.savefig(
             self.__path_to_save_graphics
-            + 'user_global_relevance_score_histo.eps', format='eps', dpi=300
+            + 'user_global_relevance_score_histo.png', format='png', dpi=300
         )
         plt.close()
 

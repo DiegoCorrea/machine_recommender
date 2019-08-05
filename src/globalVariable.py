@@ -22,6 +22,7 @@ class GlobalVariable:
     GRAPH_COLORS = ['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray',
                     'tab:olive', 'tab:cyan', '#0F0F0F0F']
     GRAPH_MAKERS = ['o', '^', 's', 'D', 'x', 'p', '.', '1', '|', '*', '2']
+    RESULTS_PATH = os.getcwd() + '/results/'
 
     @staticmethod
     def setup_logging(

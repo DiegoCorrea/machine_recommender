@@ -2,6 +2,7 @@ import logging
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
 from src.globalVariable import GlobalVariable
 
@@ -41,7 +42,26 @@ class StatisticalOverview:
         logging.info("=" * 50)
 
     @staticmethod
-    def graphics(results_df):
+    def print_scenario(results_df, scenario):
+        """
+        :param scenario:
+        :param results_df: Pandas DataFrame com seis colunas: ['round', 'algorithm', 'metric', 'value']
+        """
+        print("+ Cenário: ", str(scenario))
+        for metric in results_df['metric'].unique().tolist():
+            print("+ + Métrica: ", str(metric))
+            results_df_by_filter = results_df[
+                results_df['metric'] == metric]
+            # Para cada algoritmo usado
+            for algorithm in results_df_by_filter['algorithm'].unique().tolist():
+                at_df = results_df_by_filter[
+                    results_df_by_filter['algorithm'] == algorithm
+                    ]
+                print("+ + + Algorithm: ", str(algorithm), " -> ",
+                      str(at_df['value'].mean()))
+
+    @staticmethod
+    def scenario_graphic(results_df):
         """
         Gera todos os gráficos. Para qualquer modelo e todas as métricas cria um gráfico com os algoritmos nas linhas
         :param results_df: Pandas DataFrame com cinco colunas: ['round', 'algorithm', 'metric', 'value']
@@ -90,10 +110,10 @@ class StatisticalOverview:
                 plt.xticks(sorted(GlobalVariable.AT_SIZE_LIST))
                 # Salva a figura com alta resolução e qualidade
                 plt.savefig(
-                    'results/'
-                    + str(scenario)
-                    + '_'
+                    GlobalVariable.RESULTS_PATH
                     + metric
+                    + '_'
+                    + str(scenario)
                     + '.png',
                     format='png',
                     dpi=300,
@@ -104,27 +124,6 @@ class StatisticalOverview:
                 plt.close()
 
     @staticmethod
-    def comparate(results_df):
-        """
-        :param results_df: Pandas DataFrame com seis colunas: ['round', 'algorithm', 'metric', 'value']
-        """
-        for scenario in results_df['scenario'].unique().tolist():
-            # Para cada metrica usada durante a validação dos algoritmos
-            results_scenario_df = results_df[results_df['scenario'] == scenario]
-            print("+ Cenário: ", str(scenario))
-            for metric in results_scenario_df['metric'].unique().tolist():
-                print("+ + Métrica: ", str(metric))
-                results_df_by_filter = results_scenario_df[
-                    results_scenario_df['metric'] == metric]
-                # Para cada algoritmo usado
-                for algorithm in results_df_by_filter['algorithm'].unique().tolist():
-                    at_df = results_df_by_filter[
-                        results_df_by_filter['algorithm'] == algorithm
-                        ]
-                    print("+ + + Algorithm: ", str(algorithm), " -> ",
-                          str(at_df['value'].mean()))
-
-    @staticmethod
     def scenario_compare(df):
         for metric in df['metric'].unique().tolist():
             plt.figure()
@@ -132,7 +131,6 @@ class StatisticalOverview:
             labels = []
             print("+ + Métrica: ", str(metric))
             results_df_by_filter = df[df['metric'] == metric]
-            # Para cada algoritmo usado
             for algorithm in results_df_by_filter['algorithm'].unique().tolist():
                 at_df = df[
                     (df['algorithm'] == algorithm) &
@@ -147,12 +145,35 @@ class StatisticalOverview:
             plt.ylabel('Score')
             plt.xticks(rotation=30)
             plt.savefig(
-                'results/'
-                + 'final_compare_'
+                GlobalVariable.RESULTS_PATH
                 + metric
+                + '_'
+                + 'final_compare_results'
                 + '.png',
                 format='png',
                 dpi=300,
                 quality=100
             )
             plt.close()
+
+    @staticmethod
+    def save_scenario_as_csv(df, scenario):
+        df.to_csv(GlobalVariable.RESULTS_PATH + str(scenario) + ".csv", header=True)
+
+    @staticmethod
+    def final_results_as_csv(df):
+        for metric in df['metric'].unique().tolist():
+            results_df_by_filter = df[df['metric'] == metric]
+            results = pd.DataFrame()
+            for algorithm in results_df_by_filter['algorithm'].unique().tolist():
+                at_df = df[
+                    (df['algorithm'] == algorithm) &
+                    (df['metric'] == metric)
+                    ]
+                results[algorithm] = at_df['value'].mean()
+            results.to_csv(GlobalVariable.RESULTS_PATH + str(metric) + ".csv", header=True)
+
+    @staticmethod
+    def final_results(df):
+        StatisticalOverview.scenario_compare(df)
+        StatisticalOverview.final_results_as_csv(df)

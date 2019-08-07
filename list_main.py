@@ -8,6 +8,7 @@ from src.data_models.tdidf_model import FrequencyModel
 from src.evaluations.statisticalOverview import StatisticalOverview
 from src.globalVariable import GlobalVariable
 from src.kemures.tecnics.content_based import ContentBased
+from src.preprocessing.preferences_analytics import PreferenceAnalytics
 from src.preprocessing.preprocessing import Preprocessing
 
 
@@ -41,7 +42,8 @@ def execute_by_scenario_list():
 
 if __name__ == '__main__':
     GlobalVariable.setup_logging()
-    # SONGS_DF, USERS_PREFERENCES_DF = Preprocessing.data()
+    SONGS_DF, USERS_PREFERENCES_DF = Preprocessing.data()
     # SONGS_DF, USERS_PREFERENCES_DF = Preprocessing.load_data()
+    a = PreferenceAnalytics(USERS_PREFERENCES_DF, SONGS_DF)
     logger = logging.getLogger(__name__)
     execute_by_scenario_list()

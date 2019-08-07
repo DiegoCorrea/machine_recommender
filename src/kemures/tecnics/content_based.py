@@ -46,8 +46,11 @@ class ContentBased:
                 ]
             )
         # ####
-        results_df = ContentBased.users_result_generate(users_results_df, run, scenario)
-        return class_balance_check, results_df
+        return pd.DataFrame(data=[[len(class_balance_check.index),
+                                   class_balance_check['positive'].mean(),
+                                   class_balance_check['negative'].mean()]],
+                            columns=['users', 'positive', 'negative']), \
+            ContentBased.users_result_generate(users_results_df, run, scenario)
 
     @staticmethod
     def users_result_generate(users_results_df, run, scenario):

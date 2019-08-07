@@ -164,16 +164,20 @@ class StatisticalOverview:
     def final_results_as_csv(df):
         for metric in df['metric'].unique().tolist():
             results_df_by_filter = df[df['metric'] == metric]
-            results = pd.DataFrame()
+            results = pd.DataFrame(columns=['results'], index=results_df_by_filter['algorithm'].unique().tolist())
             for algorithm in results_df_by_filter['algorithm'].unique().tolist():
                 at_df = df[
                     (df['algorithm'] == algorithm) &
                     (df['metric'] == metric)
                     ]
-                results[algorithm] = at_df['value'].mean()
+                results.at[algorithm, 'results'] = at_df['value'].mean()
             results.to_csv(GlobalVariable.RESULTS_PATH + str(metric) + ".csv", header=True)
 
     @staticmethod
     def final_results(df):
         StatisticalOverview.scenario_compare(df)
         StatisticalOverview.final_results_as_csv(df)
+
+    @staticmethod
+    def save_class_results_as_cdv(df, scenario):
+        df.to_csv(GlobalVariable.RESULTS_PATH + str(scenario) + "_users" + ".csv", header=True)

@@ -32,6 +32,7 @@ def execute_by_scenario_list():
         StatisticalOverview.print_scenario(scenario_results_df, scenario)
         StatisticalOverview.save_scenario_as_csv(scenario_results_df, scenario)
         StatisticalOverview.scenario_graphic(scenario_results_df)
+        StatisticalOverview.save_class_results_as_cdv(scenario_class_df, scenario)
         os.system('cls||clear')
         application_results_df = pd.concat([scenario_results_df, application_results_df])
         application_class_df = pd.concat([scenario_class_df, application_class_df])

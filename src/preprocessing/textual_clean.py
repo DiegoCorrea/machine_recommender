@@ -181,8 +181,8 @@ class TextualClean:
     def concat_fields(dataset_df):
         dataset_df['stem_data'] = " "
         dataset_df['data'] = dataset_df['title'] + ' ' + dataset_df['album'] \
-                                        + ' ' + dataset_df['artist'] + ' ' + dataset_df['gender']  \
+                                        + ' ' + dataset_df['artist'] + ' ' + dataset_df['genre']  \
                                         + ' ' + dataset_df['year']
-        dataset_df.drop(['title', 'album', 'artist', 'year', 'gender'], inplace=True, axis=1)
+        dataset_df.drop(['title', 'album', 'artist', 'year', 'genre'], inplace=True, axis=1)
         logging.info("Campos das músicas unificados!")
         return dataset_df

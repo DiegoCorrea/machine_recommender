@@ -13,7 +13,7 @@ class GlobalVariable:
     k_neighbors = 3
     sample_random_state = 50
     results_column_name = ['round', 'scenario', 'algorithm', 'metric', 'at', 'value']
-    RUN_TIMES = 10
+    RUN_TIMES = 5
     ONE_SCENARIO_SIZE = 90000
     RECOMMENDATION_LIST_SIZE = 15
     AT_SIZE_LIST = [1, 3, 5, 7, 9, 11, 13, 15]

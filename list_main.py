@@ -46,4 +46,4 @@ if __name__ == '__main__':
     # SONGS_DF, USERS_PREFERENCES_DF = Preprocessing.load_data()
     a = PreferenceAnalytics(USERS_PREFERENCES_DF, SONGS_DF)
     logger = logging.getLogger(__name__)
-    # execute_by_scenario_list()
+    execute_by_scenario_list()
